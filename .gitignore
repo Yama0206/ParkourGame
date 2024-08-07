@@ -1,0 +1,6 @@
+# srcフォルダのみgitで管理
+/*
+!/Src/
+!/Data/
+!/main/
+!.gitignore
