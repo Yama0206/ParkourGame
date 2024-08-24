@@ -183,7 +183,7 @@ void CPlayScene::Step()
 		CCollisionManager::CheckHitPlayerToFootBox(m_cPlayer, cFBox);
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		//CCollisionManager::CheckHitPlayerToRock(m_cPlayer, cRock);
-
+		
 		//XVˆ—
 		for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
 			cFBox[FBoxIndex].Update();
