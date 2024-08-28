@@ -189,8 +189,8 @@ void CPlayer::Control(VECTOR vRot)
 		m_IsKeyHit = true;
 		//スピードを足す
 		fSpd = -fMoveSpeed;
-		//進行方向に回転	
-		ChangeDir(FreamCnt);
+		////進行方向に回転	
+		//ChangeDir(FreamCnt);
 		fRot = fChangeRot * DX_PI_F / 180.0f;
 		//モデルを回転させる
 		m_ViewRot.y = vRot.y + fRot;
