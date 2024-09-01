@@ -10,6 +10,12 @@ private:
 	static char currentKeyBuf[KEY_BUF_LEN];
 	//前フレームのキー情報
 	static char preKeyBuf[KEY_BUF_LEN];
+
+	//現在のフレームのPad情報
+	static char currentPadBuf[KEY_BUF_LEN];
+	//前フレームのPad情報
+	static char prePadBuf[KEY_BUF_LEN];
+
 	//現在のフレームのマウス情報
 	static int currentMouseBuf[MOUSE_BUF_LEN];
 	//前フレームのマウス情報
@@ -38,6 +44,16 @@ public:
 
 	static bool IsKeyDown(int key_code);
 
+	//Pad関連
+	//今押された
+	static bool IsPadPush(int key_code);
+	//押し続ける
+	static bool IsPadKeep(int key_code);
+	//離したとき
+	static bool IsPadRelease(int key_code);
+
+	//パッドの入力状態を得る
+	static void GetHitPadStateAll();
 
 	//マウス関連
 	//今押された

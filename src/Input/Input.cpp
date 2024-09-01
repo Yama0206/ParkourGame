@@ -5,6 +5,12 @@
 char CInput::currentKeyBuf[KEY_BUF_LEN] = { 0 };
 //前フレームのキー情報
 char CInput::preKeyBuf[KEY_BUF_LEN] = { 0 };
+
+//現在のフレームのPad情報
+char CInput::currentPadBuf[KEY_BUF_LEN] = { 0 };
+//前フレームのPad情報
+char CInput::prePadBuf[KEY_BUF_LEN] = { 0 };
+
 //現在のフレームのマウス情報
 int CInput::currentMouseBuf[MOUSE_BUF_LEN] = { 0 };
 //前フレームのマウス情報
@@ -14,12 +20,21 @@ int CInput::preMouseBuf[MOUSE_BUF_LEN] = { 0 };
 //入力制御初期化
 void CInput::InitInput()
 {
+	//キー
 	for (int index = 0; index < KEY_BUF_LEN; index++)
 	{
 		currentKeyBuf[index] = '\0';
 		preKeyBuf[index] = '\0';
 	}
 
+	//パッド
+	for (int index = 0; index < KEY_BUF_LEN; index++)
+	{
+		currentPadBuf[index] = '\0';
+		prePadBuf[index] = '\0';
+	}
+
+	//マウス
 	for (int index = 0; index < MOUSE_BUF_LEN; index++)
 	{
 		currentMouseBuf[index] = 0;
@@ -36,6 +51,14 @@ void CInput::StepInput()
 	{
 		preKeyBuf[index] = currentKeyBuf[index];
 	}
+
+	//前のフレームのパッドの情報変数に記録しておく
+	for (int index = 0; index < KEY_BUF_LEN; index++)
+	{
+		prePadBuf[index] = currentKeyBuf[index];
+	}
+
+	//前のフレームのマウス情報変数に記録しておく
 	for (int index = 0; index < MOUSE_BUF_LEN; index++)
 	{
 		preMouseBuf[index] = currentMouseBuf[index];
@@ -134,4 +157,9 @@ void CInput::GetHitMouseStateAll()
 	else if (GetMouseInput() && MOUSE_INPUT_MIDDLE) {
 		currentMouseBuf[2] = MOUSE_INPUT_MIDDLE;
 	}
+}
+
+void CInput::GetHitPadStateAll()
+{
+
 }
