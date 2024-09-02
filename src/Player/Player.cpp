@@ -220,7 +220,6 @@ void CPlayer::Control(VECTOR vRot)
 		m_ViewRot.y = vRot.y + fRot;
 	}
 
-	
 
 	//入力したキー情報とプレイヤーの角度から移動速度を求める
 	//移動ベクトルの計算
