@@ -217,10 +217,11 @@ void CCollisionManager::CheckHitFieldToPlayer(CPlayer& cPlayer,
 		vPlayerColliPos.y = vPlayerNextPos.y;
 
 		//プレイヤーがフィールドに当たったら
-		if (vPlayerNextPos.y < 0)
+		if (vPlayerNextPos.y <= 0)
 		{
+			cPlayer.SetNextPosY(vPlayerPos.y);
 			//プレイヤーの生存フラグを折る
-			cPlayer.SetIsAllive(false);
+			//cPlayer.SetIsAllive(false);
 		}
 	}
 }

@@ -95,10 +95,10 @@ void CTitle::Draw()
 {
 	DrawFormatString(32, 32, GetColor(255, 0, 0), "タイトル");
 
-	DrawRotaGraph(m_sBackImg.m_vPos.x, m_sBackImg.m_vPos.y, 1.0, 0.0, m_sBackImg.m_iHndl, true, false);			//背景
-	DrawRotaGraph(m_sTitleImg.m_vPos.x, m_sTitleImg.m_vPos.y, 1.0, 0.0, m_sTitleImg.m_iHndl, true, false);		//タイトル
-	DrawRotaGraph(m_sStartImg.m_vPos.x, m_sStartImg.m_vPos.y, 1.0, 0.0, m_sStartImg.m_iHndl, true, false);		//スタート
-	DrawRotaGraph(m_sFinImg.m_vPos.x, m_sFinImg.m_vPos.y, 1.0, 0.0, m_sFinImg.m_iHndl, true, false);			//終了
+	//DrawRotaGraph(m_sBackImg.m_vPos.x, m_sBackImg.m_vPos.y, 1.0, 0.0, m_sBackImg.m_iHndl, true, false);			//背景
+	//DrawRotaGraph(m_sTitleImg.m_vPos.x, m_sTitleImg.m_vPos.y, 1.0, 0.0, m_sTitleImg.m_iHndl, true, false);		//タイトル
+	//DrawRotaGraph(m_sStartImg.m_vPos.x, m_sStartImg.m_vPos.y, 1.0, 0.0, m_sStartImg.m_iHndl, true, false);		//スタート
+	//DrawRotaGraph(m_sFinImg.m_vPos.x, m_sFinImg.m_vPos.y, 1.0, 0.0, m_sFinImg.m_iHndl, true, false);			//終了
 }
 
 void CTitle::Step()
