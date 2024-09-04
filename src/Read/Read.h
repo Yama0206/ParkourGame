@@ -6,11 +6,11 @@
 const int  MAP_CHIP_X_NUM = 10;		//マップチップ横の数
 const int  MAP_CHIP_Y_NUM = 1;		//マップチップ縦の数
 
-const int TYPE_NUM = 256;					//敵タイプの配列の数
-const int PATH_NUM = 256;					//敵パスの配列の数
+const int TYPE_NUM = 256;					//テストタイプの配列の数
+const int PATH_NUM = 256;					//テストパスの配列の数
 
 
-enum Type
+enum TestType
 {
 	a = 1,
 	b, 
@@ -18,7 +18,7 @@ enum Type
 	d,
 };
 
-struct s_Enemy
+struct s_Test
 {
 	VECTOR m_vPos;
 	VECTOR m_vSize;
@@ -32,8 +32,8 @@ struct s_Enemy
 class CRead
 {
 private:
-	s_Enemy m_Enemy;
-	Type eType;
+	s_Test m_Test;
+	TestType eType;
 
 	//マップチップが格納された変数
 	int m_FileReadMapData[MAP_CHIP_Y_NUM][MAP_CHIP_X_NUM];

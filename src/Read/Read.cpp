@@ -3,7 +3,7 @@
 //初期化
 void CRead::Init()
 {
-	memset(&m_Enemy, 0.0, sizeof(m_Enemy));
+	memset(&m_Test, 0.0, sizeof(m_Test));
 
 
 	//X
@@ -34,7 +34,7 @@ void CRead::ReadFile()
 		/*fgets();*/
 
 		//数値の読み込み
-		fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %d", &eType, &m_Enemy.m_vPos.x, &m_Enemy.m_vPos.y, &m_Enemy.m_vPos.z, &m_Enemy.m_vSize.x, &m_Enemy.m_vSize.y, &m_Enemy.m_vSize.z, &eType); 
+		fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %d", &eType, &m_Test.m_vPos.x, &m_Test.m_vPos.y, &m_Test.m_vPos.z, &m_Test.m_vSize.x, &m_Test.m_vSize.y, &m_Test.m_vSize.z, &eType);
 		
 		//「,」を飛ばすために読み込み実行
 		char c = fgetc(fp);
@@ -106,5 +106,5 @@ void CRead::Draw()
 {
 	int t = eType;
 
-	DrawFormatString(32, 32,GetColor(255, 0, 0), "%d, %f, %f, %f, %f, %f, %f, %d", &t, m_Enemy.m_vPos.x, m_Enemy.m_vPos.y, m_Enemy.m_vPos.z, m_Enemy.m_vSize.x, m_Enemy.m_vSize.y, m_Enemy.m_vSize.z, &t, true);
+	DrawFormatString(32, 32,GetColor(255, 0, 0), "%d, %f, %f, %f, %f, %f, %f, %d", &t, m_Test.m_vPos.x, m_Test.m_vPos.y, m_Test.m_vPos.z, m_Test.m_vSize.x, m_Test.m_vSize.y, m_Test.m_vSize.z, &t, true);
 }
