@@ -10,7 +10,7 @@ const int TYPE_NUM = 256;					//テストタイプの配列の数
 const int PATH_NUM = 256;					//テストパスの配列の数
 
 
-enum TestType
+enum Type
 {
 	a = 1,
 	b, 
@@ -18,7 +18,7 @@ enum TestType
 	d,
 };
 
-struct s_Test
+struct s_List
 {
 	VECTOR m_vPos;
 	VECTOR m_vSize;
@@ -32,8 +32,10 @@ struct s_Test
 class CRead
 {
 private:
-	s_Test m_Test;
-	TestType eType;
+	s_List m_Test;
+	Type eType;
+
+	int mapIndex;			//読み込むオブジェクトの構造体の配列の番号
 
 	//マップチップが格納された変数
 	int m_FileReadMapData[MAP_CHIP_Y_NUM][MAP_CHIP_X_NUM];

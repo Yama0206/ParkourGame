@@ -24,6 +24,18 @@ void CEnemyManager::Init()
 	}
 }
 
+//初期値設定
+void CEnemyManager::InitValue()
+{
+	//敵の情報を読み込む
+	m_cEnemyRead.ReadFile();
+
+	for (int EnemyIndex = 0; EnemyIndex < ENEMY_NUM, EnemyIndex++;)
+	{
+		m_cEnemyRead.GetStructEnemy();
+	}
+}
+
 void CEnemyManager::Load()
 {
 	//オリジナルモデルの読み込み

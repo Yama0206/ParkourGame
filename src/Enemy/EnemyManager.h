@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "Enemy.h"
 #include "Enemy_2.h"
+#include "../Read/EnemyList/EnemyList.h"
 
 #define ENEMY_NUM		(50)
 
@@ -11,7 +12,9 @@ private:
 	//敵、敵のタイプが増えるとここのクラスも増えていく
 	//本当はメモリの動的確保が望ましい
 	CEnemy m_cEnemy[ENEMY_NUM];
-	//CEnemy_2 m_cEnemy_2[ENEMY_NUM];
+	
+	//敵情報を読み込むためのクラス
+	CEnemyRead m_cEnemyRead;
 	
 	int m_iWaitCnt;		//敵が生成されるまでの時間
 	int m_iWaitCnt_2;	//2体目の敵が生成されるまでの時間	
@@ -23,6 +26,8 @@ public:
 
 	//初期化
 	void Init();
+	//初期値設定
+	void InitValue();
 	//データロード
 	void Load();
 	//終了処理

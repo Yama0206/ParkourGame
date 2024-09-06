@@ -46,15 +46,8 @@ void CRead::ReadFile()
 
 		//改行コードの場合は保存先を変更する
 		if (c == '\n') {
-			mapIndexY++;
-			mapIndexX = 0;
+			mapIndex++;
 		}
-		//改行でも読み込み終了でもなかったらプラス
-		else
-		{
-			mapIndexX++;
-		}
-
 	}
 
 	fclose(fp);
