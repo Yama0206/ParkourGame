@@ -24,6 +24,6 @@ private:
 public:
 	void ReadFile();														//ファイル読み込み
 
-	SEnemy GetStructEnemy(SEnemy& Enemy) { return Enemy = m_sEnemy; }		//敵情報の構造体を取得
+	SEnemy GetStructEnemy(SEnemy& Enemy) { return Enemy; }		//敵情報の構造体を取得
 
 };

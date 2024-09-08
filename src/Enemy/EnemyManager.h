@@ -15,7 +15,8 @@ private:
 	
 	//“Gî•ñ‚ğ“Ç‚İ‚Ş‚½‚ß‚ÌƒNƒ‰ƒX
 	CEnemyRead m_cEnemyRead;
-	
+
+
 	int m_iWaitCnt;		//“G‚ª¶¬‚³‚ê‚é‚Ü‚Å‚ÌŠÔ
 	int m_iWaitCnt_2;	//2‘Ì–Ú‚Ì“G‚ª¶¬‚³‚ê‚é‚Ü‚Å‚ÌŠÔ	
 
