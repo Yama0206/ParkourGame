@@ -22,6 +22,9 @@ void CEnemyManager::Init()
 	for (int i = 0; i < ENEMY_NUM; i++) {
 		m_cEnemy[i].Init();
 	}
+
+	//初期値設定
+	InitValue();
 }
 
 //初期値設定
@@ -30,10 +33,14 @@ void CEnemyManager::InitValue()
 	//敵の情報を読み込む
 	m_cEnemyRead.ReadFile();
 
-	for (int EnemyIndex = 0; EnemyIndex < ENEMY_NUM, EnemyIndex++;)
+	//敵の数回す
+	for (int EnemyIndex = 0; EnemyIndex < 5; EnemyIndex++)
 	{
-		m_cEnemyRead.GetStructEnemy();
+		//敵の情報を移す
+		m_cEnemyRead.GetStructEnemy(m_sEnemy[EnemyIndex], EnemyIndex);
 	}
+
+
 }
 
 void CEnemyManager::Load()
@@ -41,9 +48,20 @@ void CEnemyManager::Load()
 	//オリジナルモデルの読み込み
 	int iHndl = MV1LoadModel(ENEMY_MODEL_PATH);
 	//モデルを複製
-	for (int i = 0; i < ENEMY_NUM; i++) {
-		m_cEnemy[i].Load(iHndl);
-		/*m_cEnemy_2[i].Load(iHndl);*/
+	for (int EnemyIndex = 0; EnemyIndex < ENEMY_NUM; EnemyIndex++) {
+		switch (m_sEnemy[EnemyIndex].m_eType) {
+		case a:
+			break;
+		case b:
+			break;
+		case c:
+			break;
+		case d:
+			break;
+		default:
+			break;
+		}
+		
 	}
 	//オリジナル削除
 	MV1DeleteModel(iHndl);

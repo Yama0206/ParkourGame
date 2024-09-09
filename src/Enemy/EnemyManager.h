@@ -6,6 +6,7 @@
 
 #define ENEMY_NUM		(50)
 
+
 class CEnemyManager
 {
 private:
@@ -16,6 +17,8 @@ private:
 	//“Gî•ñ‚ğ“Ç‚İ‚Ş‚½‚ß‚ÌƒNƒ‰ƒX
 	CEnemyRead m_cEnemyRead;
 
+	//“Gî•ñ‚ª“ü‚Á‚Ä‚¢‚é\‘¢‘Ì
+	SEnemy m_sEnemy[ENEMY_NUM];
 
 	int m_iWaitCnt;		//“G‚ª¶¬‚³‚ê‚é‚Ü‚Å‚ÌŠÔ
 	int m_iWaitCnt_2;	//2‘Ì–Ú‚Ì“G‚ª¶¬‚³‚ê‚é‚Ü‚Å‚ÌŠÔ	

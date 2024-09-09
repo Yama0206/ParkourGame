@@ -12,9 +12,11 @@ protected:
 	VECTOR m_vPos;				//座標
 	VECTOR m_vSpeed;			//移動速度
 	VECTOR m_vRot;				//回転値
+	VECTOR m_Size;				//拡縮率
+
 	int m_iHndl;				//モデルハンドル
 	bool m_bIsActive;			//生存フラグ
-	float m_fRadius;
+	float m_fRadius;			//半径
 
 	int FrameCnt;				//フレームカウント
 
@@ -46,6 +48,9 @@ public:
 	// vPos		:	座標を保存する変数
 	void GetPosition(VECTOR& vPos) { vPos = m_vPos; }
 	float GetRadius() { return m_fRadius; }
+
+	//情報の設定
+	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, int iHndl, bool IsFrag, float fRadius);
 
 	//当たり判定後の処理
 	void HitCalc();

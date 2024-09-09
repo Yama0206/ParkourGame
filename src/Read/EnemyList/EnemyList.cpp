@@ -11,11 +11,13 @@ void CEnemyRead::ReadFile()
 		//1行目は使わないので先に読み込みだけ済ませる
 		/*fgets();*/
 
+		int a = 0;
+
 		//数値の読み込み
-		fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f", m_sEnemy[EnemyIndex].m_eType ,
-															   m_sEnemy[EnemyIndex].m_vPos.x, m_sEnemy[EnemyIndex].m_vPos.y, m_sEnemy[EnemyIndex].m_vPos.z,
-															   m_sEnemy[EnemyIndex].m_vSize.x, m_sEnemy[EnemyIndex].m_vSize.y, m_sEnemy[EnemyIndex].m_vSize.z,
-															   m_sEnemy[EnemyIndex].m_vRot.x, m_sEnemy[EnemyIndex].m_vRot.y, m_sEnemy[EnemyIndex].m_vRot.z);
+		fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f", &m_sEnemy[EnemyIndex].m_eType,
+															   &m_sEnemy[EnemyIndex].m_vPos.x,	&m_sEnemy[EnemyIndex].m_vPos.y,	 &m_sEnemy[EnemyIndex].m_vPos.z,
+															   &m_sEnemy[EnemyIndex].m_vSize.x, &m_sEnemy[EnemyIndex].m_vSize.y, &m_sEnemy[EnemyIndex].m_vSize.z,
+															   &m_sEnemy[EnemyIndex].m_vRot.x , &m_sEnemy[EnemyIndex].m_vRot.y,	 &m_sEnemy[EnemyIndex].m_vRot.z);
 
 		//「,」を飛ばすために読み込み実行
 		char c = fgetc(fp);

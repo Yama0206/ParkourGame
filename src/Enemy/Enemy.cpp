@@ -86,7 +86,7 @@ void CEnemy::Step()
 //リクエスト
 bool CEnemy::RequestEnemy(const VECTOR& vPos, const VECTOR& vSpeed)
 {
-	//すでに発射されている
+	//すでに描画されている
 	if (m_bIsActive)return false;
 
 	m_vPos = vPos;
@@ -105,3 +105,5 @@ void CEnemy::HitCalc()
 	//とりあえずフラグを消すだけ
 	m_bIsActive = false;
 }
+
+//情報の設定
