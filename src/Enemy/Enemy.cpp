@@ -9,7 +9,7 @@ CEnemy::CEnemy()
 	memset(&m_vSpeed, 0, sizeof(VECTOR));
 	memset(&m_vRot, 0, sizeof(VECTOR));
 	m_iHndl = -1;
-	m_bIsActive = false;
+	m_IsActive = false;
 
 	FrameCnt = 0;
 }
@@ -29,7 +29,7 @@ void CEnemy::Init()
 	memset(&m_vSpeed, 0, sizeof(VECTOR));
 	m_iHndl = -1;
 	m_fRadius = RADIUS;
-	m_bIsActive = false;
+	m_IsActive = false;
 }
 
 void CEnemy::Fin()
@@ -54,7 +54,7 @@ void CEnemy::Load(int iMdlHndl)
 
 void CEnemy::Draw()
 {
-	if (m_bIsActive)
+	if (m_IsActive)
 	{
 		MV1DrawModel(m_iHndl);
 #ifdef MY_DEBUG
@@ -67,7 +67,7 @@ void CEnemy::Draw()
 
 void CEnemy::Step()
 {
-	if (!m_bIsActive) return;
+	if (!m_IsActive) return;
 
 	//座標に速度を加算
 	m_vPos = VAdd(m_vPos, m_vSpeed);
@@ -76,7 +76,7 @@ void CEnemy::Step()
 	if (m_vPos.x > fLength || m_vPos.z < -fLength
 		|| m_vPos.z > fLength || m_vPos.z < -fLength)
 	{
-		m_bIsActive = false;
+		m_IsActive = false;
 	}
 
 	//座標更新
@@ -87,11 +87,11 @@ void CEnemy::Step()
 bool CEnemy::RequestEnemy(const VECTOR& vPos, const VECTOR& vSpeed)
 {
 	//すでに描画されている
-	if (m_bIsActive)return false;
+	if (m_IsActive)return false;
 
 	m_vPos = vPos;
 	m_vSpeed = vSpeed;
-	m_bIsActive = true;
+	m_IsActive = true;
 
 	//1度座標更新をしておく
 	MV1SetPosition(m_iHndl, m_vPos);
@@ -103,7 +103,18 @@ void CEnemy::HitCalc()
 {
 	CSoundManager::Play(CSoundManager::SOUNDID_SE_EXPLONE);
 	//とりあえずフラグを消すだけ
-	m_bIsActive = false;
+	m_IsActive = false;
 }
 
 //情報の設定
+void CEnemy::SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, int iHndl, bool IsFrag, float fRadius)
+{
+	m_vPos = vPos;
+	m_vRot = vRot;
+	m_vSpeed = vSpeed;
+	m_vSize = vSize;
+	
+	m_iHndl = iHndl;
+	m_IsActive = IsFrag;
+	m_fRadius = fRadius;
+}

@@ -39,8 +39,6 @@ void CEnemyManager::InitValue()
 		//“G‚Ìî•ñ‚ğˆÚ‚·
 		m_cEnemyRead.GetStructEnemy(m_sEnemy[EnemyIndex], EnemyIndex);
 	}
-
-
 }
 
 void CEnemyManager::Load()
@@ -51,12 +49,17 @@ void CEnemyManager::Load()
 	for (int EnemyIndex = 0; EnemyIndex < ENEMY_NUM; EnemyIndex++) {
 		switch (m_sEnemy[EnemyIndex].m_eType) {
 		case a:
+			m_cEnemy[EnemyIndex].SetInfo(m_sEnemy[EnemyIndex].m_vPos, m_sEnemy[EnemyIndex].m_vSpeed, m_sEnemy[EnemyIndex].m_vSize, m_sEnemy[EnemyIndex].m_vRot, 
+										 m_sEnemy[EnemyIndex].m_iHndl, m_sEnemy[EnemyIndex].m_bIsActive, m_sEnemy[EnemyIndex].m_fRadius);
 			break;
 		case b:
+
 			break;
 		case c:
+
 			break;
 		case d:
+
 			break;
 		default:
 			break;

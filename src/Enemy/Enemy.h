@@ -12,10 +12,10 @@ protected:
 	VECTOR m_vPos;				//座標
 	VECTOR m_vSpeed;			//移動速度
 	VECTOR m_vRot;				//回転値
-	VECTOR m_Size;				//拡縮率
+	VECTOR m_vSize;				//拡縮率
 
 	int m_iHndl;				//モデルハンドル
-	bool m_bIsActive;			//生存フラグ
+	bool m_IsActive;			//生存フラグ
 	float m_fRadius;			//半径
 
 	int FrameCnt;				//フレームカウント
@@ -43,7 +43,7 @@ public:
 	bool RequestEnemy(const VECTOR& vPos, const VECTOR& vSpeed);
 
 	//生存判定
-	bool IsActiv() { return m_bIsActive; }
+	bool IsActiv() { return m_IsActive; }
 	//座標取得
 	// vPos		:	座標を保存する変数
 	void GetPosition(VECTOR& vPos) { vPos = m_vPos; }

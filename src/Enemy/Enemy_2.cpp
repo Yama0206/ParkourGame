@@ -3,7 +3,7 @@
 //毎フレーム呼ぶ処理
 void CEnemy_2::Step()
 {
-	if (!m_bIsActive) return;
+	if (!m_IsActive) return;
 
 	//座標に速度を加算
 	m_vPos = VAdd(m_vPos, m_vSpeed);
@@ -12,7 +12,7 @@ void CEnemy_2::Step()
 	if (m_vPos.x > fLength || m_vPos.z < -fLength
 		|| m_vPos.z > fLength || m_vPos.z < -fLength)
 	{
-		m_bIsActive = false;
+		m_IsActive = false;
 	}
 
 	//座標更新
