@@ -20,7 +20,7 @@ void CEnemyRead::ReadFile()
 				&m_sEnemy[EnemyIndex].m_vSize.x, &m_sEnemy[EnemyIndex].m_vSize.y, &m_sEnemy[EnemyIndex].m_vSize.z,
 				&m_sEnemy[EnemyIndex].m_vRot.x , &m_sEnemy[EnemyIndex].m_vRot.y,  &m_sEnemy[EnemyIndex].m_vRot.z,
 				&m_sEnemy[EnemyIndex].m_vSpeed.x, &m_sEnemy[EnemyIndex].m_vSpeed.y, &m_sEnemy[EnemyIndex].m_vSpeed.z,
-				&m_sEnemy[EnemyIndex].m_iHndl, &m_sEnemy[EnemyIndex].m_bIsActive, m_sEnemy[EnemyIndex].m_fRadius);
+				&m_sEnemy[EnemyIndex].m_iHndl, &m_sEnemy[EnemyIndex].m_bIsActive, &m_sEnemy[EnemyIndex].m_fRadius);
 
 		//Åu,ÅvÇîÚÇŒÇ∑ÇΩÇﬂÇ…ì«Ç›çûÇ›é¿çs
 		char c = fgetc(fp);
