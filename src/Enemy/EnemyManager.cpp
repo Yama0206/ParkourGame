@@ -40,7 +40,7 @@ void CEnemyManager::Load()
 	//オリジナルモデルの読み込み
 	int iHndl = MV1LoadModel(ENEMY_MODEL_PATH);
 	//モデルを複製
-	for (int EnemyIndex = 0; EnemyIndex < ENEMY_NUM; EnemyIndex++) {
+	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyRead.enemyInfoList.size(); EnemyIndex++) {
 		switch (m_cEnemyRead.enemyInfoList[EnemyIndex].m_eType) {
 		case a:
 			//aタイプの敵に情報を設定

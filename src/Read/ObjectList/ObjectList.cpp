@@ -1,34 +1,22 @@
 #include "ObjectList.h"
 
-void CObjectRead::Read()
+void CObjectRead::ReadFile()
 {
-//	FILE* fp;
-//	fopen_s(&fp, ENEMY_TXT_PATH, "r");
-//
-//	int EnemyIndex = 0;
-//
-//	while (true) {
-//		//1行目は使わないので先に読み込みだけ済ませる
-//		/*fgets();*/
-//
-//		int a = 0;
-//
-//		//数値の読み込み
-//		fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d, %d, %f", );
-//
-//		//「,」を飛ばすために読み込み実行
-//		char c = fgetc(fp);
-//
-//		//EOFの場合は読み込み終了
-//		if (c == EOF) {
-//			break;
-//		}
-//
-//		//改行コードの場合は保存先を変更する
-//		if (c == '\n') {
-//			EnemyIndex++;
-//		}
-//	}
+	FILE* fp = nullptr;
 
-	//fclose(fp);
+	//ファイルを開く
+	if (fopen_s(&fp, OBJECT_TXT_PATH, "r") == 0) {
+		//ファイルの読み込み、変数への保存
+		while (fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f",
+			&m_sObject.m_eType,
+			&m_sObject.m_vPos.x, &m_sObject.m_vPos.y, &m_sObject.m_vPos.z,
+			&m_sObject.m_vSize.x, &m_sObject.m_vSize.y, &m_sObject.m_vSize.z,
+			&m_sObject.m_vRot.x, &m_sObject.m_vRot.y, &m_sObject.m_vRot.z
+		) != EOF) {
+			//リストに追加
+			objectInfoList.push_back(m_sObject);
+		}
+	}
+
+	fclose(fp);
 }

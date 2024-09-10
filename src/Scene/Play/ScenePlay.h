@@ -8,6 +8,7 @@
 #include "../../BackGround/BackGround.h"
 #include "../../shot/ShotManager.h"
 #include "../../Enemy/EnemyManager.h"
+#include "../../Object/ObjectManager.h"
 #include "../../Collision/CollisionManager.h"
 #include "../../System/Sound/SoundManager.h"
 #include "../../BackGround/Sky/Sky.h"
@@ -34,6 +35,7 @@ private:
 	CShotManager m_cShotManager;				//弾の発射
 	CPlayer m_cPlayer;							//プレイヤー処理
 	CEnemyManager m_cEnemyManager;				//敵
+	CObjectManager m_cObjectManager;			//オブジェクト
 	BackGround m_cBackGround;					//背景処理
 	CSky m_cSky;								//空
 	tagPLAY_SCENE m_eSceneID;					//シーン保存
