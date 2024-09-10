@@ -17,12 +17,6 @@ private:
 	//敵情報を読み込むためのクラス
 	CEnemyRead m_cEnemyRead;
 
-	//敵情報が入っている構造体
-	SEnemy m_sEnemy[ENEMY_NUM];
-
-	int m_iWaitCnt;		//敵が生成されるまでの時間
-	int m_iWaitCnt_2;	//2体目の敵が生成されるまでの時間	
-
 public:
 	//コンストラクタ・デストラクタ
 	CEnemyManager();

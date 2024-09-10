@@ -1,7 +1,7 @@
 #pragma once
 #include "../Read.h"
 #include <iostream>
-#include <list>
+#include <vector>
 
 using namespace std;
 
@@ -25,11 +25,8 @@ private:
 
 public:
 	//読み込みデータリスト
-	list<SEnemy> enemyInfoList;
+	vector<SEnemy> enemyInfoList;
 
 	//ファイル読み込み
-	void ReadFile();																	//ファイル読み込み
-
-	SEnemy GetStructEnemy(SEnemy& Enemy, int num) { return Enemy = enemyInfoList; }		//敵情報の構造体を取得
-
+	void ReadFile();			
 };

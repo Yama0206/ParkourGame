@@ -50,7 +50,7 @@ public:
 	float GetRadius() { return m_fRadius; }
 
 	//î•ñ‚Ìİ’è
-	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, int iHndl, bool IsFrag, float fRadius);
+	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot);
 
 	//“–‚½‚è”»’èŒã‚Ìˆ—
 	void HitCalc();

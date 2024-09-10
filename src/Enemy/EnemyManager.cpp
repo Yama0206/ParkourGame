@@ -7,7 +7,7 @@ static const int WAIT_TIME = 60;
 //コンストラクタ
 CEnemyManager::CEnemyManager()
 {
-	m_iWaitCnt = 0;
+
 }
 
 //デストラクタ
@@ -18,7 +18,6 @@ CEnemyManager::~CEnemyManager()
 //初期化
 void CEnemyManager::Init()
 {
-	m_iWaitCnt = WAIT_TIME;
 	for (int i = 0; i < ENEMY_NUM; i++) {
 		m_cEnemy[i].Init();
 	}
@@ -33,12 +32,7 @@ void CEnemyManager::InitValue()
 	//敵の情報を読み込む
 	m_cEnemyRead.ReadFile();
 
-	//敵の数回す
-	for (int EnemyIndex = 0; EnemyIndex < 5; EnemyIndex++)
-	{
-		//敵の情報を移す
-		m_cEnemyRead.GetStructEnemy(m_sEnemy[EnemyIndex], EnemyIndex);
-	}
+
 }
 
 void CEnemyManager::Load()
@@ -47,9 +41,13 @@ void CEnemyManager::Load()
 	int iHndl = MV1LoadModel(ENEMY_MODEL_PATH);
 	//モデルを複製
 	for (int EnemyIndex = 0; EnemyIndex < ENEMY_NUM; EnemyIndex++) {
-		switch (m_sEnemy[EnemyIndex].m_eType) {
+		switch (m_cEnemyRead.enemyInfoList[EnemyIndex].m_eType) {
 		case a:
-			m_cEnemy[EnemyIndex].SetInfo(m_sEnemy[EnemyIndex].m_vPos, m_sEnemy[EnemyIndex].m_vSpeed, m_sEnemy[EnemyIndex].m_vSize, m_sEnemy[EnemyIndex].m_vRot);
+			//aタイプの敵に情報を設定
+			m_cEnemy[EnemyIndex].SetInfo(m_cEnemyRead.enemyInfoList[EnemyIndex].m_vPos,
+								 		 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vSpeed,
+										 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vSize,
+										 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vRot);
 			break;
 		case b:
 
@@ -99,18 +97,18 @@ void CEnemyManager::Step()
 	}
 
 	//敵の出現
-	m_iWaitCnt--;
-	if (m_iWaitCnt < 0 || iEnemyCnt == 0)
-	{
-		RequestEnemy();
-		m_iWaitCnt = WAIT_TIME;
-	}
-	m_iWaitCnt_2--;
-	if (m_iWaitCnt_2 < 0 || iEnemyCnt_2 == 0)
-	{
-		RequestEnemy();
-		m_iWaitCnt_2 = WAIT_TIME;
-	}
+	//m_iWaitCnt--;
+	//if (m_iWaitCnt < 0 || iEnemyCnt == 0)
+	//{
+	//	RequestEnemy();
+	//	m_iWaitCnt = WAIT_TIME;
+	//}
+	//m_iWaitCnt_2--;
+	//if (m_iWaitCnt_2 < 0 || iEnemyCnt_2 == 0)
+	//{
+	//	RequestEnemy();
+	//	m_iWaitCnt_2 = WAIT_TIME;
+	//}
 
 
 }

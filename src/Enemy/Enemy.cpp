@@ -107,14 +107,10 @@ void CEnemy::HitCalc()
 }
 
 //èÓïÒÇÃê›íË
-void CEnemy::SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, int iHndl, bool IsFrag, float fRadius)
+void CEnemy::SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot)
 {
 	m_vPos = vPos;
 	m_vRot = vRot;
 	m_vSpeed = vSpeed;
 	m_vSize = vSize;
-	
-	m_iHndl = iHndl;
-	m_IsActive = IsFrag;
-	m_fRadius = fRadius;
 }
