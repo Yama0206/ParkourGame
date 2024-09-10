@@ -2,37 +2,20 @@
 
 void CEnemyRead::ReadFile()
 {
-	FILE* fp;
-	fopen_s(&fp, ENEMY_TXT_PATH, "r");
+	FILE* fp = nullptr;
 
-	int EnemyIndex = 0;
-
-	while (true) {
-		//1行目は使わないので先に読み込みだけ済ませる
-		/*fgets();*/
-
-		int a = 0;
-
-		//数値の読み込み
-		fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d, %d, %f", 
-				&m_sEnemy[EnemyIndex].m_eType,
-				&m_sEnemy[EnemyIndex].m_vPos.x,	 &m_sEnemy[EnemyIndex].m_vPos.y,  &m_sEnemy[EnemyIndex].m_vPos.z,
-				&m_sEnemy[EnemyIndex].m_vSize.x, &m_sEnemy[EnemyIndex].m_vSize.y, &m_sEnemy[EnemyIndex].m_vSize.z,
-				&m_sEnemy[EnemyIndex].m_vRot.x , &m_sEnemy[EnemyIndex].m_vRot.y,  &m_sEnemy[EnemyIndex].m_vRot.z,
-				&m_sEnemy[EnemyIndex].m_vSpeed.x, &m_sEnemy[EnemyIndex].m_vSpeed.y, &m_sEnemy[EnemyIndex].m_vSpeed.z,
-				&m_sEnemy[EnemyIndex].m_iHndl, &m_sEnemy[EnemyIndex].m_bIsActive, &m_sEnemy[EnemyIndex].m_fRadius);
-
-		//「,」を飛ばすために読み込み実行
-		char c = fgetc(fp);
-
-		//EOFの場合は読み込み終了
-		if (c == EOF) {
-			break;
-		}
-
-		//改行コードの場合は保存先を変更する
-		if (c == '\n') {
-			EnemyIndex++;
+	//ファイルを開く
+	if (fopen_s(&fp, ENEMY_TXT_PATH, "r") == 0) {
+		//ファイルの読み込み、変数への保存
+		while (fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f",
+			&m_sEnemyData.m_eType,
+			&m_sEnemyData.m_vPos.x, &m_sEnemyData.m_vPos.y, &m_sEnemyData.m_vPos.z,
+			&m_sEnemyData.m_vSize.x, &m_sEnemyData.m_vSize.y, &m_sEnemyData.m_vSize.z,
+			&m_sEnemyData.m_vRot.x, &m_sEnemyData.m_vRot.y, &m_sEnemyData.m_vRot.z,
+			&m_sEnemyData.m_vSpeed.x, &m_sEnemyData.m_vSpeed.y, &m_sEnemyData.m_vSpeed.z
+		) != EOF) {
+			//リストに追加
+			enemyInfoList.push_back(m_sEnemyData);
 		}
 	}
 
