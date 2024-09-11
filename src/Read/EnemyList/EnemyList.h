@@ -11,9 +11,10 @@ const char ENEMY_TXT_PATH[] = { "data/File/Enemy.txt" };		//敵情報のテキストファ
 struct SEnemy
 {
 	VECTOR m_vPos;			//座標
-	VECTOR m_vSize;			//拡大縮小率
+	VECTOR m_vSize;			//縦　横　奥ゆきサイズ
 	VECTOR m_vRot;			//回転値
 	VECTOR m_vSpeed;		//速さ
+	VECTOR m_vScale;		//拡縮率
 
 	Type m_eType;			//種類
 };

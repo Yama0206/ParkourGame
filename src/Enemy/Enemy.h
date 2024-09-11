@@ -12,7 +12,8 @@ protected:
 	VECTOR m_vPos;				//座標
 	VECTOR m_vSpeed;			//移動速度
 	VECTOR m_vRot;				//回転値
-	VECTOR m_vSize;				//拡縮率
+	VECTOR m_vSize;				//縦　横　奥行きのサイズ
+	VECTOR m_vScale;			//拡縮率
 
 	int m_iHndl;				//モデルハンドル
 	bool m_IsActive;			//生存フラグ

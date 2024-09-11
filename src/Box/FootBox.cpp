@@ -27,9 +27,6 @@ void CFootBox::Step() {
 	if (CInput::IsKeyPush(KEY_INPUT_0)) {
 		isAllive = false;
 	}
-	//if (CInput::IsKeyPush(KEY_INPUT_0) && !isAllive) {
-	//	isAllive = true;
-	//}
 }
 
 void CFootBox::Draw()

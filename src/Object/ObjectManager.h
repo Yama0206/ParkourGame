@@ -3,16 +3,16 @@
 #include "../Object/Object.h"
 #include "../Read/ObjectList/ObjectList.h"
 
+const int OBJECT_NUM = 50;
+
 class CObjectManager
 {
 private:
 	//オブジェクトが増えるとここのクラスも増える
-	
+	CObject m_cObject[OBJECT_NUM];
 
 	//オブジェクト情報を読み込むためのクラス
-
-
-	//オブジェクト情報が入っている構造体
+	CObjectRead m_cObjectRead;
 
 public:
 	//コンストラクタ・デストラクタ
@@ -31,5 +31,7 @@ public:
 	void Step();
 	//描画処理
 	void Draw();
+	//更新処理
+	void Update();
 
 };

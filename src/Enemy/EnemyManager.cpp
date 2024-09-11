@@ -29,14 +29,14 @@ void CEnemyManager::Init()
 //初期値設定
 void CEnemyManager::InitValue()
 {
-	//敵の情報を読み込む
-	m_cEnemyRead.ReadFile();
-
 
 }
 
 void CEnemyManager::Load()
 {
+	//敵の情報を読み込む
+	m_cEnemyRead.ReadFile();
+
 	//オリジナルモデルの読み込み
 	int iHndl = MV1LoadModel(ENEMY_MODEL_PATH);
 	//モデルを複製
@@ -46,8 +46,11 @@ void CEnemyManager::Load()
 			//aタイプの敵に情報を設定
 			m_cEnemy[EnemyIndex].SetInfo(m_cEnemyRead.enemyInfoList[EnemyIndex].m_vPos,
 								 		 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vSpeed,
-										 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vSize,
+										 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vScale,
 										 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vRot);
+
+			//読み込み
+			m_cEnemy[EnemyIndex].Load(iHndl);
 			break;
 		case b:
 

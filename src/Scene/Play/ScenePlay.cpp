@@ -57,6 +57,9 @@ void CPlayScene::Init()
 	m_cPlayer.SetSize();
 	//敵初期化
 	m_cEnemyManager.Init();
+	//オブジェクトの初期化
+	m_cObjectManager.Init();
+	m_cObjectManager.Update();
 	//弾の初期化
 	m_cShotManager.Init();
 	//背景初期化
@@ -83,29 +86,7 @@ void CPlayScene::Init()
 	//ゴール初期化
 	cGoal.Init();
 
-	//足場オブジェクトの変数
-	m_vFBoxPos.resize(cFBox.size());
-	m_vFBoxSize.resize(cFBox.size());
-	m_vFBoxRot.resize(cFBox.size());
-	m_vRockPos.resize(cRock.size());
-	m_vRockScale.resize(cRock.size());
-	m_vRockRot.resize(cRock.size());
-
-
-	for (int i = 0; i < FBOX_MAX_NUM; i++) {
-		m_vFBoxPos[i] = { 0.0f, 0.0f, 0.0f };
-		m_vFBoxSize[i] = { 0.3f, 0.3f, 0.3f };
-		m_vFBoxRot[i] = { 0.0f, 0.0f, 0.0f };
-	}
-
-
-	for (int i = 0; i < FBOX_MAX_NUM; i++) {
-		m_vRockPos[i] = { 0.0f, 0.0f, 0.0f };
-		m_vRockScale[i] = { 0.1f, 0.1f, 0.1f };
-		m_vRockRot[i] = { 0.0f, 0.0f, 0.0f };
-	}
-	
-	SetBlock();
+	//SetBlock();
 
 	//サウンド関連
 	CSoundManager::Init();
@@ -127,6 +108,7 @@ int CPlayScene::Fin()
 	m_cCameraManager.Fin();			//カメラマネージャー
 	m_cPlayer.Fin();				//プレイヤー
 	m_cEnemyManager.Fin();			//敵
+	m_cObjectManager.Fin();			//オブジェクト
 	m_cBackGround.Fin();			//背景
 	m_cSky.Fin();					//空
 
@@ -141,6 +123,7 @@ void CPlayScene::Load()
 {
 	m_cPlayer.LoadModel(PLAYER_MODEL_PATH);						//プレイヤー
 	m_cEnemyManager.Load();										//敵
+	m_cObjectManager.Load();									//オブジェクト
 	m_cShotManager.Load();										//弾
 	m_cBackGround.Load();										//背景
 	m_cSky.Load();												//空

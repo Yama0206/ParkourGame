@@ -107,10 +107,10 @@ void CEnemy::HitCalc()
 }
 
 //èÓïÒÇÃê›íË
-void CEnemy::SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot)
+void CEnemy::SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vScale, VECTOR vRot)
 {
 	m_vPos = vPos;
 	m_vRot = vRot;
 	m_vSpeed = vSpeed;
-	m_vSize = vSize;
+	m_vSize = vScale;
 }
