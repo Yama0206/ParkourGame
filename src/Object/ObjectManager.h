@@ -8,6 +8,7 @@ class CObjectManager
 private:
 	//オブジェクトが増えるとここのクラスも増える
 	
+
 	//オブジェクト情報を読み込むためのクラス
 
 
