@@ -3,7 +3,7 @@
 
 class CObject
 {
-private:
+protected:
 	VECTOR m_vPos;		//座標
 	VECTOR m_vRot;		//回転値
 	VECTOR m_vSize;		//縦　横　奥行きのサイズ

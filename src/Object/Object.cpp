@@ -5,7 +5,12 @@
 
 void CObject::Init()
 {
-	
+	memset(&m_vPos, 0.0f, sizeof(VECTOR));			//座標
+	memset(&m_vRot, 0.0f, sizeof(VECTOR));			//回転値
+	memset(&m_vScale, 0.0f, sizeof(VECTOR));		//拡縮率
+	memset(&m_vSize, 0.0f, sizeof(VECTOR));			//縦　横　奥行きのサイズ
+	memset(&m_iHndl, -1, sizeof(int));				//画像ハンドル
+	memset(&m_IsAllive, true, sizeof(bool));		//生存フラグ
 }
 
 void CObject::Load(int iMdHndl)
@@ -31,7 +36,6 @@ void CObject::Draw()
 
 	//描画処理
 	MV1DrawModel(m_iHndl);
-
 }
 
 void CObject::Update()
@@ -45,5 +49,5 @@ void CObject::SetInfo(VECTOR vPos, VECTOR vScale, VECTOR vRot)
 {
 	m_vPos = vPos;
 	m_vRot = vRot;
-	m_vSize = vScale;
+	m_vScale = vScale;
 }
