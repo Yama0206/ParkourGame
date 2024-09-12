@@ -57,20 +57,20 @@ void CPlayScene::Init()
 	m_cPlayer.SetSize();
 	//敵初期化
 	m_cEnemyManager.Init();
-	//オブジェクトの初期化
-	m_cObjectManager.Init();
-	m_cObjectManager.Update();
+	//オブジェクト
+	m_cObjectManager.Init();		//初期化
+	m_cObjectManager.Update();		//更新処理
+	//アイテム
+	m_cItemManager.Init();		//初期化
+	m_cItemManager.Update();	//更新処理
 	//弾の初期化
 	m_cShotManager.Init();
-	//背景初期化
-	m_cBackGround.Init();
-	//背景更新処理
-	m_cBackGround.UpDate();
-	//空初期化
-	m_cSky.Init();
-	//空更新処理
-	m_cSky.UpDate();
-
+	//背景
+	m_cBackGround.Init();			//初期化
+	m_cBackGround.UpDate();			//更新処理
+	//空
+	m_cSky.Init();			//初期化
+	m_cSky.UpDate();		//更新処理
 
 	cFBox.resize(FBOX_MAX_NUM);
 	cRock.resize(FBOX_MAX_NUM);
@@ -124,6 +124,7 @@ void CPlayScene::Load()
 	m_cPlayer.LoadModel(PLAYER_MODEL_PATH);						//プレイヤー
 	m_cEnemyManager.Load();										//敵
 	m_cObjectManager.Load();									//オブジェクト
+	m_cItemManager.Load();										//アイテム
 	m_cShotManager.Load();										//弾
 	m_cBackGround.Load();										//背景
 	m_cSky.Load();												//空

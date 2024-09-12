@@ -1,10 +1,20 @@
 #pragma once
 #include "DxLib.h"
+#include <iostream>
+#include <vector>
 #include "../Coin/Coin.h"
+#include "../../Object/ObjectManager.h"
+#include "../../Read/ItemList/ItemList.h"
 
-class CItemManager
+using namespace std;
+
+class CItemManager : public CObjectManager
 {
 private:
+	//種類が増えるとここのクラスも増える
+	vector<CCoin> m_cCoin;
+	//アイテムの情報を読み込むためのクラス
+	CItemList m_cItemList;
 
 public:
 	CItemManager();		//コントラクタ

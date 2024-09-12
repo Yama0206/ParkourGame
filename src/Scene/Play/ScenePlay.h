@@ -16,6 +16,7 @@
 #include "../../Box/FootBox.h"
 #include "../../Box/Rock.h"
 #include "../../Goal/Goal.h"
+#include "../../Item/Manager/ItemManager.h"
 
 using namespace std;
 
@@ -36,6 +37,7 @@ private:
 	CPlayer m_cPlayer;							//プレイヤー処理
 	CEnemyManager m_cEnemyManager;				//敵
 	CObjectManager m_cObjectManager;			//オブジェクト
+	CItemManager m_cItemManager;				//アイテムマネージャー
 	BackGround m_cBackGround;					//背景処理
 	CSky m_cSky;								//空
 	tagPLAY_SCENE m_eSceneID;					//シーン保存

@@ -26,7 +26,6 @@ void CObject::Step()
 	if (!m_IsAllive) return;
 
 
-
 }
 
 void CObject::Draw()
