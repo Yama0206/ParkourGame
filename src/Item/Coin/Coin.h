@@ -1,10 +1,10 @@
 #pragma once
 #include "DxLib.h"
-#include "../../Object/Object.h"
+#include "../../Item/ItemBase/ItemBase.h"
 #include <iostream>
 #include <vector>
 
-class CCoin : public CObject
+class CCoin : public CItemBase
 {
 private:
 

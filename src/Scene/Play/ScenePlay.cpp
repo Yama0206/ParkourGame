@@ -228,6 +228,7 @@ void CPlayScene::Draw()
 {
 	m_cPlayer.Draw();				//ƒvƒŒƒCƒ„[•`‰æ
 	m_cEnemyManager.Draw();			//“G‚Ì•`‰æ
+	m_cItemManager.Draw();			//ƒAƒCƒeƒ€‚Ì•`‰æ
 	m_cShotManager.Draw();			//’e‚Ì•`‰æ
 	m_cBackGround.Draw();			//”wŒi•`‰æ
 	m_cSky.Draw();					//‹ó•`‰æ

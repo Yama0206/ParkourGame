@@ -1,8 +1,8 @@
 #include "ItemManager.h"
 
 //定義
-const char COIN_MODEL_PATH[] = { "" };
-
+const char COIN_MODEL_PATH[] = { "data/Item/MagicStone.x" };
+const int ITEM_MAX_NUM = 50;
 
 
 CItemManager::CItemManager()
@@ -15,42 +15,40 @@ CItemManager::~CItemManager()
 
 void CItemManager::Init()
 {
-	for (int CoinIndex = 0; CoinIndex < m_cCoin.size(); CoinIndex++) {
-		m_cCoin[CoinIndex].Init();
+	CCoin* m_cCoin = new CCoin;
+
+	for (int ItemIndex = 0; ItemIndex < ITEM_MAX_NUM; ItemIndex++)
+	{
+		m_cItemList.push_back(m_cCoin);
 	}
 }
 
 void CItemManager::Load()
 {
-	m_cItemList.ReadFile();
+	m_cFileDataList.ReadFile();
 
 	//オリジナルモデルの読み込み
-	int iHndl = MV1LoadModel(COIN_MODEL_PATH);
+	int iCoinHndl = MV1LoadModel(COIN_MODEL_PATH);
 
 	//モデルを複製
-	for (int ItemIndex = 0; ItemIndex < m_cItemList.itemInfoList.size(); ItemIndex++) {
-		switch (m_cItemList.itemInfoList[ItemIndex].m_eType) {
+	for (int ItemIndex = 0; ItemIndex < m_cFileDataList.itemInfoList.size(); ItemIndex++) {
+		switch (m_cFileDataList.itemInfoList[ItemIndex].m_eType) {
 		case a:
+			m_cItemList[ItemIndex]->SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
+											m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
+											m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
+
 			//コインクラス作成(一旦このクラスに情報を代入)
 			CCoin Coin;
-			Coin.SetInfo(m_cItemList.itemInfoList[ItemIndex].m_vPos,
-						 m_cItemList.itemInfoList[ItemIndex].m_vScale,
-						 m_cItemList.itemInfoList[ItemIndex].m_vRot);
-			//aタイプの敵に情報を設定
-			//ここでさっきのクラスに入れた情報をpushbackする
-			m_cCoin.push_back(Coin);
+			Coin.SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
+						 m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
+						 m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
 
-			break;
-		case b:
+			m_cItemList[ItemIndex];
 
-			break;
-		case c:
+			//タイプ別に画像を読み込む
+			/*m_cCoin[ItemIndex].Load(iCoinHndl);*/
 
-			break;
-		case d:
-
-			break;
-		default:
 			break;
 		}
 	}
@@ -64,7 +62,10 @@ void CItemManager::Step()
 
 void CItemManager::Draw()
 {
-
+	for (int CoinIndex = 0; CoinIndex < m_cCoin.size(); CoinIndex++)
+	{
+		m_cCoin[CoinIndex].Draw();
+	}
 }
 
 void CItemManager::Fin()

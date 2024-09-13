@@ -14,6 +14,9 @@ protected:
 
 
 public:
+	//コンストラクタ
+	CObject();
+
 	//初期化
 	void Init();
 	//読み込み

@@ -12,12 +12,13 @@ struct SCoin
 	Type m_eType;		//種類
 };
 
-class CItemList : public CRead
+class CReadItemList : public CRead
 {
 private:
 	SCoin m_sItemData;		//アイテムの情報が入った構造体
 
 public:
+	//アイテムの情報を入れるリスト
 	vector<SCoin> itemInfoList;
 
 	//アイテム情報を読み込み

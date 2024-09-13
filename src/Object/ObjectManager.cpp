@@ -30,6 +30,7 @@ void CObjectManager::Load()
 	m_cObjectRead.ReadFile();
 
 	//オリジナルモデルの読み込み
+	//種類別にモデルを読み込んでおく
 	int iHndl = MV1LoadModel(OBJECT_MODEL_PATH);
 
 	//モデルを複製

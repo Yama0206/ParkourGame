@@ -1,4 +1,4 @@
-#include "EnemyList.h"
+#include "ReadEnemyList.h"
 
 void CEnemyRead::ReadFile()
 {

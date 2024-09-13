@@ -3,6 +3,11 @@
 //定義
 
 
+
+CObject::CObject() {
+	m_iHndl = -1;				//画像ハンドル
+}
+
 void CObject::Init()
 {
 	memset(&m_vPos, 0.0f, sizeof(VECTOR));			//座標

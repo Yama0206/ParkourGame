@@ -1,9 +1,9 @@
-#include "ItemList.h"
+#include "ReadItemList.h"
 
 //’è‹`
 const char ITEM_TXT_PATH[] = { "data/File/Item.txt" };
 
-void CItemList::ReadFile()
+void CReadItemList::ReadFile()
 {
 	FILE* fp = nullptr;
 

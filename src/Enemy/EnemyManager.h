@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Enemy.h"
 #include "Enemy_2.h"
-#include "../Read/EnemyList/EnemyList.h"
+#include "../Read/ReadEnemyList/ReadEnemyList.h"
 
 #define ENEMY_NUM		(50)
 
