@@ -1,7 +1,7 @@
 #pragma once
 #include "DxLib.h"
 #include "../Object/Object.h"
-#include "../Read/ObjectList/ObjectList.h"
+#include "../Read/ReadObjectList/ReadObjectList.h"
 
 const int OBJECT_NUM = 50;
 
