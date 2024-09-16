@@ -4,6 +4,7 @@
 #include <vector>
 #include "../ItemBase/ItemBase.h"
 #include "../Coin/Coin.h"
+#include "../Test.h"
 #include "../../Object/ObjectManager.h"
 #include "../../Read/ReadItemList/ReadItemList.h"
 
@@ -17,6 +18,7 @@ private:
 	vector<CItemBase *> m_cItemList;
 	//アイテムごとのクラス
 	CCoin m_cCoin;
+	Test m_test;
 	//アイテムの情報を読み込むためのクラス
 	CReadItemList m_cFileDataList;
 

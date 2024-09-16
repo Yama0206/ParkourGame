@@ -16,10 +16,15 @@ CItemManager::~CItemManager()
 void CItemManager::Init()
 {
 	CCoin* cCoin = new CCoin;
+	Test* cTest = new Test;
 
 	for (int ItemIndex = 0; ItemIndex < ITEM_MAX_NUM; ItemIndex++)
 	{
 		m_cItemList.push_back(cCoin);
+	}
+	for (int i = 0; i < ITEM_MAX_NUM; i++)
+	{
+		m_cItemList.push_back(cTest);
 	}
 }
 
@@ -37,9 +42,12 @@ void CItemManager::Load()
 			m_cItemList[ItemIndex][ItemIndex].SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
 													  m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
 													  m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
+			m_cItemList[50][50].SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
+										m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
+										m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
 
-			//コインクラス作成(一旦このクラスに情報を代入)
-		/*	CCoin Coin;
+		//コインクラス作成(一旦このクラスに情報を代入)
+		/*CCoin Coin;
 			Coin.SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
 						 m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
 						 m_cFileDataList.itemInfoList[ItemIndex].m_vRot);*/
