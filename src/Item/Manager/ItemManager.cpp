@@ -15,12 +15,7 @@ CItemManager::~CItemManager()
 
 void CItemManager::Init()
 {
-	CCoin* m_cCoin = new CCoin;
 
-	for (int ItemIndex = 0; ItemIndex < ITEM_MAX_NUM; ItemIndex++)
-	{
-		m_cItemList.push_back(m_cCoin);
-	}
 }
 
 void CItemManager::Load()
@@ -34,20 +29,14 @@ void CItemManager::Load()
 	for (int ItemIndex = 0; ItemIndex < m_cFileDataList.itemInfoList.size(); ItemIndex++) {
 		switch (m_cFileDataList.itemInfoList[ItemIndex].m_eType) {
 		case a:
-			m_cItemList[ItemIndex]->SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
-											m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
-											m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
+			CCoin* cCoin = new CCoin();
 
-			//コインクラス作成(一旦このクラスに情報を代入)
-			CCoin Coin;
-			Coin.SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
-						 m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
-						 m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
+			cCoin->SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
+						   m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
+						   m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
 
-			m_cItemList[ItemIndex];
+			m_cItemList.push_back(cCoin);
 
-			//タイプ別に画像を読み込む
-			/*m_cCoin[ItemIndex].Load(iCoinHndl);*/
 
 			break;
 		}
@@ -62,10 +51,10 @@ void CItemManager::Step()
 
 void CItemManager::Draw()
 {
-	for (int CoinIndex = 0; CoinIndex < m_cCoin.size(); CoinIndex++)
+	/*for (int CoinIndex = 0; CoinIndex < m_cCoin.size(); CoinIndex++)
 	{
 		m_cCoin[CoinIndex].Draw();
-	}
+	}*/
 }
 
 void CItemManager::Fin()

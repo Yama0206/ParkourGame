@@ -15,8 +15,6 @@ private:
 	//ポリフォーフィズム
 	//ベースクラスをvector型で宣言
 	vector<CItemBase *> m_cItemList;
-	//アイテムごとのクラス
-	CCoin m_cCoin;	
 	//アイテムの情報を読み込むためのクラス
 	CReadItemList m_cFileDataList;
 
