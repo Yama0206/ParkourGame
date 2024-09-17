@@ -13,17 +13,17 @@ CEnemyManager::CEnemyManager()
 //デストラクタ
 CEnemyManager::~CEnemyManager()
 {
+	//敵のリストの数分回す
+	for(int BossIndex = 0; BossIndex < m_cEnemyList.size(); BossIndex++)
+	{
+		//クラスを消去
+		delete m_cEnemyList[BossIndex];
+	}
 }
 
 //初期化
 void CEnemyManager::Init()
 {
-	for (int i = 0; i < ENEMY_NUM; i++) {
-		m_cEnemy[i].Init();
-	}
-
-	//初期値設定
-	InitValue();
 }
 
 //初期値設定
@@ -39,29 +39,26 @@ void CEnemyManager::Load()
 
 	//オリジナルモデルの読み込み
 	int iHndl = MV1LoadModel(ENEMY_MODEL_PATH);
-	//モデルを複製
+
+	//敵の種類ごとに敵の情報を追加して画像を読み込む
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyRead.enemyInfoList.size(); EnemyIndex++) {
 		switch (m_cEnemyRead.enemyInfoList[EnemyIndex].m_eType) {
 		case a:
+			//情報を入れるクラスのポインタ変数を作成
+			CNormalBoss* cNormalBoss = new CNormalBoss();
+
 			//aタイプの敵に情報を設定
-			m_cEnemy[EnemyIndex].SetInfo(m_cEnemyRead.enemyInfoList[EnemyIndex].m_vPos,
-								 		 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vSpeed,
-										 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vScale,
-										 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vRot);
+			cNormalBoss->SetInfo(m_cEnemyRead.enemyInfoList[EnemyIndex].m_vPos,
+								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vSpeed,
+								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vScale,
+								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vRot);
 
 			//読み込み
-			m_cEnemy[EnemyIndex].Load(iHndl);
-			break;
-		case b:
+			cNormalBoss->Load(iHndl);
 
-			break;
-		case c:
+			//アイテムリストにpush_buckする
+			m_cEnemyList.push_back(cNormalBoss);
 
-			break;
-		case d:
-
-			break;
-		default:
 			break;
 		}
 		
@@ -75,44 +72,14 @@ void CEnemyManager::Fin()
 {
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
-		m_cEnemy[i].Fin();
+		
 	}
 }
 
 //通常処理
 void CEnemyManager::Step()
 {
-	int iEnemyCnt = 0; //敵の出現数
-	int iEnemyCnt_2 = 0;
-	//敵の移動処理
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		m_cEnemy[i].Step();
-		/*m_cEnemy_2[i].Step();*/
-		if (m_cEnemy[i].IsActiv())
-		{
-			iEnemyCnt++;
-		}
-		/*if (m_cEnemy_2[i].IsActiv())
-		{
-			iEnemyCnt_2++;
-		}*/
-	}
-
-	//敵の出現
-	//m_iWaitCnt--;
-	//if (m_iWaitCnt < 0 || iEnemyCnt == 0)
-	//{
-	//	RequestEnemy();
-	//	m_iWaitCnt = WAIT_TIME;
-	//}
-	//m_iWaitCnt_2--;
-	//if (m_iWaitCnt_2 < 0 || iEnemyCnt_2 == 0)
-	//{
-	//	RequestEnemy();
-	//	m_iWaitCnt_2 = WAIT_TIME;
-	//}
-
+	
 
 }
 
@@ -121,8 +88,7 @@ void CEnemyManager::Draw()
 {
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
-		m_cEnemy[i].Draw();
-		//m_cEnemy_2[i].Draw();
+		
 	}
 }
 
@@ -135,13 +101,5 @@ void CEnemyManager::RequestEnemy()
 	VECTOR vSpeed_2 = VGet(-0.5f, 0.0f, 0.0f);
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
-		if (m_cEnemy[i].RequestEnemy(vPos, vSpeed))
-		{
-			
-		}
-		/*if (m_cEnemy_2[i].RequestEnemy(vPos_2, vSpeed))
-		{
-			break;
-		}*/
 	}
 }

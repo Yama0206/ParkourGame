@@ -61,16 +61,15 @@ void CPlayScene::Init()
 	m_cObjectManager.Init();		//初期化
 	m_cObjectManager.Update();		//更新処理
 	//アイテム
-	m_cItemManager.Init();		//初期化
-	m_cItemManager.Update();	//更新処理
+	m_cItemManager.Init();			//初期化
 	//弾の初期化
-	m_cShotManager.Init();
+	m_cShotManager.Init();			//初期化
 	//背景
 	m_cBackGround.Init();			//初期化
 	m_cBackGround.UpDate();			//更新処理
 	//空
-	m_cSky.Init();			//初期化
-	m_cSky.UpDate();		//更新処理
+	m_cSky.Init();					//初期化
+	m_cSky.UpDate();				//更新処理
 
 	cFBox.resize(FBOX_MAX_NUM);
 	cRock.resize(FBOX_MAX_NUM);
@@ -168,18 +167,24 @@ void CPlayScene::Step()
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		//CCollisionManager::CheckHitPlayerToRock(m_cPlayer, cRock);
 		
-		//更新処理
+		//更新処理--------------------------------------------------------------//
+		//プレイヤー
+		m_cPlayer.Update();		
+		//アニメーション
+		m_cPlayer.UpdateAnim();	
+		//天球
+		m_cSky.UpDate();
+		//ゴール
+		cGoal.Update();			
+		//アイテム
+		m_cItemManager.Update();
+
 		for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
 			cFBox[FBoxIndex].Update();
 		}
 		for (int RockIndex = 0; RockIndex < cRock.size(); RockIndex++) {
 			cRock[RockIndex].Update();
 		}
-
-		m_cPlayer.Update();			//プレイヤー
-		m_cPlayer.UpdateAnim();		//アニメーション
-		m_cSky.UpDate();			//天球
-		cGoal.Update();
 	}
 
 	//カメラ切り替え処理

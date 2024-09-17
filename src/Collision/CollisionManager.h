@@ -9,6 +9,7 @@
 #include "../Box/FootBox.h"
 #include "../Box/Rock.h"
 #include "../Goal/Goal.h"
+#include "../Item/Manager/ItemManager.h"
 #include <vector>
 
 using namespace std;
@@ -39,8 +40,12 @@ public:
 	static void CHeckHitPlayerToGoal(CPlayer& cPlayer,
 		CGoal& cGoal);
 
+	//アイテムとプレイヤーのあたり判定
+	static void CHeckHitPlayerToItem(CPlayer& cPlayer,
+									 CItemManager& cItemManager);
+
 	//マウスポインタとスタート画像の当たり判定
-	static void CheckHitMouseToStartImg();
+	//static void CheckHitMouseToStartImg();
 
 	//プレイヤーとボックスの当たり判定のライン表示
 	static void PlayerToBoxLine(CPlayer& cPlayer,

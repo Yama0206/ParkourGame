@@ -12,7 +12,7 @@ void CRead::Init()
 		//Y
 		for (int Y = 0; Y < MAP_CHIP_Y_NUM; Y++)
 		{
-			m_FileReadMapData[Y][X] = 0;
+			//m_FileReadMapData[Y][X] = 0;
 		}
 	}
 }
@@ -35,20 +35,11 @@ void CRead::ReadFile()
 
 		//数値の読み込み
 		fscanf_s(fp, "%d, %f, %f, %f, %f, %f, %f, %d", &eType, &m_Test.m_vPos.x, &m_Test.m_vPos.y, &m_Test.m_vPos.z, &m_Test.m_vSize.x, &m_Test.m_vSize.y, &m_Test.m_vSize.z, &eType);
-		
+
 		//「,」を飛ばすために読み込み実行
 		char c = fgetc(fp);
-
-		//EOFの場合は読み込み終了
-		if (c == EOF) {
-			break;
-		}
-
-		//改行コードの場合は保存先を変更する
-		if (c == '\n') {
-			mapIndex++;
-		}
 	}
+
 
 	fclose(fp);
 }
@@ -67,7 +58,7 @@ void CRead::SaveFile()
 
 		while (true) {
 			//数値の読み込み
-			fprintf_s(fp, "%d", &m_FileReadMapData[mapIndexY][mapIndexX]);
+	//
 
 			//「,」を飛ばすために読み込み実行
 			char c = fgetc(fp);

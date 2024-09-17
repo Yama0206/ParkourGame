@@ -11,25 +11,16 @@ CItemManager::CItemManager()
 
 CItemManager::~CItemManager()
 {
+	//アイテムの数分回す
+	for (int ItemIndex = 0; ItemIndex < m_cItemList.size(); ItemIndex++)
+	{
+		//クラスを消去
+		delete m_cItemList[ItemIndex];
+	}
 }
 
 void CItemManager::Init()
 {
-<<<<<<< HEAD
-
-=======
-	CCoin* cCoin = new CCoin;
-	Test* cTest = new Test;
-
-	for (int ItemIndex = 0; ItemIndex < ITEM_MAX_NUM; ItemIndex++)
-	{
-		m_cItemList.push_back(cCoin);
-	}
-	for (int i = 0; i < ITEM_MAX_NUM; i++)
-	{
-		m_cItemList.push_back(cTest);
-	}
->>>>>>> f32ce091bef08de189faf64a129534c0d7275c2c
 }
 
 void CItemManager::Load()
@@ -42,37 +33,24 @@ void CItemManager::Load()
 	//モデルを複製
 	for (int ItemIndex = 0; ItemIndex < m_cFileDataList.itemInfoList.size(); ItemIndex++) {
 		switch (m_cFileDataList.itemInfoList[ItemIndex].m_eType) {
-		case a:
-<<<<<<< HEAD
+		case Coin:
+			//情報を入れるクラスのポインタ変数を作成
 			CCoin* cCoin = new CCoin();
 
+			//上で作ったクラスに情報を入力
 			cCoin->SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
+						   m_cFileDataList.itemInfoList[ItemIndex].m_vRot,
 						   m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
-						   m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
+						   m_cFileDataList.itemInfoList[ItemIndex].m_IsAllive);
 
+			cCoin->Load(iCoinHndl);
+
+			//アイテムのリストにpush_backする
 			m_cItemList.push_back(cCoin);
-=======
-			m_cItemList[ItemIndex][ItemIndex].SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
-													  m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
-													  m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
-			m_cItemList[50][50].SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
-										m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
-										m_cFileDataList.itemInfoList[ItemIndex].m_vRot);
-
-		//コインクラス作成(一旦このクラスに情報を代入)
-		/*CCoin Coin;
-			Coin.SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
-						 m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
-						 m_cFileDataList.itemInfoList[ItemIndex].m_vRot);*/
-
-			
->>>>>>> f32ce091bef08de189faf64a129534c0d7275c2c
-
 
 			break;
 		}
 	}
-
 }
 
 void CItemManager::Step()
@@ -82,10 +60,18 @@ void CItemManager::Step()
 
 void CItemManager::Draw()
 {
-	/*for (int CoinIndex = 0; CoinIndex < m_cCoin.size(); CoinIndex++)
+	for (int ItemIndex = 0; ItemIndex < m_cItemList.size(); ItemIndex++)
 	{
-		m_cCoin[CoinIndex].Draw();
-	}*/
+		m_cItemList[ItemIndex]->Draw();
+	}
+}
+
+void CItemManager::Update()
+{
+	for (int ItemIndex = 0; ItemIndex < m_cItemList.size(); ItemIndex++)
+	{
+		m_cItemList[ItemIndex]->Update();
+	}
 }
 
 void CItemManager::Fin()

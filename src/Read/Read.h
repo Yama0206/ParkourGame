@@ -35,11 +35,6 @@ private:
 	s_List m_Test;
 	Type eType;
 
-	int mapIndex;			//読み込むオブジェクトの構造体の配列の番号
-
-	//マップチップが格納された変数
-	int m_FileReadMapData[MAP_CHIP_Y_NUM][MAP_CHIP_X_NUM];
-
 public:
 	//初期化
 	void Init();
@@ -51,9 +46,4 @@ public:
 
 	//デバッグ用描画
 	void Draw();
-
-	//csvの値を取得
-	int GetFileReadMapData(int x_index, int y_index) { return m_FileReadMapData[y_index][x_index]; }
-
-
 };

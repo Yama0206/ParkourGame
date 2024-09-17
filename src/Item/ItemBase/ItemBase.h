@@ -22,6 +22,13 @@ protected:
 	int iAngleCnt;		//アイテムが回転するときのカウント変数
 
 public:
+	//読み込み
+	void Load(int iModelHndl);
+	//描画
+	void Draw();
+
  	//情報を入れる
 	void SetInfo(VECTOR vPos, VECTOR vSize, VECTOR vRot);
+
+	void Update();
 };

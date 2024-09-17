@@ -3,11 +3,22 @@
 
 using namespace std;
 
+//enum eType
+//{
+//	Coin = 1,
+//	b, 
+//	c,
+//	d,
+//};
+
 struct SCoin
 {
 	VECTOR m_vPos;		//座標
 	VECTOR m_vRot;		//回転値
+	VECTOR m_vSize;		//大きさ
 	VECTOR m_vScale;	//拡縮率
+
+	bool m_IsAllive;		//生存フラグ
 
 	Type m_eType;		//種類
 };

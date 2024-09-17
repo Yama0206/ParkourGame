@@ -1,8 +1,12 @@
 #pragma once
 #include "DxLib.h"
 #include "Enemy.h"
-#include "Enemy_2.h"
+#include "Boss/NormalBoss.h"
 #include "../Read/ReadEnemyList/ReadEnemyList.h"
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 #define ENEMY_NUM		(50)
 
@@ -12,7 +16,7 @@ class CEnemyManager
 private:
 	//敵、敵のタイプが増えるとここのクラスも増えていく
 	//本当はメモリの動的確保が望ましい
-	CEnemy m_cEnemy[ENEMY_NUM];
+	vector<CEnemy*>m_cEnemyList;
 	
 	//敵情報を読み込むためのクラス
 	CEnemyRead m_cEnemyRead;
@@ -36,7 +40,7 @@ public:
 	void Draw();
 
 	//敵情報取得
-	inline CEnemy& GetEnemy(int iID) { return m_cEnemy[iID]; }
+	//inline CEnemy& GetEnemy(int iID) { return m_cEnemy[iID]; }
 
 	//敵リクエスト
 	void RequestEnemy();

@@ -4,37 +4,37 @@
 void CCollisionManager::CheckHitShotToEnemy(CEnemyManager& cEnemyManager,
 											CShotManager& cShotManager)
 {
-	for (int i = 0; i < PL_SHOT_NUM; i++) {
-		//’eî•ñ‚ðŽæ“¾‚µA”­ŽË‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎŽŸ‚Ö
-		CShot& cPlayerShot = cShotManager.GetPlayerShot(i);
-		if (!cPlayerShot.IsActiv()) { continue; }
+	//for (int i = 0; i < PL_SHOT_NUM; i++) {
+	//	//’eî•ñ‚ðŽæ“¾‚µA”­ŽË‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎŽŸ‚Ö
+	//	CShot& cPlayerShot = cShotManager.GetPlayerShot(i);
+	//	if (!cPlayerShot.IsActiv()) { continue; }
 
-		for (int j = 0; j < ENEMY_NUM; j++)
-		{
-			//“Gî•ñ‚ðŽæ“¾‚µA¶¬‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎŽŸ‚Ö
-			CEnemy& cEnemy = cEnemyManager.GetEnemy(j);
-			if (!cEnemy.IsActiv()) { continue; }
+	//	for (int j = 0; j < ENEMY_NUM; j++)
+	//	{
+	//		//“Gî•ñ‚ðŽæ“¾‚µA¶¬‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎŽŸ‚Ö
+	//		CEnemy& cEnemy = cEnemyManager.GetEnemy(j);
+	//		if (!cEnemy.IsActiv()) { continue; }
 
-			//À•W‚Æ”¼Œa‚ðŽæ“¾
-			VECTOR vShotPos, vEnemyPos;
-			float fShotRadius, fEnemyRadius;
-			cPlayerShot.GetPotision(vShotPos);
-			cEnemy.GetPosition(vEnemyPos);
-			fShotRadius = cPlayerShot.GetRadius();
-			fEnemyRadius = cEnemy.GetRadius();
+	//		//À•W‚Æ”¼Œa‚ðŽæ“¾
+	//		VECTOR vShotPos, vEnemyPos;
+	//		float fShotRadius, fEnemyRadius;
+	//		cPlayerShot.GetPotision(vShotPos);
+	//		cEnemy.GetPosition(vEnemyPos);
+	//		fShotRadius = cPlayerShot.GetRadius();
+	//		fEnemyRadius = cEnemy.GetRadius();
 
-			//“G‚Ì‚Ù‚¤‚Í“–‚½‚è”»’è‚Ì’†S‚ð”¼Œa•ª•‚‚©‚¹‚é
-			vEnemyPos.y += fEnemyRadius;
+	//		//“G‚Ì‚Ù‚¤‚Í“–‚½‚è”»’è‚Ì’†S‚ð”¼Œa•ª•‚‚©‚¹‚é
+	//		vEnemyPos.y += fEnemyRadius;
 
-			//‹…‚Æ’e‚Ì“–‚½‚è”»’è
-			if (CHit::IsHiSphere(vShotPos, fShotRadius, vEnemyPos, fEnemyRadius))
-			{
-				//‚±‚±‚Ü‚Å‚­‚ê‚Î“–‚½‚Á‚½
-				cPlayerShot.HitCalc();
-				cEnemy.HitCalc();
-			}
-		} 
-	}
+	//		//‹…‚Æ’e‚Ì“–‚½‚è”»’è
+	//		if (CHit::IsHiSphere(vShotPos, fShotRadius, vEnemyPos, fEnemyRadius))
+	//		{
+	//			//‚±‚±‚Ü‚Å‚­‚ê‚Î“–‚½‚Á‚½
+	//			cPlayerShot.HitCalc();
+	//			cEnemy.HitCalc();
+	//		}
+	//	} 
+	//}
 }
 
 //Box‚ÆƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’è
