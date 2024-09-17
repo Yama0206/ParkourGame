@@ -1,4 +1,4 @@
-#include "ObjectList.h"
+#include "ReadObjectList.h"
 
 void CObjectRead::ReadFile()
 {
