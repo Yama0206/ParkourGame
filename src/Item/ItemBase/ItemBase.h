@@ -28,7 +28,13 @@ public:
 	void Draw();
 
  	//情報を入れる
-	void SetInfo(VECTOR vPos, VECTOR vSize, VECTOR vRot);
+	void SetInfo(VECTOR vPos, VECTOR vRot, VECTOR vSize, VECTOR vScale, int IsAllive);
 
+	//更新処理
 	void Update();
+
+	//取得
+	VECTOR GetPosVec() { return m_vPos; }		//座標取得
+	VECTOR GetSizeVec() { return m_vSize; }		//サイズ取得
+
 };

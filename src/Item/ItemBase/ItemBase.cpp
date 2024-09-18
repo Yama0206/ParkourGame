@@ -20,11 +20,14 @@ void CItemBase::Draw()
 }
 
 //èÓïÒÇÃê›íË
-void CItemBase::SetInfo(VECTOR vPos, VECTOR vRot, VECTOR vScale)
+void CItemBase::SetInfo(VECTOR vPos, VECTOR vRot, VECTOR vSize, VECTOR vScale, int IsAllive)
 {
 	m_vPos = vPos;
 	m_vRot = vRot;
 	m_vScale = vScale;
+	m_vSize = vSize;
+
+	m_IsAllive = IsAllive;
 }
 
 void CItemBase::Update()

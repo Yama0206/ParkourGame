@@ -12,5 +12,5 @@ public:
 	//í èÌèàóù
 	void Step();
 
-	void SetInfo(VECTOR vPos, VECTOR vRot, VECTOR vScale, int IsAllive);
+	void SetInfo(VECTOR vPos, VECTOR vRot, VECTOR vScale, VECTOR vSize, int IsAllive);
 };

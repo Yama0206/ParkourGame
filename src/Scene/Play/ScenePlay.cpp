@@ -165,6 +165,7 @@ void CPlayScene::Step()
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cBackGround);
 		CCollisionManager::CheckHitPlayerToFootBox(m_cPlayer, cFBox);
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
+		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
 		//CCollisionManager::CheckHitPlayerToRock(m_cPlayer, cRock);
 		
 		//çXêVèàóù--------------------------------------------------------------//

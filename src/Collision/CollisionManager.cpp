@@ -555,6 +555,54 @@ void CCollisionManager::CHeckHitPlayerToGoal(CPlayer& cPlayer, CGoal& cGoal)
 	}
 }
 
+void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
+											 CItemManager& cItemManager)
+{
+	//アイテムの総数分for分を回す
+	for (int ItemIndex = 0; ItemIndex < cItemManager.GetItemSize(); ItemIndex++) {
+
+		//アイテムリストクラス取得
+		CItemBase* cItem = cItemManager.GetItem(ItemIndex);
+
+		//当たり判定用変数
+		VECTOR vColliPlayerPos, vNextPlayerPos;			//プレイヤー座標
+		VECTOR vItemPos;								//アイテム座標
+		VECTOR vPlayerSize, vItemSize;					//サイズ
+
+		//方向チェック
+		bool DirArray[6];
+		memset(DirArray, false, sizeof(DirArray));		
+
+		//座標取得
+		cPlayer.GetCenterPos(vColliPlayerPos);			//プレイヤーの中心座標
+		cPlayer.GetNextPosVec(vNextPlayerPos);			//プレイヤーの移動後の座標
+		cPlayer.GetSize(vPlayerSize);
+
+		vItemPos = cItem[ItemIndex].GetPosVec();
+		vItemSize = cItem[ItemIndex].GetSizeVec();
+
+		vColliPlayerPos.x = vNextPlayerPos.x;			//プレイヤーの移動後の座標を代入
+		cPlayer.GetMoveDir(DirArray);					//プレイヤーの移動している方向取得
+
+		if (IsHitRect(vColliPlayerPos, vPlayerSize, vItemPos, vItemSize))
+		{
+		
+			//右方向の当たり判定
+			if (DirArray[3]) {
+				//めりこみ量計算
+				float overlap = (vItemPos.x + vItemSize.x / 2) - (vColliPlayerPos.x - vPlayerSize.x / 2);
+ 				DrawString(32, 32, "当たった", GetColor(255, 0, 255));
+			}
+			//左方向の計算
+			if (DirArray[2]) {
+				//めりこみ量計算
+				float overlap = (vColliPlayerPos.x + vPlayerSize.x / 2) - (vItemPos.x - vItemSize.x / 2);
+				DrawString(32, 32, "当たった", GetColor(255, 0, 255));
+			}
+		}
+	}
+
+}
 
 //void CCollisionManager::CheckHitBoxToCamera(CPlayerCamera& cPlayerCamera,
 //											CBox& cBox)

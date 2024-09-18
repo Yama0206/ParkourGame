@@ -38,4 +38,10 @@ public:
 	//更新処理
 	void Update();
 
+	//アイテムリストクラスを取得
+	inline CItemBase* GetItem(int iID) { return m_cItemList[iID]; }
+
+	//アイテムリストの数を取得
+	int GetItemSize() { return m_cItemList.size(); }
+
 };

@@ -117,9 +117,10 @@ public:
 	void ChangeDir(int FreamCnt);
 
 	//座標取得
-	inline VECTOR GetPosition() { return m_vPos; }
-	inline void GetPosition(VECTOR &vPos) {  vPos = m_vPos; }
-	inline void GetNextPosVec(VECTOR& vPos) { vPos = m_vNextPos; }
+	inline VECTOR GetPosition() { return m_vPos; }						//プレイヤーの座標
+	inline void GetPosition(VECTOR &vPos) {  vPos = m_vPos; }			//プレイヤーの座標
+	inline void GetNextPosVec(VECTOR& vPos) { vPos = m_vNextPos; }		//プレイヤーの移動後の座標
+
 
 	//Y軸角度取得
 	inline VECTOR GetRotate() { return m_vRot; }
@@ -130,8 +131,8 @@ public:
 	void GetHalfSize(VECTOR& vHalfSize);							//半分のサイズを取得
 	void GetSpd(VECTOR& vSpd)				{ vSpd = m_vSpd; }		//プレイヤーの速さを取得
   VECTOR GetSpd()							{ return m_vSpd; }		//プレイヤーの速さを取得
-	void GetCenterPos(VECTOR& vPos);								//プレイヤーの中心座標を設定
 	void GetSize(VECTOR& vSize);									//縦、横、奥行きのサイズ取得
+	void GetCenterPos(VECTOR& vPos);								//プレイヤーの中心座標を設定
 
 	//物体にあっているかどうか
 	bool SetIsHit(bool flag) { return m_IsHit = flag; }	

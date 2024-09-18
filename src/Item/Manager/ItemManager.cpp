@@ -41,6 +41,7 @@ void CItemManager::Load()
 			cCoin->SetInfo(m_cFileDataList.itemInfoList[ItemIndex].m_vPos,
 						   m_cFileDataList.itemInfoList[ItemIndex].m_vRot,
 						   m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
+						   m_cFileDataList.itemInfoList[ItemIndex].m_vSize,
 						   m_cFileDataList.itemInfoList[ItemIndex].m_IsAllive);
 
 			cCoin->Load(iCoinHndl);

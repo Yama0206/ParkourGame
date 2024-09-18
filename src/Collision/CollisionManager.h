@@ -38,10 +38,10 @@ public:
 
 	//プレイヤーとゴールの当たり判定
 	static void CHeckHitPlayerToGoal(CPlayer& cPlayer,
-		CGoal& cGoal);
+									 CGoal& cGoal);
 
 	//アイテムとプレイヤーのあたり判定
-	static void CHeckHitPlayerToItem(CPlayer& cPlayer,
+	static void CheckHitPlayerToItem(CPlayer& cPlayer,
 									 CItemManager& cItemManager);
 
 	//マウスポインタとスタート画像の当たり判定
