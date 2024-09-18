@@ -578,8 +578,8 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 		cPlayer.GetNextPosVec(vNextPlayerPos);			//プレイヤーの移動後の座標
 		cPlayer.GetSize(vPlayerSize);
 
-		vItemPos = cItem[ItemIndex].GetPosVec();
-		vItemSize = cItem[ItemIndex].GetSizeVec();
+		vItemPos = cItem[ItemIndex].GetPosVec();		//アイテムに座標を代入
+		vItemSize = cItem[ItemIndex].GetSizeVec();		//アイテムにサイズを代入
 
 		vColliPlayerPos.x = vNextPlayerPos.x;			//プレイヤーの移動後の座標を代入
 		cPlayer.GetMoveDir(DirArray);					//プレイヤーの移動している方向取得
