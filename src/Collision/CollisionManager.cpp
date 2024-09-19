@@ -580,16 +580,14 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 		cPlayer.GetNextPosVec(vNextPlayerPos);			//プレイヤーの移動後の座標
 		cPlayer.GetSize(vPlayerSize);
 
-		vItemPos = cItem[ItemIndex].GetPosVec();		//アイテムに座標を代入
-		vItemSize = cItem[ItemIndex].GetSizeVec();		//アイテムにサイズを代入
-
-		vColliPlayerPos.x = vNextPlayerPos.x;			//プレイヤーの移動後の座標を代入
+		vItemPos = cItem->GetPosVec();			//アイテムに座標を代入
+		vItemSize = cItem->GetSizeVec();		//アイテムにサイズを代入
 
 		//プレイヤーとアイテムが当たったかどうか
 		if (IsHitRect(vColliPlayerPos, vPlayerSize, vItemPos, vItemSize))
 		{
 			//アイテムの生存フラグをOFF
-			cItem[ItemIndex].SetIsAllive(false);
+			cItem->SetIsAllive(false);
 		}
 	}
 
