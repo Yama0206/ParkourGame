@@ -237,7 +237,7 @@ void CPlayer::Jamp()
 	//スペースキーを押したとき
 	if (CInput::IsKeyPush(KEY_INPUT_SPACE) && !m_IsJump)
 	{
-		m_IsJump = true;
+		//m_IsJump = true;
 		m_vSpd.y = YSPEED;
 	}
 }

@@ -26,12 +26,12 @@ public:
 	void Load(int iModelHndl);
 	//描画
 	void Draw();
-
- 	//情報を入れる
-	void SetInfo(VECTOR vPos, VECTOR vRot, VECTOR vSize, VECTOR vScale, int IsAllive);
-
 	//更新処理
 	void Update();
+
+ 	//設定
+	void SetInfo(VECTOR vPos, VECTOR vRot, VECTOR vSize, VECTOR vScale, int IsAllive);		//情報
+	bool SetIsAllive(bool IsFrag) { return m_IsAllive = IsFrag; }							//生存フラグ
 
 	//取得
 	VECTOR GetPosVec() { return m_vPos; }		//座標取得

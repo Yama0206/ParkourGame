@@ -569,9 +569,11 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 		VECTOR vItemPos;								//アイテム座標
 		VECTOR vPlayerSize, vItemSize;					//サイズ
 
-		//方向チェック
-		bool DirArray[6];
-		memset(DirArray, false, sizeof(DirArray));		
+		memset(&vColliPlayerPos, 0.0, sizeof(VECTOR));
+		memset(&vNextPlayerPos, 0.0, sizeof(VECTOR));
+		memset(&vPlayerSize, 0.0, sizeof(VECTOR));
+		memset(&vItemPos, 0.0, sizeof(VECTOR));
+		memset(&vItemSize, 0.0, sizeof(VECTOR));
 
 		//座標取得
 		cPlayer.GetCenterPos(vColliPlayerPos);			//プレイヤーの中心座標
@@ -582,23 +584,12 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 		vItemSize = cItem[ItemIndex].GetSizeVec();		//アイテムにサイズを代入
 
 		vColliPlayerPos.x = vNextPlayerPos.x;			//プレイヤーの移動後の座標を代入
-		cPlayer.GetMoveDir(DirArray);					//プレイヤーの移動している方向取得
 
+		//プレイヤーとアイテムが当たったかどうか
 		if (IsHitRect(vColliPlayerPos, vPlayerSize, vItemPos, vItemSize))
 		{
-		
-			//右方向の当たり判定
-			if (DirArray[3]) {
-				//めりこみ量計算
-				float overlap = (vItemPos.x + vItemSize.x / 2) - (vColliPlayerPos.x - vPlayerSize.x / 2);
- 				DrawString(32, 32, "当たった", GetColor(255, 0, 255));
-			}
-			//左方向の計算
-			if (DirArray[2]) {
-				//めりこみ量計算
-				float overlap = (vColliPlayerPos.x + vPlayerSize.x / 2) - (vItemPos.x - vItemSize.x / 2);
-				DrawString(32, 32, "当たった", GetColor(255, 0, 255));
-			}
+			//アイテムの生存フラグをOFF
+			cItem[ItemIndex].SetIsAllive(false);
 		}
 	}
 
@@ -624,7 +615,7 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 //}
 
 void CCollisionManager::PlayerToBoxLine(CPlayer& cPlayer,
-	CBox& cBox)
+										CBox& cBox)
 {
 	//座標と半径を取得
 	VECTOR vPlayerPos, vBoxPos;
