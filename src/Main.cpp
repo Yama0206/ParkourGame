@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	//Zバッファを使用する場合TRUE
-	SetUseZBuffer3D(TRUE);
+	SetUseZBuffer3D(FALSE);
 	
 	//-----------------------------------------
 	//一番最初に１回だけやる処理をここに書く

@@ -95,14 +95,17 @@ public:
 	//終了処理
 	void Fin();
 
+	void ReflectCollision(VECTOR vAddVec);
+
 	//座標設定
-	VECTOR SetPosVec(VECTOR vPos) { m_vPos = vPos; }
-	void   SetPosX(float vPosX);					//X座標
-	void   SetPosY(float vPosY);					//Y座標
-	void   SetPosZ(float vPosZ);					//Z座標
-	void   SetNextPosX(float vNextPosX);			//移動後のX座標
-	void   SetNextPosY(float vNextPosY);			//移動後のY座標
-	void   SetNextPosZ(float vNextosZ);				//移動後のZ座標
+	void   SetPosVec(VECTOR vPos) { m_vPos = vPos; }
+	void   SetPosX(float vPosX);								//X座標
+	void   SetPosY(float vPosY);								//Y座標
+	void   SetPosZ(float vPosZ);								//Z座標
+	void   SetNextPosVec(VECTOR vPos) { m_vNextPos = vPos; }	//移動後の座標
+	void   SetNextPosX(float vNextPosX);						//移動後のX座標
+	void   SetNextPosY(float vNextPosY);						//移動後のY座標
+	void   SetNextPosZ(float vNextosZ);							//移動後のZ座標
 	//サイズ設定
 	VECTOR SetSize();
 

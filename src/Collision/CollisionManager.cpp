@@ -199,25 +199,13 @@ void CCollisionManager::CheckHitBoxToPlayer(CPlayer& cPlayer,
 void CCollisionManager::CheckHitFieldToPlayer(CPlayer& cPlayer,
 											  CField& cField)
 {
-	//プレイヤーの座標
-	VECTOR vPlPos;
-	VECTOR vPlHalfSize;
+	VECTOR vPlCenter;
+	float fRadius;
 
-	//座標に加算する値
-	VECTOR AddVec;
+	cPlayer.GetCenterPos(vPlCenter);
+	fRadius = cPlayer.GetRadius();
 
-	//初期化
-	memset(&AddVec, 0.0f, sizeof(AddVec));
-	memset(&vPlPos, 0.0f, sizeof(vPlPos));
-	memset(&vPlHalfSize, 0.0f, sizeof(vPlHalfSize));
-
-	//プレイヤーの座標とサイズ取得
-	cPlayer.GetCenterPos(vPlPos);
-	cPlayer.GetHalfSize(vPlHalfSize);
-
-
-	AddVec = cField.HitCheck(vPlPos, );
-
+	cPlayer.ReflectCollision(cField.HitCheck(vPlCenter, fRadius));
 }
 
 void CCollisionManager::CheckHitPlayerToFootBox(CPlayer& cPlayer,

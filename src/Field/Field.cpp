@@ -68,5 +68,10 @@ void CField::UpDate()
 //I—¹ˆ—
 void CField::Fin()
 {
-	MV1DeleteModel(m_iHndl);
+	if (m_iHndl != -1)
+	{
+		MV1TerminateCollInfo(m_iHndl);		//ƒRƒŠƒWƒ‡ƒ“î•ñ”jŠü
+		MV1DeleteModel(m_iHndl);
+		m_iHndl = -1;
+	}
 }

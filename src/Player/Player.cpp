@@ -43,7 +43,7 @@ void CPlayer::InitValue()
 	memset(&m_IsKeyHit, false, sizeof(bool));					//何かのキーを押したかどうか
 	memset(&m_IsJump, false, sizeof(bool));						//ジャンプしたかどうか
 
-	m_vPos.y = 50.0f;
+	m_vPos.y = 100.0f;
 }
 
 //毎フレーム呼ぶ処理
@@ -377,6 +377,18 @@ void CPlayer::SetPosY(float vPosY)
 void CPlayer::SetPosZ(float vPosZ)
 {
 	m_vPos.z = vPosZ;
+}
+
+void CPlayer::ReflectCollision(VECTOR vAddVec)
+{
+	//オールゼロなら何もしない
+	if(vAddVec.x == 0.0f && vAddVec.y == 0.0f && vAddVec.z == 0.0f) return;
+
+	VECTOR vPos = GetPosition();
+	vPos = VAdd(vPos, vAddVec);
+	SetNextPosVec(vPos);
+	//当たった時は重力処理をしない
+	m_IsHitLength = true;
 }
 
 //中心座標取得
