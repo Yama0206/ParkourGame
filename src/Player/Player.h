@@ -76,15 +76,12 @@ public:
 
 	//初期値設定
 	void InitValue();
-
 	//通常処理
 	void Step(CShotManager& cShotManager, CCameraManager& cCameraManager);
 	//更新したデータを反映させる
 	void Update();
-
 	//描画処理
 	void Draw();
-
 	//操作処理
 	void Control(VECTOR vRot);
 	//ジャンプ処理
@@ -93,6 +90,10 @@ public:
 	void Gravity();
 	//弾の発射処理
 	void Shot(CShotManager& cShotManager);
+	//データ関連の破棄
+	void Delete();
+	//終了処理
+	void Fin();
 
 	//座標設定
 	VECTOR SetPosVec(VECTOR vPos) { m_vPos = vPos; }
@@ -104,11 +105,6 @@ public:
 	void   SetNextPosZ(float vNextosZ);				//移動後のZ座標
 	//サイズ設定
 	VECTOR SetSize();
-
-	//データ関連の破棄
-	void Delete();
-	//終了処理
-	void Fin();
 
 	//取得・設定関連
 	//進んでいる方向チェック

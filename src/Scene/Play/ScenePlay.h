@@ -38,7 +38,7 @@ private:
 	CEnemyManager m_cEnemyManager;				//敵
 	CObjectManager m_cObjectManager;			//オブジェクト
 	CItemManager m_cItemManager;				//アイテムマネージャー
-	BackGround m_cBackGround;					//背景処理
+	CField m_cField;							//背景処理
 	CSky m_cSky;								//空
 	tagPLAY_SCENE m_eSceneID;					//シーン保存
 

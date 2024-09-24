@@ -65,8 +65,8 @@ void CPlayScene::Init()
 	//’e‚Ì‰Šú‰»
 	m_cShotManager.Init();			//‰Šú‰»
 	//”wŒi
-	m_cBackGround.Init();			//‰Šú‰»
-	m_cBackGround.UpDate();			//XVˆ—
+	m_cField.Init();			//‰Šú‰»
+	m_cField.UpDate();			//XVˆ—
 	//‹ó
 	m_cSky.Init();					//‰Šú‰»
 	m_cSky.UpDate();				//XVˆ—
@@ -108,7 +108,7 @@ int CPlayScene::Fin()
 	m_cPlayer.Fin();				//ƒvƒŒƒCƒ„[
 	m_cEnemyManager.Fin();			//“G
 	m_cObjectManager.Fin();			//ƒIƒuƒWƒFƒNƒg
-	m_cBackGround.Fin();			//”wŒi
+	m_cField.Fin();					//”wŒi
 	m_cSky.Fin();					//‹ó
 
 	//ƒTƒEƒ“ƒhŠÖ˜A
@@ -125,7 +125,7 @@ void CPlayScene::Load()
 	m_cObjectManager.Load();									//ƒIƒuƒWƒFƒNƒg
 	m_cItemManager.Load();										//ƒAƒCƒeƒ€
 	m_cShotManager.Load();										//’e
-	m_cBackGround.Load();										//”wŒi
+	m_cField.Load();										//”wŒi
 	m_cSky.Load();												//‹ó
 
 	
@@ -162,7 +162,7 @@ void CPlayScene::Step()
 
 		//“–‚½‚è”»’èˆ—
 		CCollisionManager::CheckHitShotToEnemy(m_cEnemyManager, m_cShotManager);
-		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cBackGround);
+		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
 		CCollisionManager::CheckHitPlayerToFootBox(m_cPlayer, cFBox);
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
@@ -236,7 +236,7 @@ void CPlayScene::Draw()
 	m_cEnemyManager.Draw();			//“G‚Ì•`‰æ
 	m_cItemManager.Draw();			//ƒAƒCƒeƒ€‚Ì•`‰æ
 	m_cShotManager.Draw();			//’e‚Ì•`‰æ
-	m_cBackGround.Draw();			//”wŒi•`‰æ
+	m_cField.Draw();			//”wŒi•`‰æ
 	m_cSky.Draw();					//‹ó•`‰æ
 	cGoal.Draw();					//ƒS[ƒ‹•`‰æ
 

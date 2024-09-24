@@ -26,7 +26,7 @@ public:
 
 	//	フィールドとプレイヤーの当たり判定
 	static void CheckHitFieldToPlayer(CPlayer& cPlayer,
-									 BackGround& cBackGround);
+									 CField& cBackGround);
 
 	//プレイヤーと足場の当たり判定
 	static void CheckHitPlayerToFootBox(CPlayer& cPlayer,

@@ -197,33 +197,27 @@ void CCollisionManager::CheckHitBoxToPlayer(CPlayer& cPlayer,
 }
 
 void CCollisionManager::CheckHitFieldToPlayer(CPlayer& cPlayer,
-											  BackGround& cBackGround)
+											  CField& cField)
 {
-	for (int i = 0; i < 1; i++) {
+	//プレイヤーの座標
+	VECTOR vPlPos;
+	VECTOR vPlHalfSize;
 
-		//座標と半径を入れる変数
-		VECTOR vPlayerPos, vFieldPos;				//座標
-		VECTOR vPlayerNextPos, vPlayerColliPos;		//移動後の座標、当たり判定をとる座標
-		VECTOR vPlayerSize, vFieldSize;				//サイズ
+	//座標に加算する値
+	VECTOR AddVec;
 
-		//座標と半径を取得
-		//プレイヤー
-		cPlayer.GetPosition(vPlayerPos);			//プレイヤー座標取得
-		cPlayer.GetNextPosVec(vPlayerNextPos);		//プレイヤーの移動後の座標
-		cPlayer.GetCenterPos(vPlayerColliPos);		//プレイヤーの原点座標
-		cPlayer.GetSize(vPlayerSize);				//プレイヤーサイズ取得
+	//初期化
+	memset(&AddVec, 0.0f, sizeof(AddVec));
+	memset(&vPlPos, 0.0f, sizeof(vPlPos));
+	memset(&vPlHalfSize, 0.0f, sizeof(vPlHalfSize));
 
-		//プレイヤーの移動後のX座標を入れる
-		vPlayerColliPos.y = vPlayerNextPos.y;
+	//プレイヤーの座標とサイズ取得
+	cPlayer.GetCenterPos(vPlPos);
+	cPlayer.GetHalfSize(vPlHalfSize);
 
-		//プレイヤーがフィールドに当たったら
-		if (vPlayerNextPos.y <= 0)
-		{
-			cPlayer.SetNextPosY(vPlayerPos.y);
-			//プレイヤーの生存フラグを折る
-			//cPlayer.SetIsAllive(false);
-		}
-	}
+
+	AddVec = cField.HitCheck(vPlPos, );
+
 }
 
 void CCollisionManager::CheckHitPlayerToFootBox(CPlayer& cPlayer,
