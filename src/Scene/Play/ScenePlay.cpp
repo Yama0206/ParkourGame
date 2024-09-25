@@ -149,7 +149,7 @@ void CPlayScene::Step()
 		//プレイヤーの更新処理
 		m_cPlayer.Step(m_cShotManager, m_cCameraManager);
 		//敵更新
-		m_cEnemyManager.Step();
+		m_cEnemyManager.Step(m_cPlayer.GetPosition());
 		//弾更新
 		m_cShotManager.Step();
 

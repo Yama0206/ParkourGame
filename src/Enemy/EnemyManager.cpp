@@ -51,7 +51,8 @@ void CEnemyManager::Load()
 			cNormalBoss->SetInfo(m_cEnemyRead.enemyInfoList[EnemyIndex].m_vPos,
 								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vSpeed,
 								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vScale,
-								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vRot);
+								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vRot,
+								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_IsActive);
 
 			//“Ç‚İ‚İ
 			cNormalBoss->Load(iHndl);
@@ -77,8 +78,12 @@ void CEnemyManager::Fin()
 }
 
 //’Êíˆ—
-void CEnemyManager::Step()
+void CEnemyManager::Step(VECTOR vPlayerPos)
 {
+	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
+	{
+		m_cEnemyList[EnemyIndex]->Step(vPlayerPos);
+	}
 	
 
 }
@@ -86,9 +91,9 @@ void CEnemyManager::Step()
 //XVˆ—
 void CEnemyManager::Draw()
 {
-	for (int i = 0; i < ENEMY_NUM; i++)
+	for (int i = 0; i < m_cEnemyList.size(); i++)
 	{
-		
+		m_cEnemyList[i]->Draw();
 	}
 }
 

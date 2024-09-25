@@ -15,6 +15,7 @@ struct SEnemy
 	VECTOR m_vRot;			//‰ñ“]’l
 	VECTOR m_vSpeed;		//‘¬‚³
 	VECTOR m_vScale;		//Šgk—¦
+	bool m_IsActive;		//¶‘¶ƒtƒ‰ƒO
 
 	Type m_eType;			//í—Ş
 };

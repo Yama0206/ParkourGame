@@ -65,12 +65,14 @@ void CEnemy::Draw()
 	}
 }
 
-void CEnemy::Step()
+void CEnemy::Step(VECTOR vPlayerPos)
 {
 	if (!m_IsActive) return;
 
+	TrackingPlayer(vPlayerPos);
+
 	//座標に速度を加算
-	m_vPos = VAdd(m_vPos, m_vSpeed);
+	//m_vPos = VAdd(m_vPos, m_vSpeed);
 	//一定範囲を超えたら消す
 	float fLength = 300.0f;
 	if (m_vPos.x > fLength || m_vPos.z < -fLength
@@ -81,6 +83,45 @@ void CEnemy::Step()
 
 	//座標更新
 	MV1SetPosition(m_iHndl, m_vPos);
+}
+
+//プレイヤーを追跡する
+void CEnemy::TrackingPlayer(VECTOR vPlayerPos)
+{
+	//ホーミング処理
+	VECTOR PlayerVec;
+	//敵からプレイヤーに向かうベクトル
+	PlayerVec.x = vPlayerPos.x - m_vPos.x;
+	PlayerVec.y = 0.0f;
+	PlayerVec.z = vPlayerPos.z - m_vPos.z;
+
+	float fCrossZ = 0.0f;
+
+	//現在の進行方向のベクトル
+	VECTOR  MoveVec;
+
+	memset(&MoveVec, 0.0f, sizeof(MoveVec));
+
+	MoveVec.x = sinf(m_vRot.y) * -1.0f;
+	MoveVec.y = 0.0f;
+	MoveVec.z = cosf(m_vRot.y) * -1.0f;
+
+	//2つのベクトルの外積を計算
+	fCrossZ = PlayerVec.x * MoveVec.z - MoveVec.x * PlayerVec.z;
+
+	//fCrossZの計算結果で左右の判定を行う
+	if (fCrossZ > 0)
+	{
+		m_vRot.y += 0.01f;
+	}
+	else if (fCrossZ < 0)
+	{
+		m_vRot.y -= 0.01f;
+	}
+
+	m_vPos.x += sinf(m_vRot.y) * -0.3f;
+	m_vPos.z += cosf(m_vRot.y) * -0.3f;
+
 }
 
 //リクエスト
@@ -107,10 +148,11 @@ void CEnemy::HitCalc()
 }
 
 //情報の設定
-void CEnemy::SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vScale, VECTOR vRot)
+void CEnemy::SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vScale, VECTOR vRot, bool IsActive)
 {
 	m_vPos = vPos;
 	m_vRot = vRot;
 	m_vSpeed = vSpeed;
 	m_vSize = vScale;
+	m_IsActive = IsActive;
 }

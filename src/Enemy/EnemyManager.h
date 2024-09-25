@@ -35,7 +35,7 @@ public:
 	//I—¹ˆ—
 	void Fin();
 	//ŒJ‚è•Ô‚µs‚¤ˆ—
-	void Step();
+	void Step(VECTOR vPlayerPos);
 	//•`‰æˆ—
 	void Draw();
 

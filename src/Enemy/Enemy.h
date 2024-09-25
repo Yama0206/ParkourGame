@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "../shot/ShotManager.h"
 #include "../System/Sound/SoundManager.h"
-
+#include "../Math/Math.h"
 //定義
 const float RADIUS = 5.0f;					//敵の半径				
 
@@ -34,9 +34,12 @@ public:
 	//終了処理
 	void Fin();
 	//毎フレーム呼ぶ処理
-	void Step();
+	void Step(VECTOR vPlayerPos);
 	//描画処理
 	void Draw();
+
+	//プレイヤーを追跡する
+	void TrackingPlayer(VECTOR vPlayerPos);
 
 	//vPos		:		初期座標
 	//vSpeed	:		移動速度(方向ベクトルで)
@@ -51,7 +54,7 @@ public:
 	float GetRadius() { return m_fRadius; }
 
 	//情報の設定
-	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot);
+	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, bool IsActive);
 
 	//当たり判定後の処理
 	void HitCalc();
