@@ -14,6 +14,7 @@ void CField::Init()
 void CField::Load()
 {
 	m_iHndl = MV1LoadModel(FIELD_PATH);
+	MV1SetScale(m_iHndl, m_vScale);
 
 	//コリジョン情報構築
 	MV1SetupCollInfo(m_iHndl);
@@ -26,7 +27,7 @@ void CField::Step() {}
 //描画処理
 void CField::Draw()
 {
-	MV1SetScale(m_iHndl, m_vScale);
+	//MV1SetScale(m_iHndl, m_vScale);
 	MV1DrawModel(m_iHndl);
 }
 
@@ -34,9 +35,13 @@ void CField::Draw()
 VECTOR CField::HitCheck(VECTOR vCenter, float fRadius)
 {
 	VECTOR vOut = { 0.0f, 0.0f, 0.0f };			//物体が背景にめり込んだ距離
+
+	//ヒットフラグ
 	m_IsHitFrag = false;
 
 	MV1_COLL_RESULT_POLY_DIM res;		//あたり判定結果格納構造体
+
+	//当たり判定結果格納
 	res = MV1CollCheck_Sphere(m_iHndl, -1, vCenter, fRadius);
 
 	//ヒットしていればフラグをtrueに
@@ -50,11 +55,14 @@ VECTOR CField::HitCheck(VECTOR vCenter, float fRadius)
 		len = fRadius - len;
 		//法線ベクトルを計算する
 		VECTOR vAns = VScale(res.Dim[FieldIndex].Normal, len);
+
 		//めり込み量を加算
 		vOut = VAdd(vOut, vAns);
 
 		m_IsHitFrag = true;
 	}
+
+	//コリジョンデータを破棄
 	MV1CollResultPolyDimTerminate(res);
 
 	return vOut;

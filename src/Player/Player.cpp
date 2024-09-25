@@ -34,7 +34,8 @@ void CPlayer::InitValue()
 
 	//変数
 	memset(&m_ViewRot, 0.0f, sizeof(m_ViewRot));				//プレイヤーの見ている向き
-	memset(&fChangeRot, 0.0f, sizeof(float));					//プレイヤーのフレームカウントカウント用変数
+	m_fChangeRot = 0.0f;											//プレイヤーのフレームカウントカウント用変数
+	m_fGravity = GRAVITY;											//プレイヤーの重力
 
 	//フラグ
 	memset(&m_IsHit, false, sizeof(bool));						//プレイヤーが物体に当たっているかどうか
@@ -140,12 +141,12 @@ void CPlayer::ChangeDir(int FreamCnt)
 {
 	//Wキー押したとき
 	//進行方向に回転させる
-	if (FreamCnt % 60 == 0 && fChangeRot > -180.0f) {
+	if (FreamCnt % 60 == 0 && m_fChangeRot > -180.0f) {
 		//1F事に30度回転
-		fChangeRot -= 30;
+		m_fChangeRot -= 30;
 	}
 	//回転しきったら
-	if (fChangeRot > -180)
+	if (m_fChangeRot > -180)
 	{
 		//キーを押したフラグを折る
 		m_IsKeyHit = false;
@@ -191,7 +192,7 @@ void CPlayer::Control(VECTOR vRot)
 		fSpd = -fMoveSpeed;
 		//進行方向に回転	
 		ChangeDir(FreamCnt);
-		fRot = fChangeRot * DX_PI_F / 180.0f;
+		fRot = m_fChangeRot * DX_PI_F / 180.0f;
 		//モデルを回転させる
 		m_ViewRot.y = vRot.y + fRot;
 	}
@@ -202,7 +203,7 @@ void CPlayer::Control(VECTOR vRot)
 	if (CInput::IsKeyKeep(KEY_INPUT_S))
 	{
 		fSpd = -fMoveSpeed;
-		fChangeRot = 0;
+		m_fChangeRot = 0;
 		m_ViewRot.y = vRot.y + fRot;
 	}
 	if (CInput::IsKeyKeep(KEY_INPUT_A))
@@ -250,7 +251,7 @@ void CPlayer::Gravity()
 	
 	if (!m_IsHitLength) {
 		if (m_vSpd.y > -MAX_GRAVITY) {
-			m_vSpd.y -= GRAVITY;
+			m_vSpd.y -= m_fGravity;
 		}
 	}
 
@@ -384,11 +385,10 @@ void CPlayer::ReflectCollision(VECTOR vAddVec)
 	//オールゼロなら何もしない
 	if(vAddVec.x == 0.0f && vAddVec.y == 0.0f && vAddVec.z == 0.0f) return;
 
-	VECTOR vPos = GetPosition();
-	vPos = VAdd(vPos, vAddVec);
-	SetNextPosVec(vPos);
+	m_vNextPos = VAdd(vAddVec, m_vNextPos);
+
 	//当たった時は重力処理をしない
-	m_IsHitLength = true;
+	/*m_fGravity = 0.0f;*/
 }
 
 //中心座標取得

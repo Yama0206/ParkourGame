@@ -60,7 +60,9 @@ private:
 	tagDir m_eDir;					//プレイヤーの方向
 	
 	VECTOR m_ViewRot;				//プレイヤーの見ている向き
-	float fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
+	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
+
+	float m_fGravity;				//プレイヤーの重力
 
 	//フラグ
 	bool m_IsHit;			//プレイヤーが物体に当たっているかどうか
@@ -73,6 +75,8 @@ public:
 	//コンストラクタ
 	CPlayer();
 	~CPlayer();
+
+public:
 
 	//初期値設定
 	void InitValue();
@@ -95,7 +99,11 @@ public:
 	//終了処理
 	void Fin();
 
+public:
+	//当たった分戻す
 	void ReflectCollision(VECTOR vAddVec);
+
+public:
 
 	//座標設定
 	void   SetPosVec(VECTOR vPos) { m_vPos = vPos; }
