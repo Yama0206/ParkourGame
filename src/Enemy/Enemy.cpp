@@ -74,12 +74,12 @@ void CEnemy::Step(VECTOR vPlayerPos)
 	//座標に速度を加算
 	//m_vPos = VAdd(m_vPos, m_vSpeed);
 	//一定範囲を超えたら消す
-	float fLength = 300.0f;
+	/*float fLength = 300.0f;
 	if (m_vPos.x > fLength || m_vPos.z < -fLength
 		|| m_vPos.z > fLength || m_vPos.z < -fLength)
 	{
 		m_IsActive = false;
-	}
+	}*/
 
 	//座標更新
 	MV1SetPosition(m_iHndl, m_vPos);
@@ -112,11 +112,11 @@ void CEnemy::TrackingPlayer(VECTOR vPlayerPos)
 	//fCrossZの計算結果で左右の判定を行う
 	if (fCrossZ > 0)
 	{
-		m_vRot.y += 0.01f;
+		m_vRot.y += 0.1;
 	}
 	else if (fCrossZ < 0)
 	{
-		m_vRot.y -= 0.01f;
+		m_vRot.y -= 0.1;
 	}
 
 	m_vPos.x += sinf(m_vRot.y) * -0.3f;
