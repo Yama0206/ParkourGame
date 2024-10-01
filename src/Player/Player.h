@@ -60,8 +60,9 @@ private:
 	tagDir m_eDir;					//プレイヤーの方向
 	
 	VECTOR m_ViewRot;				//プレイヤーの見ている向き
-	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
 
+	float m_fMoveSpeed;				//プレイヤーのスピード
+	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
 	float m_fGravity;				//プレイヤーの重力
 
 	//フラグ

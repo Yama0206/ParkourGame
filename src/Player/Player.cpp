@@ -3,6 +3,7 @@
 //定義関連
 static const float VIEWPOINT_SPEED = 0.1f;					//プレイヤーの回転速度
 static const float MOVE_SPEED = 1.0f;						//プレイヤーの移動速度
+static const float CALC_SPEED = 0.1f;						//プレイヤーのスピードを加算、減算する
 static const float DASH_SPEED = 2.0f;						//プレイヤーが走った時の移動速度
 static const float GRAVITY = 0.2f;							//プレイヤーの重力
 static const float MAX_GRAVITY = 3.0f;						//プレイヤーの重力の限界
@@ -33,16 +34,16 @@ void CPlayer::InitValue()
 	m_eDir = FRONT;								//プレイヤーの方向
 
 	//変数
-	memset(&m_ViewRot, 0.0f, sizeof(m_ViewRot));				//プレイヤーの見ている向き
-	m_fChangeRot = 0.0f;											//プレイヤーのフレームカウントカウント用変数
-	m_fGravity = GRAVITY;											//プレイヤーの重力
+	memset(&m_ViewRot, 0.0f, sizeof(m_ViewRot));					
+	m_fMoveSpeed = 0.0f;										
+	m_fChangeRot = 0.0f;											
+	m_fGravity = GRAVITY;											
 
 	//フラグ
-	memset(&m_IsHit, false, sizeof(bool));						//プレイヤーが物体に当たっているかどうか
-	memset(&m_IsHitSide, false, sizeof(bool));
+	memset(&m_IsHit, false, sizeof(bool));						
 	memset(&m_IsHitLength, false, sizeof(bool));
-	memset(&m_IsKeyHit, false, sizeof(bool));					//何かのキーを押したかどうか
-	memset(&m_IsJump, false, sizeof(bool));						//ジャンプしたかどうか
+	memset(&m_IsKeyHit, false, sizeof(bool));				
+	memset(&m_IsJump, false, sizeof(bool));						
 
 	m_vPos.y = 100.0f;
 }
@@ -172,15 +173,20 @@ void CPlayer::Control(VECTOR vRot)
 	float fSpd = 0.0f;
 	float fRot = 0.0f;
 
-	float fMoveSpeed = MOVE_SPEED;
-
 	//シフトキーが押されたら
 	if (CInput::IsKeyKeep(KEY_INPUT_LSHIFT))
 	{
-		fMoveSpeed = DASH_SPEED;
+		//プレイヤーのスピードが最大値になるまでスピードを足す
+		if (m_fMoveSpeed < DASH_SPEED) {
+			//少しずつ足していく
+			m_fMoveSpeed += CALC_SPEED;
+		}		
 	}
 	else {
-		fMoveSpeed = MOVE_SPEED;
+		//通常スピードまで少しずつ減らす
+		if (m_fMoveSpeed > MOVE_SPEED) {
+			m_fMoveSpeed -= CALC_SPEED;
+		}	
 	}
 
 	//Wキーが押されたとき
@@ -188,8 +194,11 @@ void CPlayer::Control(VECTOR vRot)
 	{
 		//キーが押されたフラグON
 		m_IsKeyHit = true;
+		if (m_fMoveSpeed < MOVE_SPEED) {
+			m_fMoveSpeed += CALC_SPEED;
+		}
 		//スピードを足す
-		fSpd = -fMoveSpeed;
+		fSpd = -m_fMoveSpeed;
 		//進行方向に回転	
 		ChangeDir(FreamCnt);
 		fRot = m_fChangeRot * DX_PI_F / 180.0f;
@@ -197,25 +206,37 @@ void CPlayer::Control(VECTOR vRot)
 		m_ViewRot.y = vRot.y + fRot;
 	}
 	else {
+		if (m_fMoveSpeed > 0.0f) {
+			m_fMoveSpeed -= CALC_SPEED;
+		}
+		if (m_fMoveSpeed < 0.0f) {
+			m_fMoveSpeed += CALC_SPEED;
+		}
+		
+		//慣性を持たせる
+		fSpd = m_fMoveSpeed;
 		m_IsKeyHit = false;
 		FreamCnt = 0;
 	}
 	if (CInput::IsKeyKeep(KEY_INPUT_S))
 	{
-		fSpd = -fMoveSpeed;
+		if (m_fMoveSpeed < MOVE_SPEED) {
+			m_fMoveSpeed += CALC_SPEED;
+		}
+		fSpd = -m_fMoveSpeed;
 		m_fChangeRot = 0;
 		m_ViewRot.y = vRot.y + fRot;
 	}
 	if (CInput::IsKeyKeep(KEY_INPUT_A))
 	{
-		fSpd = -fMoveSpeed;
+		fSpd = -m_fMoveSpeed;
 		fRot = 90.0f * DX_PI_F / 180.0f;
 
 		m_ViewRot.y = vRot.y + fRot;
 	}
 	if (CInput::IsKeyKeep(KEY_INPUT_D)) 
 	{
-		fSpd = -fMoveSpeed;
+		fSpd = -m_fMoveSpeed;
 		fRot = -90.0f * DX_PI_F / 180.0f;
 
 		m_ViewRot.y = vRot.y + fRot;

@@ -6,6 +6,14 @@
 //定義
 const float RADIUS = 5.0f;					//敵の半径				
 
+//敵の状態
+enum EnemyState
+{
+	patrol = 1,		//巡回
+	Tracking,		//追跡
+};
+
+
 class CEnemy
 {
 protected:
@@ -20,6 +28,8 @@ protected:
 	float m_fRadius;			//半径
 
 	int FrameCnt;				//フレームカウント
+
+	EnemyState eState;			//敵の状態
 
 public:
 	//コンストラクタ・デストラクタ
