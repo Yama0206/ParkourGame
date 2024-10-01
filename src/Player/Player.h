@@ -61,7 +61,7 @@ private:
 	
 	VECTOR m_ViewRot;				//プレイヤーの見ている向き
 
-	float m_fMoveSpeed;				//プレイヤーのスピード
+	
 	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
 	float m_fGravity;				//プレイヤーの重力
 
@@ -71,11 +71,13 @@ private:
 	bool m_IsHitLength;		//プレイヤーが物体と縦方向で当たった時
 	bool m_IsJump;			//プレイヤーがジャンプしたかどうか
 	bool m_IsKeyHit;		//キーを押したかどうか
+	float fRot;
 
 public:
 	//コンストラクタ
 	CPlayer();
 	~CPlayer();
+	float m_fMoveSpeed;				//プレイヤーのスピード
 
 public:
 
@@ -137,8 +139,8 @@ public:
 
 	tagPlayerState GetPlayerState()			{ return m_eState; }	//プレイヤーの状態を取得
 	void GetHalfSize(VECTOR& vHalfSize);							//半分のサイズを取得
-	void GetSpd(VECTOR& vSpd)				{ vSpd = m_vSpd; }		//プレイヤーの速さを取得
   VECTOR GetSpd()							{ return m_vSpd; }		//プレイヤーの速さを取得
+	float GetfSpd()						{ return m_fMoveSpeed; }	//スピードを取得(float)
 	void GetSize(VECTOR& vSize);									//縦、横、奥行きのサイズ取得
 	void GetCenterPos(VECTOR& vPos);								//プレイヤーの中心座標を設定
 

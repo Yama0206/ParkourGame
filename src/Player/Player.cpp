@@ -3,7 +3,8 @@
 //定義関連
 static const float VIEWPOINT_SPEED = 0.1f;					//プレイヤーの回転速度
 static const float MOVE_SPEED = 1.0f;						//プレイヤーの移動速度
-static const float CALC_SPEED = 0.1f;						//プレイヤーのスピードを加算、減算する
+static const float ADD_SPEED = 0.2f;						//プレイヤーのスピードを加算する
+static const float SAB_SPEED = 0.1f; 						//プレイヤーのスピードを減算する
 static const float DASH_SPEED = 2.0f;						//プレイヤーが走った時の移動速度
 static const float GRAVITY = 0.2f;							//プレイヤーの重力
 static const float MAX_GRAVITY = 3.0f;						//プレイヤーの重力の限界
@@ -169,84 +170,84 @@ void CPlayer::Control(VECTOR vRot)
 		FreamCnt++;
 	}
 
-	//キャラクターの移動
-	float fSpd = 0.0f;
-	float fRot = 0.0f;
+	//キャラクターの回転
+	//float fRot = 0.0f;
 
 	//シフトキーが押されたら
-	if (CInput::IsKeyKeep(KEY_INPUT_LSHIFT))
-	{
-		//プレイヤーのスピードが最大値になるまでスピードを足す
-		if (m_fMoveSpeed < DASH_SPEED) {
-			//少しずつ足していく
-			m_fMoveSpeed += CALC_SPEED;
-		}		
-	}
-	else {
-		//通常スピードまで少しずつ減らす
-		if (m_fMoveSpeed > MOVE_SPEED) {
-			m_fMoveSpeed -= CALC_SPEED;
-		}	
-	}
+	//if (CInput::IsKeyKeep(KEY_INPUT_LSHIFT))
+	//{
+	//	//プレイヤーのスピードが最大値になるまでスピードを足す
+	//	if (m_fMoveSpeed < DASH_SPEED) {
+	//		//少しずつ足していく
+	//		m_fMoveSpeed += ADD_SPEED;
+	//	}		
+	//}
+	//else {
+	//	//通常スピードまで少しずつ減らす
+	//	if (m_fMoveSpeed > MOVE_SPEED) {
+	//		m_fMoveSpeed -= ADD_SPEED;
+	//	}	
+	//}
 
 	//Wキーが押されたとき
 	if (CInput::IsKeyKeep(KEY_INPUT_W))
 	{
 		//キーが押されたフラグON
 		m_IsKeyHit = true;
-		if (m_fMoveSpeed < MOVE_SPEED) {
-			m_fMoveSpeed += CALC_SPEED;
+
+		//座標移動
+		m_fMoveSpeed -= ADD_SPEED;
+	
+		//最大値を決定
+		if (m_fMoveSpeed < -MOVE_SPEED) {
+			m_fMoveSpeed = -MOVE_SPEED;
 		}
-		//スピードを足す
-		fSpd = -m_fMoveSpeed;
-		//進行方向に回転	
-		ChangeDir(FreamCnt);
-		fRot = m_fChangeRot * DX_PI_F / 180.0f;
+
+		fRot = DX_PI_F;
 		//モデルを回転させる
 		m_ViewRot.y = vRot.y + fRot;
 	}
-	else {
-		if (m_fMoveSpeed > 0.0f) {
-			m_fMoveSpeed -= CALC_SPEED;
-		}
-		if (m_fMoveSpeed < 0.0f) {
-			m_fMoveSpeed += CALC_SPEED;
-		}
-		
-		//慣性を持たせる
-		fSpd = m_fMoveSpeed;
-		m_IsKeyHit = false;
-		FreamCnt = 0;
-	}
-	if (CInput::IsKeyKeep(KEY_INPUT_S))
+	else if (CInput::IsKeyKeep(KEY_INPUT_S))
 	{
-		if (m_fMoveSpeed < MOVE_SPEED) {
-			m_fMoveSpeed += CALC_SPEED;
+		m_fMoveSpeed += ADD_SPEED;
+
+		if (m_fMoveSpeed > MOVE_SPEED)
+		{
+			m_fMoveSpeed = MOVE_SPEED;
 		}
-		fSpd = -m_fMoveSpeed;
-		m_fChangeRot = 0;
+		fRot = DX_PI_F;
+
 		m_ViewRot.y = vRot.y + fRot;
 	}
-	if (CInput::IsKeyKeep(KEY_INPUT_A))
+	/*else if (CInput::IsKeyKeep(KEY_INPUT_A))
 	{
 		fSpd = -m_fMoveSpeed;
 		fRot = 90.0f * DX_PI_F / 180.0f;
 
 		m_ViewRot.y = vRot.y + fRot;
 	}
-	if (CInput::IsKeyKeep(KEY_INPUT_D)) 
+	else if (CInput::IsKeyKeep(KEY_INPUT_D)) 
 	{
 		fSpd = -m_fMoveSpeed;
 		fRot = -90.0f * DX_PI_F / 180.0f;
 
 		m_ViewRot.y = vRot.y + fRot;
-	}
+	}*/
+	else {
 
+		m_fMoveSpeed = m_fMoveSpeed * 0.9;
+
+		m_IsKeyHit = false;
+		FreamCnt = 0;
+	}
+	
 
 	//入力したキー情報とプレイヤーの角度から移動速度を求める
 	//移動ベクトルの計算
-	m_vSpd.x = sinf(vRot.y + fRot) * fSpd;
-	m_vSpd.z = cosf(vRot.y + fRot) * fSpd;
+	m_vSpd.x = sinf(vRot.y + fRot) * m_fMoveSpeed;
+	m_vSpd.z = cosf(vRot.y + fRot) * m_fMoveSpeed;
+
+	
 
 	//移動速度を現在の座標に加算する
 	m_vNextPos.x += m_vSpd.x;

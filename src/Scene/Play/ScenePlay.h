@@ -17,6 +17,7 @@
 #include "../../Box/Rock.h"
 #include "../../Goal/Goal.h"
 #include "../../Item/Manager/ItemManager.h"
+#include "../../Debug/Debug.h"
 
 using namespace std;
 
@@ -40,6 +41,7 @@ private:
 	CItemManager m_cItemManager;				//アイテムマネージャー
 	CField m_cField;							//背景処理
 	CSky m_cSky;								//空
+	CDebug m_cDebug;							//デバッグクラス
 	tagPLAY_SCENE m_eSceneID;					//シーン保存
 
 	//仮

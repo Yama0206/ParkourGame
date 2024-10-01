@@ -240,6 +240,9 @@ void CPlayScene::Draw()
 	m_cField.Draw();			//”wŒi•`‰æ
 	m_cSky.Draw();					//‹ó•`‰æ
 	cGoal.Draw();					//ƒS[ƒ‹•`‰æ
+	m_cDebug.PrintSpeed(32, 32, m_cPlayer.GetfSpd());
+	m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);
+	m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
 
 	//ƒIƒuƒWƒFƒNƒg
 	for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
