@@ -3,13 +3,15 @@
 #include "../shot/ShotManager.h"
 #include "../System/Sound/SoundManager.h"
 #include "../Math/Math.h"
+#include "../CheckPoint/Manager/CheckPointManager.h"
+
 //定義
 const float RADIUS = 5.0f;					//敵の半径				
 
 //敵の状態
 enum EnemyState
 {
-	patrol = 1,		//巡回
+	Patrol = 1,		//巡回
 	Tracking,		//追跡
 };
 
@@ -29,7 +31,7 @@ protected:
 
 	int FrameCnt;				//フレームカウント
 
-	EnemyState eState;			//敵の状態
+	EnemyState m_eState;			//敵の状態
 
 public:
 	//コンストラクタ・デストラクタ
@@ -44,12 +46,15 @@ public:
 	//終了処理
 	void Fin();
 	//毎フレーム呼ぶ処理
-	void Step(VECTOR vPlayerPos);
+	void Step(VECTOR vPlayerPos, VECTOR vPos, int Index);
 	//描画処理
 	void Draw();
 
 	//プレイヤーを追跡する
 	void TrackingPlayer(VECTOR vPlayerPos);
+
+	//チェックポイントに移動する
+	void TrackingCheckPoint();
 
 	//vPos		:		初期座標
 	//vSpeed	:		移動速度(方向ベクトルで)
@@ -65,6 +70,9 @@ public:
 
 	//情報の設定
 	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, bool IsActive);
+
+	//更新処理
+	void Update();
 
 	//当たり判定後の処理
 	void HitCalc();

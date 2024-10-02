@@ -1,5 +1,7 @@
 #include "CheckPointManager.h"
 
+CCheckPointManager* CCheckPointManager::m_Instance = NULL;
+
 //定義
 const int CHECKPOINT_NUM = 10;
 
@@ -28,5 +30,26 @@ void CCheckPointManager::Load()
 
 			//アイテムのリストにpush_backする
 		m_cCheckPointList.push_back(cCheckPoint);
+	}
+}
+
+CCheckPointManager* CCheckPointManager::GetInstance()
+{
+	//まだ生成されていないなら
+	if (m_Instance == NULL)
+	{
+		m_Instance = new CCheckPointManager();
+	}
+
+	return m_Instance;
+}
+
+void CCheckPointManager::DeleteInstance()
+{
+	//NULLでないなら削除
+	if (m_Instance)
+	{
+		delete m_Instance;
+		m_Instance = NULL;	//削除したらNULL代入
 	}
 }

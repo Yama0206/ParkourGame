@@ -38,6 +38,8 @@ public:
 	void Step(VECTOR vPlayerPos);
 	//•`‰æˆ—
 	void Draw();
+	//XVˆ—
+	void Update();
 
 	//“Gî•ñæ“¾
 	//inline CEnemy& GetEnemy(int iID) { return m_cEnemy[iID]; }

@@ -65,24 +65,17 @@ void CEnemy::Draw()
 	}
 }
 
-void CEnemy::Step(VECTOR vPlayerPos)
+void CEnemy::Step(VECTOR vPlayerPos, VECTOR vPos, int Index)
 {
+	//敵の生存フラグがOFFの時中の処理を行わない
 	if (!m_IsActive) return;
-
+	
+	//プレイヤーを追いかける
 	TrackingPlayer(vPlayerPos);
 
-	//座標に速度を加算
-	//m_vPos = VAdd(m_vPos, m_vSpeed);
-	//一定範囲を超えたら消す
-	/*float fLength = 300.0f;
-	if (m_vPos.x > fLength || m_vPos.z < -fLength
-		|| m_vPos.z > fLength || m_vPos.z < -fLength)
-	{
-		m_IsActive = false;
-	}*/
+	//チェックポイントに向かう
+	//MoveCheckPoint(vPos, Index);
 
-	//座標更新
-	MV1SetPosition(m_iHndl, m_vPos);
 }
 
 //プレイヤーを追跡する
@@ -124,6 +117,47 @@ void CEnemy::TrackingPlayer(VECTOR vPlayerPos)
 
 }
 
+void CEnemy::TrackingCheckPoint()
+{
+	for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetCheckPointSize(); CheckPointIndex++) {
+		//ホーミング処理
+		VECTOR PlayerVec;
+	
+		//敵からプレイヤーに向かうベクトル
+		PlayerVec.x = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).x - CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).x;
+		PlayerVec.y = 0.0f;
+		PlayerVec.z = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).x - CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).z;
+		
+
+		float fCrossZ = 0.0f;
+
+		//現在の進行方向のベクトル
+		VECTOR  MoveVec;
+
+		memset(&MoveVec, 0.0f, sizeof(MoveVec));
+
+		MoveVec.x = sinf(m_vRot.y) * -1.0f;
+		MoveVec.y = 0.0f;
+		MoveVec.z = cosf(m_vRot.y) * -1.0f;
+
+		//2つのベクトルの外積を計算
+		fCrossZ = PlayerVec.x * MoveVec.z - MoveVec.x * PlayerVec.z;
+
+		//fCrossZの計算結果で左右の判定を行う
+		if (fCrossZ > 0)
+		{
+			m_vRot.y += 0.1;
+		}
+		else if (fCrossZ < 0)
+		{
+			m_vRot.y -= 0.1;
+		}
+
+		m_vPos.x += sinf(m_vRot.y) * -0.3f;
+		m_vPos.z += cosf(m_vRot.y) * -0.3f;
+	}
+}
+
 //リクエスト
 bool CEnemy::RequestEnemy(const VECTOR& vPos, const VECTOR& vSpeed)
 {
@@ -137,6 +171,12 @@ bool CEnemy::RequestEnemy(const VECTOR& vPos, const VECTOR& vSpeed)
 	//1度座標更新をしておく
 	MV1SetPosition(m_iHndl, m_vPos);
 	return true;
+}
+
+void CEnemy::Update()
+{
+	//座標更新
+	MV1SetPosition(m_iHndl, m_vPos);
 }
 
 //当たり判定後の処理

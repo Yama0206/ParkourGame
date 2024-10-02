@@ -43,7 +43,6 @@ private:
 	CField m_cField;							//背景処理
 	CSky m_cSky;								//空
 	CDebug m_cDebug;							//デバッグクラス
-	CCheckPointManager m_cCheckPointManager;	//チェックポイントマネージャー
 	tagPLAY_SCENE m_eSceneID;					//シーン保存
 
 	//仮

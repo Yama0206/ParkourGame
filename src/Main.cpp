@@ -4,6 +4,7 @@
 #include "DxLib.h"				//DXライブラリのインクルード
 #include "Input/Input.h"	
 #include "Scene/SceneManager.h"
+#include "CheckPoint/Manager/CheckPointManager.h"
 
 // define
 #define	SCREEN_SIZE_X	1280	// X方向の画面サイズを指定
@@ -76,7 +77,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//-----------------------------------------
 	//最後に１回だけやる処理をここに書く
-
+	//チェックポイントクラスを削除
+	CCheckPointManager::DeleteInstance();
 	//-----------------------------------------
 	//DXライブラリの後処理
 	DxLib_End();

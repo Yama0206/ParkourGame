@@ -80,11 +80,10 @@ void CEnemyManager::Fin()
 //’Êíˆ—
 void CEnemyManager::Step(VECTOR vPlayerPos)
 {
-	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
+	for (int i = 0; i < m_cEnemyList.size(); i++)
 	{
-		m_cEnemyList[EnemyIndex]->Step(vPlayerPos);
+		m_cEnemyList[i]->TrackingCheckPoint();
 	}
-	
 
 }
 
@@ -94,6 +93,14 @@ void CEnemyManager::Draw()
 	for (int i = 0; i < m_cEnemyList.size(); i++)
 	{
 		m_cEnemyList[i]->Draw();
+	}
+}
+
+void CEnemyManager::Update()
+{
+	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
+	{
+		m_cEnemyList[EnemyIndex]->Update();
 	}
 }
 

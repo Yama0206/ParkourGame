@@ -127,7 +127,7 @@ void CPlayScene::Load()
 	m_cShotManager.Load();										//弾
 	m_cField.Load();											//背景
 	m_cSky.Load();												//空
-	m_cCheckPointManager.Load();								//チェックポイント
+	CCheckPointManager::GetInstance()->Load();					//チェックポイント
 
 	//ゴール読み込み
 	cGoal.Load();
@@ -136,19 +136,16 @@ void CPlayScene::Load()
 //毎フレーム呼ぶ処理
 void CPlayScene::Step()
 {
+	
 	//プレイヤー更新処理
 	if (m_cCameraManager.GetCameraID() == CCameraManager::CAMERA_ID_PLAY)
 	{
-		//プレイヤーの更新処理
+		//プレイヤー
 		m_cPlayer.Step(m_cShotManager, m_cCameraManager);
-		//敵更新
+		//敵
 		m_cEnemyManager.Step(m_cPlayer.GetPosition());
-		//弾更新
+		//弾
 		m_cShotManager.Step();
-
-		for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
-			cFBox[FBoxIndex].Step();
-		}
 		
 		//空の通常処理
 		m_cSky.Step();
@@ -160,13 +157,15 @@ void CPlayScene::Step()
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
-		CCollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cCheckPointManager);
+		//CollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cCheckPointManager);
 		
 		//CCollisionManager::CheckHitPlayerToRock(m_cPlayer, cRock);
 		
 		//更新処理--------------------------------------------------------------//
 		//プレイヤー
-		m_cPlayer.Update();		
+		m_cPlayer.Update();	
+		//敵
+		m_cEnemyManager.Update();
 		//アニメーション
 		m_cPlayer.UpdateAnim();	
 		//天球
@@ -175,13 +174,6 @@ void CPlayScene::Step()
 		cGoal.Update();			
 		//アイテム
 		m_cItemManager.Update();
-
-		for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
-			cFBox[FBoxIndex].Update();
-		}
-		for (int RockIndex = 0; RockIndex < cRock.size(); RockIndex++) {
-			cRock[RockIndex].Update();
-		}
 	}
 
 	//カメラ切り替え処理
@@ -233,11 +225,11 @@ void CPlayScene::Draw()
 	m_cItemManager.Draw();			//アイテムの描画
 	m_cShotManager.Draw();			//弾の描画
 	m_cField.Draw();				//背景描画
-	//m_cSky.Draw();					//空描画
+	m_cSky.Draw();					//空描画
 	cGoal.Draw();					//ゴール描画
-	m_cDebug.PrintSpeed(32, 32, m_cPlayer.GetfSpd());
-	m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);
-	m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
+	//m_cDebug.PrintSpeed(32, 32, m_cPlayer.GetfSpd());
+	//m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);
+	//m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
 
 	//オブジェクト
 	for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
