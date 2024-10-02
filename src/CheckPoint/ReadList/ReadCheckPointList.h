@@ -1,0 +1,28 @@
+#pragma once
+#include "DxLib.h"
+#include "../../Read/Read.h"
+#include <vector>
+
+using namespace std;
+
+struct SCheckPoint
+{
+	VECTOR m_vPos;		//座標
+	VECTOR m_vSize;		//サイズ
+
+	float fRad;			//半径
+};
+
+
+class CReadCheckPointList
+{
+private:
+	//チェックポイントの情報が入った構造体
+	SCheckPoint m_CheckPointData;
+public:
+	//チェックポイントの情報を入れる
+	vector <SCheckPoint> checkPointList;
+
+	//データへの読み込み
+	void ReadFile();
+};

@@ -10,6 +10,7 @@
 #include "../Box/Rock.h"
 #include "../Goal/Goal.h"
 #include "../Item/Manager/ItemManager.h"
+#include "../CheckPoint/Manager/CheckPointManager.h"
 #include <vector>
 
 using namespace std;
@@ -40,9 +41,14 @@ public:
 	static void CHeckHitPlayerToGoal(CPlayer& cPlayer,
 									 CGoal& cGoal);
 
-	//アイテムとプレイヤーのあたり判定
+	//プレイヤーとアイテムのあたり判定
 	static void CheckHitPlayerToItem(CPlayer& cPlayer,
 									 CItemManager& cItemManager);
+
+	//プレイヤーとチェックポイントの当たり判定
+	static void CheckHitPlayerToPoint(CPlayer& cPlayer,
+									  CCheckPointManager& cCheckPointManager);
+
 
 	//マウスポインタとスタート画像の当たり判定
 	//static void CheckHitMouseToStartImg();

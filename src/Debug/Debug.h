@@ -28,4 +28,10 @@ public:
 	// fRot : 表示する回転値
 	void PrintRot(int posX, int posY, float fRot);
 
+
+	//当たった文字を描画
+	// posX : 表示X座標
+	// posY : 表示Y座標
+	void HitPrint(int posX, int posY);
+
 };

@@ -14,3 +14,8 @@ void CDebug::PrintRot(int posX, int posY, float fRot)
 {
 	DrawFormatString(posX, posY, GetColor(255, 0, 0), "%f", fRot);
 }
+
+void CDebug::HitPrint(int posX, int posY)
+{
+	DrawFormatString(posX, posY, GetColor(255, 0, 0), "“–‚½‚Á‚½");
+}

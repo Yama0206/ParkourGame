@@ -29,5 +29,5 @@ public:
 	//球の当たり判定
 	//第一引数、球1の半径、第二引数、球1の座標
 	//第三引数、球2の半径、第四引数、球2の座標
-	static bool IsHiSphere( VECTOR aPos, float aR, VECTOR bPos, float bR);
+	static bool IsHitSphere( VECTOR aPos, float aR, VECTOR bPos, float bR);
 };

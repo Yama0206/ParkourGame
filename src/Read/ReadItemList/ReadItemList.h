@@ -11,7 +11,7 @@ using namespace std;
 //	d,
 //};
 
-struct SCoin
+struct SItem
 {
 	VECTOR m_vPos;		//座標
 	VECTOR m_vRot;		//回転値
@@ -26,11 +26,11 @@ struct SCoin
 class CReadItemList : public CRead
 {
 private:
-	SCoin m_sItemData;		//アイテムの情報が入った構造体
+	SItem m_sItemData;		//アイテムの情報が入った構造体
 
 public:
 	//アイテムの情報を入れるリスト
-	vector<SCoin> itemInfoList;
+	vector<SItem> itemInfoList;
 
 	//アイテム情報を読み込み
 	void ReadFile();

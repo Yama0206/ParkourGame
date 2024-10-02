@@ -219,20 +219,33 @@ void CPlayer::Control(VECTOR vRot)
 
 		m_ViewRot.y = vRot.y + fRot;
 	}
-	/*else if (CInput::IsKeyKeep(KEY_INPUT_A))
+	else if (CInput::IsKeyKeep(KEY_INPUT_A))
 	{
-		fSpd = -m_fMoveSpeed;
+		//座標移動
+		m_fMoveSpeed -= ADD_SPEED;
+
+		//最大値を決定
+		if (m_fMoveSpeed < -MOVE_SPEED) {
+			m_fMoveSpeed = -MOVE_SPEED;
+		}
+
 		fRot = 90.0f * DX_PI_F / 180.0f;
 
 		m_ViewRot.y = vRot.y + fRot;
 	}
 	else if (CInput::IsKeyKeep(KEY_INPUT_D)) 
 	{
-		fSpd = -m_fMoveSpeed;
+		m_fMoveSpeed += ADD_SPEED;
+
+		if (m_fMoveSpeed > MOVE_SPEED)
+		{
+			m_fMoveSpeed = MOVE_SPEED;
+		}
+
 		fRot = -90.0f * DX_PI_F / 180.0f;
 
 		m_ViewRot.y = vRot.y + fRot;
-	}*/
+	}
 	else {
 
 		m_fMoveSpeed = m_fMoveSpeed * 0.9;
@@ -246,8 +259,6 @@ void CPlayer::Control(VECTOR vRot)
 	//移動ベクトルの計算
 	m_vSpd.x = sinf(vRot.y + fRot) * m_fMoveSpeed;
 	m_vSpd.z = cosf(vRot.y + fRot) * m_fMoveSpeed;
-
-	
 
 	//移動速度を現在の座標に加算する
 	m_vNextPos.x += m_vSpd.x;

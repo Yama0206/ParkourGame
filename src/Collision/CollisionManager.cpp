@@ -575,6 +575,29 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 
 }
 
+void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer,
+											  CCheckPointManager& cCheckPointManager)
+{
+	for (int CheckPointIndex = 0; CheckPointIndex < cCheckPointManager.GetCheckPointSize(); CheckPointIndex++) {
+		//チェックポイントマネージャーを取得
+		CCheckPoint* cCheckPoint = cCheckPointManager.GetCheckPoint(CheckPointIndex);
+
+		VECTOR vPlayerPos, vCheckPointPos;		//座標
+		float fPlayerRad, fCheckPointRad;		//半径
+
+		//取得
+		cPlayer.GetCenterPos(vPlayerPos);
+		vCheckPointPos = cCheckPoint->GetPosVec();
+		fPlayerRad = cPlayer.GetRadius();
+		fCheckPointRad = cCheckPoint->GetRad();
+
+		if(SphereCollision(fPlayerRad, vPlayerPos, fCheckPointRad, vCheckPointPos))
+		{
+			DrawString(10,10,"あたった",GetColor(255,0,0));
+		}
+	}
+}
+
 //void CCollisionManager::CheckHitBoxToCamera(CPlayerCamera& cPlayerCamera,
 //											CBox& cBox)
 //{

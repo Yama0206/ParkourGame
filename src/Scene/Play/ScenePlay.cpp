@@ -125,16 +125,9 @@ void CPlayScene::Load()
 	m_cObjectManager.Load();									//ÉIÉuÉWÉFÉNÉg
 	m_cItemManager.Load();										//ÉAÉCÉeÉÄ
 	m_cShotManager.Load();										//íe
-	m_cField.Load();										//îwåi
+	m_cField.Load();											//îwåi
 	m_cSky.Load();												//ãÛ
-
-	
-	for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
-		cFBox[FBoxIndex].Load();
-	}
-	for (int RockIndex = 0; RockIndex < cRock.size(); RockIndex++) {
-		cRock[RockIndex].Load();
-	}
+	m_cCheckPointManager.Load();								//É`ÉFÉbÉNÉ|ÉCÉìÉg
 
 	//ÉSÅ[Éãì«Ç›çûÇ›
 	cGoal.Load();
@@ -167,6 +160,8 @@ void CPlayScene::Step()
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
+		CCollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cCheckPointManager);
+		
 		//CCollisionManager::CheckHitPlayerToRock(m_cPlayer, cRock);
 		
 		//çXêVèàóù--------------------------------------------------------------//
@@ -237,8 +232,8 @@ void CPlayScene::Draw()
 	m_cEnemyManager.Draw();			//ìGÇÃï`âÊ
 	m_cItemManager.Draw();			//ÉAÉCÉeÉÄÇÃï`âÊ
 	m_cShotManager.Draw();			//íeÇÃï`âÊ
-	m_cField.Draw();			//îwåiï`âÊ
-	m_cSky.Draw();					//ãÛï`âÊ
+	m_cField.Draw();				//îwåiï`âÊ
+	//m_cSky.Draw();					//ãÛï`âÊ
 	cGoal.Draw();					//ÉSÅ[Éãï`âÊ
 	m_cDebug.PrintSpeed(32, 32, m_cPlayer.GetfSpd());
 	m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);

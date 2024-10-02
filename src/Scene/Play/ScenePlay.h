@@ -18,6 +18,7 @@
 #include "../../Goal/Goal.h"
 #include "../../Item/Manager/ItemManager.h"
 #include "../../Debug/Debug.h"
+#include "../../CheckPoint/Manager/CheckPointManager.h"
 
 using namespace std;
 
@@ -42,6 +43,7 @@ private:
 	CField m_cField;							//背景処理
 	CSky m_cSky;								//空
 	CDebug m_cDebug;							//デバッグクラス
+	CCheckPointManager m_cCheckPointManager;	//チェックポイントマネージャー
 	tagPLAY_SCENE m_eSceneID;					//シーン保存
 
 	//仮

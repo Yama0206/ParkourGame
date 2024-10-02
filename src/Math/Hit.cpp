@@ -51,7 +51,7 @@ bool CHit::IsHitRect(VECTOR ACenterPos, VECTOR ASize, VECTOR BCenterPos, VECTOR 
 }
 
 //‹…‚Ì“–‚½‚è”»’è
-bool CHit::IsHiSphere(VECTOR aPos, float aR, VECTOR bPos, float bR)
+bool CHit::IsHitSphere(VECTOR aPos, float aR, VECTOR bPos, float bR)
 {
 	if ((aR + bR) * (aR + bR) >
 		(aPos.x - bPos.x) * (aPos.x - bPos.x) +
