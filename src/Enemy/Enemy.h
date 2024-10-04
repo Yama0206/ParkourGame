@@ -46,15 +46,11 @@ public:
 	//終了処理
 	void Fin();
 	//毎フレーム呼ぶ処理
-	void Step(VECTOR vPlayerPos, VECTOR vPos, int Index);
+	void Step(VECTOR vPlayerPos);
 	//描画処理
 	void Draw();
 
-	//プレイヤーを追跡する
 	void TrackingPlayer(VECTOR vPlayerPos);
-
-	//チェックポイントに移動する
-	void TrackingCheckPoint();
 
 	//vPos		:		初期座標
 	//vSpeed	:		移動速度(方向ベクトルで)
@@ -64,12 +60,27 @@ public:
 	//生存判定
 	bool IsActiv() { return m_IsActive; }
 	//座標取得
+	// 参照渡し
 	// vPos		:	座標を保存する変数
 	void GetPosition(VECTOR& vPos) { vPos = m_vPos; }
+
+	//戻り値
+	VECTOR GetPosVec() { return m_vPos; }
+	VECTOR GetRotVec() { return m_vRot; }
 	float GetRadius() { return m_fRadius; }
 
 	//情報の設定
 	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, bool IsActive);
+	void SetPosVec(VECTOR vPos) { m_vPos = vPos; }
+	void SetRotVec(VECTOR vRot) { m_vRot = vRot; }
+
+	void SetPosVec_X(float fPos) { m_vPos.x = fPos; }
+	void SetPosVec_Y(float fPos) { m_vPos.y = fPos; }
+	void SetPosVec_Z(float fPos) { m_vPos.z = fPos; }
+
+	void SetRotVec_X(float fRot) { m_vRot.x = fRot; }
+	void SetRotVec_Y(float fRot) { m_vRot.y = fRot; }
+	void SetRotVec_Z(float fRot) { m_vPos.z = fRot; }
 
 	//更新処理
 	void Update();

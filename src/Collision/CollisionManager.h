@@ -46,8 +46,10 @@ public:
 									 CItemManager& cItemManager);
 
 	//プレイヤーとチェックポイントの当たり判定
-	static void CheckHitPlayerToPoint(CPlayer& cPlayer,
-									  CCheckPointManager& cCheckPointManager);
+	static void CheckHitPlayerToPoint(CPlayer& cPlayer);
+
+	//敵とチェックポイントの当たり判定
+	static void CheckHitEnemyToPoint(CEnemyManager& cEnemyManager);
 
 
 	//マウスポインタとスタート画像の当たり判定

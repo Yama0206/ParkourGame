@@ -57,6 +57,7 @@ void CEnemy::Draw()
 	if (m_IsActive)
 	{
 		MV1DrawModel(m_iHndl);
+		DrawFormatString(500, 32, GetColor(255, 0, 0), "%f,%f,%f", m_vPos.x, m_vPos.y, m_vPos.z);
 #ifdef MY_DEBUG
 		VECTOR vPos = m_vPos;
 		vPos.y += m_fRadius;
@@ -65,14 +66,12 @@ void CEnemy::Draw()
 	}
 }
 
-void CEnemy::Step(VECTOR vPlayerPos, VECTOR vPos, int Index)
+void CEnemy::Step(VECTOR vPlayerPos)
 {
 	//敵の生存フラグがOFFの時中の処理を行わない
 	if (!m_IsActive) return;
-	
-	//プレイヤーを追いかける
-	TrackingPlayer(vPlayerPos);
 
+	TrackingPlayer(vPlayerPos);
 	//チェックポイントに向かう
 	//MoveCheckPoint(vPos, Index);
 
@@ -117,46 +116,6 @@ void CEnemy::TrackingPlayer(VECTOR vPlayerPos)
 
 }
 
-void CEnemy::TrackingCheckPoint()
-{
-	for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetCheckPointSize(); CheckPointIndex++) {
-		//ホーミング処理
-		VECTOR PlayerVec;
-	
-		//敵からプレイヤーに向かうベクトル
-		PlayerVec.x = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).x - CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).x;
-		PlayerVec.y = 0.0f;
-		PlayerVec.z = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).x - CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).z;
-		
-
-		float fCrossZ = 0.0f;
-
-		//現在の進行方向のベクトル
-		VECTOR  MoveVec;
-
-		memset(&MoveVec, 0.0f, sizeof(MoveVec));
-
-		MoveVec.x = sinf(m_vRot.y) * -1.0f;
-		MoveVec.y = 0.0f;
-		MoveVec.z = cosf(m_vRot.y) * -1.0f;
-
-		//2つのベクトルの外積を計算
-		fCrossZ = PlayerVec.x * MoveVec.z - MoveVec.x * PlayerVec.z;
-
-		//fCrossZの計算結果で左右の判定を行う
-		if (fCrossZ > 0)
-		{
-			m_vRot.y += 0.1;
-		}
-		else if (fCrossZ < 0)
-		{
-			m_vRot.y -= 0.1;
-		}
-
-		m_vPos.x += sinf(m_vRot.y) * -0.3f;
-		m_vPos.z += cosf(m_vRot.y) * -0.3f;
-	}
-}
 
 //リクエスト
 bool CEnemy::RequestEnemy(const VECTOR& vPos, const VECTOR& vSpeed)

@@ -247,9 +247,12 @@ void CPlayer::Control(VECTOR vRot)
 		m_ViewRot.y = vRot.y + fRot;
 	}
 	else {
-
-		m_fMoveSpeed = m_fMoveSpeed * 0.9;
-
+		if (fabs(m_fMoveSpeed) > 0.01f) {
+			m_fMoveSpeed *= 0.9;
+		}
+		else {
+			m_fMoveSpeed = 0.0f;
+		}
 		m_IsKeyHit = false;
 		FreamCnt = 0;
 	}

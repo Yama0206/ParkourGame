@@ -24,7 +24,8 @@ void CCheckPointManager::Load()
 		CCheckPoint* cCheckPoint = new CCheckPoint();
 
 			//ã‚Åì‚Á‚½ƒNƒ‰ƒX‚Éî•ñ‚ð“ü—Í
-		cCheckPoint->SetInfo(m_cFileDataList.checkPointList[CheckPointIndex].m_vPos,
+		cCheckPoint->SetInfo(m_cFileDataList.checkPointList[CheckPointIndex].m_eCP_Num,
+						  	 m_cFileDataList.checkPointList[CheckPointIndex].m_vPos,
 							 m_cFileDataList.checkPointList[CheckPointIndex].m_vSize,
 						  	 m_cFileDataList.checkPointList[CheckPointIndex].fRad);
 
@@ -42,6 +43,25 @@ CCheckPointManager* CCheckPointManager::GetInstance()
 	}
 
 	return m_Instance;
+}
+
+void CCheckPointManager::AddCPNum()
+{
+	if (m_cCheckPointList[m_eCP_Num]->GetCPNum() >= Point_1 && m_cCheckPointList[m_eCP_Num]->GetCPNum() <= Point_2) {
+		m_cCheckPointList[m_eCP_Num]->SetCPNum(Point_2);
+	}
+	else if (m_cCheckPointList[m_eCP_Num]->GetCPNum() <= Point_3)
+	{
+		m_cCheckPointList[m_eCP_Num]->SetCPNum(Point_3);
+	}
+	else if (m_cCheckPointList[m_eCP_Num]->GetCPNum() <= Point_4)
+	{
+		m_cCheckPointList[m_eCP_Num]->SetCPNum(Point_4);
+	}
+	else if (m_cCheckPointList[m_eCP_Num]->GetCPNum() <= Point_5)
+	{
+		m_cCheckPointList[m_eCP_Num]->SetCPNum(Point_5);
+	}
 }
 
 void CCheckPointManager::DeleteInstance()

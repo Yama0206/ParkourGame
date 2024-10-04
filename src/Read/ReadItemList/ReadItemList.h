@@ -1,15 +1,9 @@
 #pragma once
 #include "../Read.h"
+#include "../../Item/ItemBase/ItemBase.h"
 
 using namespace std;
 
-//enum eType
-//{
-//	Coin = 1,
-//	b, 
-//	c,
-//	d,
-//};
 
 struct SItem
 {
@@ -18,9 +12,9 @@ struct SItem
 	VECTOR m_vSize;		//大きさ
 	VECTOR m_vScale;	//拡縮率
 
-	bool m_IsAllive;		//生存フラグ
+	bool m_IsAllive;	//生存フラグ
 
-	Type m_eType;		//種類
+	eType m_eType;		//種類
 };
 
 class CReadItemList : public CRead

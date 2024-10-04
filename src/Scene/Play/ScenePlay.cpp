@@ -153,10 +153,10 @@ void CPlayScene::Step()
 		//“–‚½‚è”»’èˆ—
 		CCollisionManager::CheckHitShotToEnemy(m_cEnemyManager, m_cShotManager);
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
-		CCollisionManager::CheckHitPlayerToFootBox(m_cPlayer, cFBox);
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
+		CCollisionManager::CheckHitEnemyToPoint(m_cEnemyManager);
 		//CollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cCheckPointManager);
 		
 		//CCollisionManager::CheckHitPlayerToRock(m_cPlayer, cRock);
@@ -225,16 +225,12 @@ void CPlayScene::Draw()
 	m_cItemManager.Draw();			//ƒAƒCƒeƒ€‚Ì•`‰æ
 	m_cShotManager.Draw();			//’e‚Ì•`‰æ
 	m_cField.Draw();				//”wŒi•`‰æ
-	m_cSky.Draw();					//‹ó•`‰æ
+	//m_cSky.Draw();					//‹ó•`‰æ
 	cGoal.Draw();					//ƒS[ƒ‹•`‰æ
-	//m_cDebug.PrintSpeed(32, 32, m_cPlayer.GetfSpd());
-	//m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);
-	//m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
+	m_cDebug.PrintSpeed(32, 32, m_cPlayer.GetfSpd());
+	m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);
+	m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
 
-	//ƒIƒuƒWƒFƒNƒg
-	for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
-		cFBox[FBoxIndex].Draw();
-	}
 	//for (int RockIndex = 0; RockIndex < cRock.size(); RockIndex++) {
 	//	cRock[RockIndex].Draw();
 	//}

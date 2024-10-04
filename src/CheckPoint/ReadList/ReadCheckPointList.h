@@ -1,14 +1,17 @@
 #pragma once
 #include "DxLib.h"
 #include "../../Read/Read.h"
+#include "../CheckPoint.h"
 #include <vector>
 
 using namespace std;
+
 
 struct SCheckPoint
 {
 	VECTOR m_vPos;		//座標
 	VECTOR m_vSize;		//サイズ
+	eCP_Num m_eCP_Num;	//チェックポイントの番号
 
 	float fRad;			//半径
 };

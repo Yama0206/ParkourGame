@@ -575,12 +575,11 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 
 }
 
-void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer,
-											  CCheckPointManager& cCheckPointManager)
+void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer)
 {
-	for (int CheckPointIndex = 0; CheckPointIndex < cCheckPointManager.GetCheckPointSize(); CheckPointIndex++) {
+	for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetCheckPointSize(); CheckPointIndex++) {
 		//チェックポイントマネージャーを取得
-		CCheckPoint* cCheckPoint = cCheckPointManager.GetCheckPoint(CheckPointIndex);
+		CCheckPoint* cCheckPoint = CCheckPointManager::GetInstance()->GetCheckPoint(CheckPointIndex);
 
 		VECTOR vPlayerPos, vCheckPointPos;		//座標
 		float fPlayerRad, fCheckPointRad;		//半径
@@ -593,7 +592,35 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer,
 
 		if(SphereCollision(fPlayerRad, vPlayerPos, fCheckPointRad, vCheckPointPos))
 		{
-			DrawString(10,10,"あたった",GetColor(255,0,0));
+			cCheckPoint[CheckPointIndex].SetIsArrived(true);
+		}
+	}
+}
+
+void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
+{
+	for (int EnemyIndex = 0; EnemyIndex < cEnemyManager.GetEnemySize(); EnemyIndex++) {
+		//エネミークラス取得
+		CEnemy* cEnemy = cEnemyManager.GetEnemy(EnemyIndex);
+
+		for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetCheckPointSize(); CheckPointIndex++) {
+			//チェックポイントマネージャーを取得
+			CCheckPoint* cCheckPoint = CCheckPointManager::GetInstance()->GetCheckPoint(CheckPointIndex);
+
+			VECTOR vEnemyPos, vCheckPointPos;		//座標
+			float fEnemyRad, fCheckPointRad;		//半径
+
+			//取得
+			cEnemy->GetPosition(vEnemyPos);
+			vCheckPointPos = cCheckPoint->GetPosVec();
+			fEnemyRad = cEnemy->GetRadius();
+			fCheckPointRad = cCheckPoint->GetRad();
+
+			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
+			{
+				cCheckPoint[CheckPointIndex].SetIsArrived(true);
+				cCheckPoint[CheckPointIndex].AddCPNum();
+			}
 		}
 	}
 }
