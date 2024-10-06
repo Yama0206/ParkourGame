@@ -28,6 +28,7 @@ protected:
 	int m_iHndl;				//モデルハンドル
 	bool m_IsActive;			//生存フラグ
 	float m_fRadius;			//半径
+	int m_CPNum;					//次に向かうチェックポイントの番号
 
 	int FrameCnt;				//フレームカウント
 
@@ -50,8 +51,6 @@ public:
 	//描画処理
 	void Draw();
 
-	void TrackingPlayer(VECTOR vPlayerPos);
-
 	//vPos		:		初期座標
 	//vSpeed	:		移動速度(方向ベクトルで)
 	//@return	:		true = リクエスト成功 false = 失敗
@@ -59,6 +58,11 @@ public:
 
 	//生存判定
 	bool IsActiv() { return m_IsActive; }
+
+	//チェックポイントの番号を取得・設定
+	int GetCPNum() { return m_CPNum; }
+	void SetCPNum(int Num) { m_CPNum = Num; }
+
 	//座標取得
 	// 参照渡し
 	// vPos		:	座標を保存する変数
@@ -84,6 +88,9 @@ public:
 
 	//更新処理
 	void Update();
+
+	//プレイヤーを追従する
+	void TrackingPlayer(VECTOR vPlayerPos);
 
 	//当たり判定後の処理
 	void HitCalc();

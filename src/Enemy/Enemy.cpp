@@ -1,6 +1,9 @@
 #include "Enemy.h"
 #include <math.h>
 
+//定義
+
+
 //コンストラクタ
 CEnemy::CEnemy()
 {
@@ -8,8 +11,13 @@ CEnemy::CEnemy()
 	memset(&m_vPos, 0, sizeof(VECTOR));
 	memset(&m_vSpeed, 0, sizeof(VECTOR));
 	memset(&m_vRot, 0, sizeof(VECTOR));
+	memset(&m_vSize, 0, sizeof(VECTOR));
+	memset(&m_vScale, 0, sizeof(VECTOR));
+
 	m_iHndl = -1;
 	m_IsActive = false;
+	m_CPNum = 0;
+	m_fRadius = 10;
 
 	FrameCnt = 0;
 }
@@ -27,9 +35,16 @@ void CEnemy::Init()
 	//ひとまず初期化しておく
 	memset(&m_vPos, 0, sizeof(VECTOR));
 	memset(&m_vSpeed, 0, sizeof(VECTOR));
+	memset(&m_vRot, 0, sizeof(VECTOR));
+	memset(&m_vSize, 0, sizeof(VECTOR));
+	memset(&m_vScale, 0, sizeof(VECTOR));
+
 	m_iHndl = -1;
-	m_fRadius = RADIUS;
 	m_IsActive = false;
+	m_CPNum = 1;
+	m_fRadius = 10;
+
+	FrameCnt = 0;
 }
 
 void CEnemy::Fin()

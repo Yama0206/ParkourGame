@@ -159,8 +159,6 @@ void CPlayScene::Step()
 		CCollisionManager::CheckHitEnemyToPoint(m_cEnemyManager);
 		//CollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cCheckPointManager);
 		
-		//CCollisionManager::CheckHitPlayerToRock(m_cPlayer, cRock);
-		
 		//更新処理--------------------------------------------------------------//
 		//プレイヤー
 		m_cPlayer.Update();	

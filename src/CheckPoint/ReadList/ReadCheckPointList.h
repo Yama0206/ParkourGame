@@ -14,6 +14,7 @@ struct SCheckPoint
 	eCP_Num m_eCP_Num;	//チェックポイントの番号
 
 	float fRad;			//半径
+	int m_iCPNum;		//チェックポイント番号
 };
 
 

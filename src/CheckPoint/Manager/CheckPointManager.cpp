@@ -24,7 +24,7 @@ void CCheckPointManager::Load()
 		CCheckPoint* cCheckPoint = new CCheckPoint();
 
 			//上で作ったクラスに情報を入力
-		cCheckPoint->SetInfo(m_cFileDataList.checkPointList[CheckPointIndex].m_eCP_Num,
+		cCheckPoint->SetInfo(m_cFileDataList.checkPointList[CheckPointIndex].m_iCPNum,
 						  	 m_cFileDataList.checkPointList[CheckPointIndex].m_vPos,
 							 m_cFileDataList.checkPointList[CheckPointIndex].m_vSize,
 						  	 m_cFileDataList.checkPointList[CheckPointIndex].fRad);
@@ -43,26 +43,48 @@ CCheckPointManager* CCheckPointManager::GetInstance()
 	}
 
 	return m_Instance;
+
 }
 
-void CCheckPointManager::AddCPNum()
-{
-	if (m_cCheckPointList[m_eCP_Num]->GetCPNum() >= Point_1 && m_cCheckPointList[m_eCP_Num]->GetCPNum() <= Point_2) {
-		m_cCheckPointList[m_eCP_Num]->SetCPNum(Point_2);
-	}
-	else if (m_cCheckPointList[m_eCP_Num]->GetCPNum() <= Point_3)
-	{
-		m_cCheckPointList[m_eCP_Num]->SetCPNum(Point_3);
-	}
-	else if (m_cCheckPointList[m_eCP_Num]->GetCPNum() <= Point_4)
-	{
-		m_cCheckPointList[m_eCP_Num]->SetCPNum(Point_4);
-	}
-	else if (m_cCheckPointList[m_eCP_Num]->GetCPNum() <= Point_5)
-	{
-		m_cCheckPointList[m_eCP_Num]->SetCPNum(Point_5);
-	}
-}
+
+//int CCheckPointManager::GetiCPNum(int iID)
+//{
+//	//チェックポイントの数分for文を回す
+//	for (int CheckPointIndex = 0; CheckPointIndex < m_cFileDataList.checkPointList.size(); CheckPointIndex++) {
+//		//チェックポイントの番号と引数の番号が一致したら
+//		if (m_cCheckPointList[CheckPointIndex]->GetiCPNum() == iID)
+//		{
+//			//一致した番号の座標を返す
+//			return m_cCheckPointList[CheckPointIndex]->GetiCPNum();
+//		}
+//	}
+//}
+
+//VECTOR CCheckPointManager::GetPosVec(int iID)
+//{
+//	//チェックポイントの数分for文を回す
+//	for (int CheckPointIndex = 0; CheckPointIndex < m_cFileDataList.checkPointList.size(); CheckPointIndex++) {
+//		//チェックポイントの番号と引数の番号が一致したら
+//		if (m_cCheckPointList[CheckPointIndex]->GetiCPNum() == iID)
+//		{
+//			//一致した番号の座標を返す
+//			return m_cCheckPointList[CheckPointIndex]->GetPosVec();
+//		}
+//	}
+//}
+//
+//float CCheckPointManager::GetfRad(int iID)
+//{
+//	//チェックポイントの数分for文を回す
+//	for (int CheckPointIndex = 0; CheckPointIndex < m_cFileDataList.checkPointList.size(); CheckPointIndex++) {
+//		//チェックポイントの番号と引数の番号が一致したら
+//		if (m_cCheckPointList[CheckPointIndex]->GetiCPNum() == iID)
+//		{
+//			//一致した番号の座標を返す
+//			return m_cCheckPointList[CheckPointIndex]->GetRad();
+//		}
+//	}
+//}
 
 void CCheckPointManager::DeleteInstance()
 {

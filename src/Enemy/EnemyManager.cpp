@@ -146,9 +146,9 @@ void CEnemyManager::TrackingCheckPoint(int Index)
 	//ホーミング処理
 	VECTOR CheckPosVec;
 	//敵からチェックポイント向かうベクトル
-	CheckPosVec.x = CCheckPointManager::GetInstance()->GetPosVec(CCheckPointManager::GetInstance()->GetCPNum()).x - m_cEnemyList[Index]->GetPosVec().x;
+	CheckPosVec.x = CCheckPointManager::GetInstance()->GetPosVec(CCheckPointManager::GetInstance()->GetiCPNum(m_cEnemyList[Index]->GetCPNum())).x - m_cEnemyList[Index]->GetPosVec().x;
 	CheckPosVec.y = 0.0f;
-	CheckPosVec.z = CCheckPointManager::GetInstance()->GetPosVec(CCheckPointManager::GetInstance()->GetCPNum()).z - m_cEnemyList[Index]->GetPosVec().z;
+	CheckPosVec.z = CCheckPointManager::GetInstance()->GetPosVec(CCheckPointManager::GetInstance()->GetiCPNum(m_cEnemyList[Index]->GetCPNum())).z - m_cEnemyList[Index]->GetPosVec().z;
 
 	float fCrossZ = 0.0f;
 

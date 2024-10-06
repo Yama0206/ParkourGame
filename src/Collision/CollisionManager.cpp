@@ -603,24 +603,24 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 		//エネミークラス取得
 		CEnemy* cEnemy = cEnemyManager.GetEnemy(EnemyIndex);
 
-		for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetCheckPointSize(); CheckPointIndex++) {
-			//チェックポイントマネージャーを取得
-			CCheckPoint* cCheckPoint = CCheckPointManager::GetInstance()->GetCheckPoint(CheckPointIndex);
 
 			VECTOR vEnemyPos, vCheckPointPos;		//座標
 			float fEnemyRad, fCheckPointRad;		//半径
 
 			//取得
 			cEnemy->GetPosition(vEnemyPos);
-			vCheckPointPos = cCheckPoint->GetPosVec();
+			vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(cEnemy[EnemyIndex].GetCPNum());
 			fEnemyRad = cEnemy->GetRadius();
-			fCheckPointRad = cCheckPoint->GetRad();
+			fCheckPointRad = CCheckPointManager::GetInstance()->GetfRad(cEnemy[EnemyIndex].GetCPNum());
 
-			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
-			{
-				cCheckPoint[CheckPointIndex].SetIsArrived(true);
-				cCheckPoint[CheckPointIndex].AddCPNum();
-			}
+			//敵が到着してない時だけ当たり判定をとる
+			if (!CCheckPointManager::GetInstance()->GetIsArrive(cEnemy[EnemyIndex].GetCPNum())) {
+				if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
+				{
+					CCheckPointManager::GetInstance()->SetIsAriive(cEnemy[EnemyIndex].GetCPNum(), true);
+					CCheckPointManager::GetInstance()->AddCPNum(cEnemy[EnemyIndex].GetCPNum());
+				}
+			
 		}
 	}
 }
