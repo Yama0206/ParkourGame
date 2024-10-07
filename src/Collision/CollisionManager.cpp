@@ -603,24 +603,23 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 		//ƒGƒlƒ~[ƒNƒ‰ƒXŽæ“¾
 		CEnemy* cEnemy = cEnemyManager.GetEnemy(EnemyIndex);
 
+		VECTOR vEnemyPos, vCheckPointPos;		//À•W
+		float fEnemyRad, fCheckPointRad;		//”¼Œa
 
-			VECTOR vEnemyPos, vCheckPointPos;		//À•W
-			float fEnemyRad, fCheckPointRad;		//”¼Œa
+		//Žæ“¾
+		cEnemy->GetPosition(vEnemyPos);
+		vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(cEnemy->GetCPNum());
+		fEnemyRad = cEnemy->GetRadius();
+		fCheckPointRad = CCheckPointManager::GetInstance()->GetfRad(cEnemy->GetCPNum());
 
-			//Žæ“¾
-			cEnemy->GetPosition(vEnemyPos);
-			vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(cEnemy[EnemyIndex].GetCPNum());
-			fEnemyRad = cEnemy->GetRadius();
-			fCheckPointRad = CCheckPointManager::GetInstance()->GetfRad(cEnemy[EnemyIndex].GetCPNum());
-
-			//“G‚ª“ž’…‚µ‚Ä‚È‚¢Žž‚¾‚¯“–‚½‚è”»’è‚ð‚Æ‚é
-			if (!CCheckPointManager::GetInstance()->GetIsArrive(cEnemy[EnemyIndex].GetCPNum())) {
-				if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
-				{
-					CCheckPointManager::GetInstance()->SetIsAriive(cEnemy[EnemyIndex].GetCPNum(), true);
-					CCheckPointManager::GetInstance()->AddCPNum(cEnemy[EnemyIndex].GetCPNum());
-				}
-			
+		//“G‚ª“ž’…‚µ‚Ä‚È‚¢Žž‚¾‚¯“–‚½‚è”»’è‚ð‚Æ‚é
+		if (CCheckPointManager::GetInstance()->GetIsArrive(cEnemy->GetCPNum()) == false) {
+			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
+			{
+				CCheckPointManager::GetInstance()->SetIsAriive(cEnemy->GetCPNum(), true);
+				CCheckPointManager::GetInstance()->AddCPNum(cEnemy->GetCPNum());
+				cEnemy->AddCPNum();
+			}
 		}
 	}
 }

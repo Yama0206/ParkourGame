@@ -29,6 +29,18 @@ public:
 	void PrintRot(int posX, int posY, float fRot);
 
 
+	//半径描画
+	// posX : 表示X座標
+	// posY : 表示Y座標
+	// fRad : 表示する半径
+	void PrintRad(int posX, int posY, float fRad);
+
+	//番号描画
+	// posX : 表示X座標
+	// posY : 表示Y座標
+	// Number : 表示する番号
+	void PrintNum(int posX, int posY, int num);
+
 	//当たった文字を描画
 	// posX : 表示X座標
 	// posY : 表示Y座標

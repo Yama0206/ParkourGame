@@ -19,3 +19,13 @@ void CDebug::HitPrint(int posX, int posY)
 {
 	DrawFormatString(posX, posY, GetColor(255, 0, 0), "“–‚½‚Á‚½");
 }
+
+void CDebug::PrintRad(int posX, int posY, float fRad)
+{
+	DrawFormatString(posX, posY, GetColor(255, 0, 0), "%f", fRad);
+}
+
+void CDebug::PrintNum(int posX, int posY, int num)
+{
+	DrawFormatString(posX, posY, GetColor(255, 0, 0), "%d", num);
+}

@@ -28,7 +28,7 @@ protected:
 	int m_iHndl;				//モデルハンドル
 	bool m_IsActive;			//生存フラグ
 	float m_fRadius;			//半径
-	int m_CPNum;					//次に向かうチェックポイントの番号
+	int m_iCPNum;				//次に向かうチェックポイントの番号
 
 	int FrameCnt;				//フレームカウント
 
@@ -59,9 +59,10 @@ public:
 	//生存判定
 	bool IsActiv() { return m_IsActive; }
 
-	//チェックポイントの番号を取得・設定
-	int GetCPNum() { return m_CPNum; }
-	void SetCPNum(int Num) { m_CPNum = Num; }
+	//チェックポイントの番号を取得・設定・加算
+	int GetCPNum() { return m_iCPNum; }
+	void SetCPNum(int Num) { m_iCPNum = Num; }
+	void AddCPNum();
 
 	//座標取得
 	// 参照渡し

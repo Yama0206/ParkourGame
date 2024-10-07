@@ -229,6 +229,16 @@ void CPlayScene::Draw()
 	m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);
 	m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
 
+	m_cDebug.PrintPos(500, 32, m_cEnemyManager.GetPosVec(0));
+	m_cDebug.PrintPos(300, 32, CCheckPointManager::GetInstance()->GetPosVec(0));
+	m_cDebug.PrintPos(300, 42, CCheckPointManager::GetInstance()->GetPosVec(1));
+	m_cDebug.PrintPos(300, 52, CCheckPointManager::GetInstance()->GetPosVec(2));
+	m_cDebug.PrintPos(300, 62, CCheckPointManager::GetInstance()->GetPosVec(3));
+	//エネミークラス取得
+	CEnemy* cEnemy = m_cEnemyManager.GetEnemy(0);
+	m_cDebug.PrintNum(500, 42, cEnemy->GetCPNum());
+	
+
 	//for (int RockIndex = 0; RockIndex < cRock.size(); RockIndex++) {
 	//	cRock[RockIndex].Draw();
 	//}

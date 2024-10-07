@@ -2,7 +2,7 @@
 #include <math.h>
 
 //定義
-
+const int ENEMY_CP_MAX = 4;
 
 //コンストラクタ
 CEnemy::CEnemy()
@@ -16,8 +16,8 @@ CEnemy::CEnemy()
 
 	m_iHndl = -1;
 	m_IsActive = false;
-	m_CPNum = 0;
-	m_fRadius = 10;
+	m_iCPNum = 0;
+	m_fRadius = 40;
 
 	FrameCnt = 0;
 }
@@ -41,8 +41,8 @@ void CEnemy::Init()
 
 	m_iHndl = -1;
 	m_IsActive = false;
-	m_CPNum = 1;
-	m_fRadius = 10;
+	m_iCPNum = 0;
+	m_fRadius = 40;
 
 	FrameCnt = 0;
 }
@@ -151,6 +151,14 @@ void CEnemy::Update()
 {
 	//座標更新
 	MV1SetPosition(m_iHndl, m_vPos);
+}
+
+void CEnemy::AddCPNum()
+{
+	if (m_iCPNum < 3)
+	{
+		m_iCPNum++;
+	}
 }
 
 //当たり判定後の処理

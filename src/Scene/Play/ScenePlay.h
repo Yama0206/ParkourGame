@@ -19,6 +19,7 @@
 #include "../../Item/Manager/ItemManager.h"
 #include "../../Debug/Debug.h"
 #include "../../CheckPoint/Manager/CheckPointManager.h"
+#include "../../CheckPoint/Manager/CheckPointManager.h"
 
 using namespace std;
 
