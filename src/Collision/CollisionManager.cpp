@@ -612,14 +612,13 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 		fEnemyRad = cEnemy->GetRadius();
 		fCheckPointRad = CCheckPointManager::GetInstance()->GetfRad(cEnemy->GetCPNum());
 
+		DrawSphere3D(vEnemyPos, fEnemyRad, 8, GetColor(255, 0, 0), GetColor(0, 255, 0), false);
+		DrawSphere3D(vCheckPointPos, fCheckPointRad, 8, GetColor(255, 0, 0), GetColor(0, 255, 0), true);
+
 		//“G‚ª“ž’…‚µ‚Ä‚È‚¢Žž‚¾‚¯“–‚½‚è”»’è‚ð‚Æ‚é
-		if (CCheckPointManager::GetInstance()->GetIsArrive(cEnemy->GetCPNum()) == false) {
-			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
-			{
-				CCheckPointManager::GetInstance()->SetIsAriive(cEnemy->GetCPNum(), true);
-				CCheckPointManager::GetInstance()->AddCPNum(cEnemy->GetCPNum());
-				cEnemy->AddCPNum();
-			}
+		if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
+		{
+			cEnemy->SetCPNum(GetRand(cEnemy->GetCPNum()) + cEnemy->GetCPNum());
 		}
 	}
 }

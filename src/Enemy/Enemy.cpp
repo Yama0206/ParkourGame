@@ -17,7 +17,7 @@ CEnemy::CEnemy()
 	m_iHndl = -1;
 	m_IsActive = false;
 	m_iCPNum = 0;
-	m_fRadius = 40;
+	m_fRadius = 5;
 
 	FrameCnt = 0;
 }
@@ -42,7 +42,7 @@ void CEnemy::Init()
 	m_iHndl = -1;
 	m_IsActive = false;
 	m_iCPNum = 0;
-	m_fRadius = 40;
+	m_fRadius = 5;
 
 	FrameCnt = 0;
 }

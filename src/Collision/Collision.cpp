@@ -52,7 +52,7 @@ bool SphereCollision(float aR, VECTOR aPos, float bR, VECTOR bPos)
 	if ((aR + bR) * (aR + bR) >
 		(aPos.x - bPos.x) * (aPos.x - bPos.x) +
 		(aPos.y - bPos.y) * (aPos.y - bPos.y) +
-		(aPos.z - aPos.z) * (aPos.z - aPos.z))
+		(aPos.z - bPos.z) * (aPos.z - bPos.z))
 	{
 		//“–‚½‚Á‚Ä‚¢‚é‚Æ‚«
 		return true;

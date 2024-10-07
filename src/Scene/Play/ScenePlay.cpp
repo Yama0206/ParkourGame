@@ -7,6 +7,7 @@
 CPlayScene::CPlayScene()
 {
 	//‚Ð‚Æ‚Ü‚¸‰Šú‰»‚µ‚Ä‚¨‚­
+
 	m_eSceneID = PLAY_SCENE_INIT;
 }
 
@@ -223,25 +224,14 @@ void CPlayScene::Draw()
 	m_cItemManager.Draw();			//ƒAƒCƒeƒ€‚Ì•`‰æ
 	m_cShotManager.Draw();			//’e‚Ì•`‰æ
 	m_cField.Draw();				//”wŒi•`‰æ
-	//m_cSky.Draw();					//‹ó•`‰æ
+	//m_cSky.Draw();				//‹ó•`‰æ
 	cGoal.Draw();					//ƒS[ƒ‹•`‰æ
+
 	m_cDebug.PrintSpeed(32, 32, m_cPlayer.GetfSpd());
 	m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);
 	m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
 
-	m_cDebug.PrintPos(500, 32, m_cEnemyManager.GetPosVec(0));
-	m_cDebug.PrintPos(300, 32, CCheckPointManager::GetInstance()->GetPosVec(0));
-	m_cDebug.PrintPos(300, 42, CCheckPointManager::GetInstance()->GetPosVec(1));
-	m_cDebug.PrintPos(300, 52, CCheckPointManager::GetInstance()->GetPosVec(2));
-	m_cDebug.PrintPos(300, 62, CCheckPointManager::GetInstance()->GetPosVec(3));
-	//ƒGƒlƒ~[ƒNƒ‰ƒXŽæ“¾
-	CEnemy* cEnemy = m_cEnemyManager.GetEnemy(0);
-	m_cDebug.PrintNum(500, 42, cEnemy->GetCPNum());
-	
-
-	//for (int RockIndex = 0; RockIndex < cRock.size(); RockIndex++) {
-	//	cRock[RockIndex].Draw();
-	//}
+	m_cDebug.PrintPos(900, 32, m_cPlayer.GetPosition());
 }
 
 void CPlayScene::SetBlock()

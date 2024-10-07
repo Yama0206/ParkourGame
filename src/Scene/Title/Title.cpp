@@ -115,17 +115,14 @@ void CTitle::Fin()
 {
 	if (m_sBackImg.m_iHndl != -1) {
 		DeleteGraph(m_sBackImg.m_iHndl);
+		m_sBackImg.m_iHndl = -1;
 	}
 	if (m_sTitleImg.m_iHndl != -1) {
 		DeleteGraph(m_sTitleImg.m_iHndl);
-	}
-	if (m_sBackImg.m_iHndl != -1) {
-		DeleteGraph(m_sBackImg.m_iHndl);
+		m_sTitleImg.m_iHndl = -1;
 	}
 	if (m_sStartImg.m_iHndl != -1) {
 		DeleteGraph(m_sStartImg.m_iHndl);
-	}
-	if (m_sBackImg.m_iHndl != -1) {
-		DeleteGraph(m_sFinImg.m_iHndl);
+		m_sStartImg.m_iHndl = -1;
 	}
 }
