@@ -618,7 +618,7 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 		//“G‚ª“ž’…‚µ‚Ä‚È‚¢Žž‚¾‚¯“–‚½‚è”»’è‚ð‚Æ‚é
 		if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
 		{
-			cEnemy->SetCPNum(GetRand(cEnemy->GetCPNum()) + cEnemy->GetCPNum());
+			cEnemy->SetCPNum( CCheckPointManager::GetInstance()->GetNextNum(GetRand(4), cEnemy->GetCPNum()));
 		}
 	}
 }

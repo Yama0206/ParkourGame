@@ -11,10 +11,10 @@ struct SCheckPoint
 {
 	VECTOR m_vPos;		//座標
 	VECTOR m_vSize;		//サイズ
-	eCP_Num m_eCP_Num;	//チェックポイントの番号
 
 	float fRad;			//半径
 	int m_iCPNum;		//チェックポイント番号
+	int m_NextCPNum[4];	//次に向かうチェックポイントの番号
 };
 
 

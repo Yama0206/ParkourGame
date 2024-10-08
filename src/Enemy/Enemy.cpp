@@ -63,7 +63,7 @@ void CEnemy::Load(int iMdlHndl)
 	if (m_iHndl == -1)
 	{
 		m_iHndl = MV1DuplicateModel(iMdlHndl);
-		MV1SetScale(m_iHndl, VGet(5.0f, 5.0f, 5.0f));
+		MV1SetScale(m_iHndl, VGet(2.0f, 2.0f, 2.0f));
 	}
 }
 
@@ -126,8 +126,8 @@ void CEnemy::TrackingPlayer(VECTOR vPlayerPos)
 		m_vRot.y -= 0.1;
 	}
 
-	m_vPos.x += sinf(m_vRot.y) * -0.3f;
-	m_vPos.z += cosf(m_vRot.y) * -0.3f;
+	m_vPos.x += sinf(m_vRot.y) * -m_vSpeed.x;
+	m_vPos.z += cosf(m_vRot.y) * -m_vSpeed.z;
 
 }
 

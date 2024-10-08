@@ -53,6 +53,7 @@ public:
 	int GetEnemySize() { return m_cEnemyList.size(); }
 
 	VECTOR GetPosVec(int iID) { return m_cEnemyList[iID]->GetPosVec(); }
+	VECTOR GetSpeedVec(int iID) { return m_cEnemyList[iID]->GetSpeedVec(); }
 
 	//敵リクエスト
 	void RequestEnemy();

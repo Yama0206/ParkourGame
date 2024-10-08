@@ -173,7 +173,7 @@ void CPlayer::Control(VECTOR vRot)
 	//キャラクターの回転
 	//float fRot = 0.0f;
 
-	//シフトキーが押されたら
+	////シフトキーが押されたら
 	//if (CInput::IsKeyKeep(KEY_INPUT_LSHIFT))
 	//{
 	//	//プレイヤーのスピードが最大値になるまでスピードを足す
@@ -209,13 +209,13 @@ void CPlayer::Control(VECTOR vRot)
 	}
 	else if (CInput::IsKeyKeep(KEY_INPUT_S))
 	{
-		m_fMoveSpeed += ADD_SPEED;
+		m_fMoveSpeed -= ADD_SPEED;
 
-		if (m_fMoveSpeed > MOVE_SPEED)
+		if (m_fMoveSpeed < MOVE_SPEED)
 		{
-			m_fMoveSpeed = MOVE_SPEED;
+			m_fMoveSpeed = -MOVE_SPEED;
 		}
-		fRot = DX_PI_F;
+		fRot = 0.0f * DX_PI_F / 180.0f;
 
 		m_ViewRot.y = vRot.y + fRot;
 	}
@@ -235,11 +235,11 @@ void CPlayer::Control(VECTOR vRot)
 	}
 	else if (CInput::IsKeyKeep(KEY_INPUT_D)) 
 	{
-		m_fMoveSpeed += ADD_SPEED;
+		m_fMoveSpeed -= ADD_SPEED;
 
-		if (m_fMoveSpeed > MOVE_SPEED)
+		if (m_fMoveSpeed < MOVE_SPEED)
 		{
-			m_fMoveSpeed = MOVE_SPEED;
+			m_fMoveSpeed = -MOVE_SPEED;
 		}
 
 		fRot = -90.0f * DX_PI_F / 180.0f;

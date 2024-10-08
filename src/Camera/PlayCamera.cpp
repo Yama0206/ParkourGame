@@ -50,7 +50,7 @@ void CPlayerCamera::Step(VECTOR vForcus, VECTOR vSpd)
 	MATRIX CameraPosMat;	//カメラの座標行列
 
 	//カメラの座標を決める
-	VECTOR vCameraPos = VAdd(vForcus, VGet(0.0f, 15.0f, -CAMERA_LENGTH));
+	VECTOR vCameraPos = VAdd(vForcus, VGet(0.0f, CAMERA_OFFSET_Y, -CAMERA_LENGTH));
 
 	MoveMatrix.m[3][3] = 1.0f;
 	PosMatrix.m[3][3] = 1.0f;

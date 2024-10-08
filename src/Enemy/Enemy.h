@@ -71,6 +71,7 @@ public:
 
 	//–ß‚è’l
 	VECTOR GetPosVec() { return m_vPos; }
+	VECTOR GetSpeedVec() { return m_vSpeed; }
 	VECTOR GetRotVec() { return m_vRot; }
 	float GetRadius() { return m_fRadius; }
 
