@@ -11,7 +11,6 @@ static const float MAX_GRAVITY = 3.0f;						//プレイヤーの重力の限界
 static const float MIN_GRAVITY = 0.1f;						//プレイヤーの重力の最低
 static const float YSPEED = 4.0f;							//プレイヤーのY方向のスピード
 static const float ROTATE_SPEED = 0.1f;						//回転スピード
-
 	
 //コンストラクタ
 CPlayer::CPlayer()

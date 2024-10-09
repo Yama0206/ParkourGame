@@ -3,6 +3,7 @@
 
 //定義
 const int ENEMY_CP_MAX = 4;
+constexpr int ENEMY_TRAKINGAREA = 30;
 
 //コンストラクタ
 CEnemy::CEnemy()
@@ -18,6 +19,7 @@ CEnemy::CEnemy()
 	m_IsActive = false;
 	m_iCPNum = 0;
 	m_fRadius = 5;
+	m_fTrackingArea = ENEMY_TRAKINGAREA;
 
 	FrameCnt = 0;
 }
@@ -43,6 +45,7 @@ void CEnemy::Init()
 	m_IsActive = false;
 	m_iCPNum = 0;
 	m_fRadius = 5;
+	m_fTrackingArea = ENEMY_TRAKINGAREA;
 
 	FrameCnt = 0;
 }

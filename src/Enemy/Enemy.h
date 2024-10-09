@@ -28,6 +28,7 @@ protected:
 	int m_iHndl;				//モデルハンドル
 	bool m_IsActive;			//生存フラグ
 	float m_fRadius;			//半径
+	float m_fTrackingArea;		//追従する半径
 	int m_iCPNum;				//次に向かうチェックポイントの番号
 
 	int FrameCnt;				//フレームカウント
@@ -71,10 +72,11 @@ public:
 	void GetPosition(VECTOR& vPos) { vPos = m_vPos; }
 
 	//戻り値
-	VECTOR GetPosVec() { return m_vPos; }
-	VECTOR GetSpeedVec() { return m_vSpeed; }
-	VECTOR GetRotVec() { return m_vRot; }
-	float GetRadius() { return m_fRadius; }
+	VECTOR GetPosVec()		{ return m_vPos; }
+	VECTOR GetSpeedVec()	{ return m_vSpeed; }
+	VECTOR GetRotVec()		{ return m_vRot; }
+	float GetRadius()		{ return m_fRadius; }
+	float GetTrackingRad()	{ return m_fTrackingArea; }
 
 	//情報の設定
 	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, bool IsActive);

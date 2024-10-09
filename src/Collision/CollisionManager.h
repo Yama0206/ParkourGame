@@ -51,6 +51,9 @@ public:
 	//敵とチェックポイントの当たり判定
 	static void CheckHitEnemyToPoint(CEnemyManager& cEnemyManager);
 
+	//プレイヤーと敵の当たり判定
+	static void CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& cEnemyManager);
+
 
 	//マウスポインタとスタート画像の当たり判定
 	//static void CheckHitMouseToStartImg();

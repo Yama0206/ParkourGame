@@ -1,4 +1,6 @@
 #include "CollisionManager.h"
+#include <Windows.h>
+#include <string>
 
 //“G‚Æ’e‚Ì“–‚½‚è”»’è
 void CCollisionManager::CheckHitShotToEnemy(CEnemyManager& cEnemyManager,
@@ -605,7 +607,8 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 
 		VECTOR vEnemyPos, vCheckPointPos;		//À•W
 		float fEnemyRad, fCheckPointRad;		//”¼Œa
-
+		int num = 0;
+		int num1 = 0;
 		//Žæ“¾
 		cEnemy->GetPosition(vEnemyPos);
 		vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(cEnemy->GetCPNum());
@@ -618,7 +621,38 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 		//“G‚ª“ž’…‚µ‚Ä‚È‚¢Žž‚¾‚¯“–‚½‚è”»’è‚ð‚Æ‚é
 		if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
 		{
-			cEnemy->SetCPNum( CCheckPointManager::GetInstance()->GetNextNum(GetRand(4), cEnemy->GetCPNum()));
+  			num = GetRand(3);
+			cEnemy->SetCPNum( CCheckPointManager::GetInstance()->GetNextNum(num, cEnemy->GetCPNum()));
+			num1 = cEnemy->GetCPNum();
+			string s;
+			s + to_string(num1);
+			OutputDebugString(s.c_str());
+		}
+	}
+}
+
+void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& cEnemyManager)
+{
+	for (int EnemyIndex = 0; EnemyIndex < cEnemyManager.GetEnemySize(); EnemyIndex++)
+	{
+		CEnemy* cEnemy = cEnemyManager.GetEnemy(EnemyIndex);
+
+		VECTOR vPlayerPos, vEnemyPos;	//À•W
+		float fPlayerRad, fEnemyRad;	//”¼Œa
+
+		memset(&vPlayerPos, 0.0f, sizeof(VECTOR));
+		memset(&vEnemyPos, 0.0f, sizeof(VECTOR));
+		fPlayerRad = 0.0f;
+		fEnemyRad = 0.0f;
+
+		cPlayer.GetPosition(vPlayerPos);
+		cEnemy->GetPosition(vEnemyPos);
+		fPlayerRad = cPlayer.GetRadius();
+		fEnemyRad = cEnemy->GetTrackingRad();
+
+		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyRad))
+		{
+			cEnemy->TrackingPlayer(vPlayerPos);
 		}
 	}
 }
