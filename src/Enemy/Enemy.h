@@ -35,6 +35,7 @@ protected:
 	EnemyState m_eState;			//敵の状態
 
 public:
+
 	//コンストラクタ・デストラクタ
 	CEnemy();
 	~CEnemy();
