@@ -49,7 +49,7 @@ public:
 	//終了処理
 	void Fin();
 	//毎フレーム呼ぶ処理
-	void Step(VECTOR vPlayerPos);
+	void Step();
 	//描画処理
 	void Draw();
 
@@ -77,6 +77,7 @@ public:
 	VECTOR GetRotVec()		{ return m_vRot; }
 	float GetRadius()		{ return m_fRadius; }
 	float GetTrackingRad()	{ return m_fTrackingArea; }
+	EnemyState GetState()	{ return m_eState; }
 
 	//情報の設定
 	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, bool IsActive);
@@ -91,11 +92,10 @@ public:
 	void SetRotVec_Y(float fRot) { m_vRot.y = fRot; }
 	void SetRotVec_Z(float fRot) { m_vPos.z = fRot; }
 
+	void SetState(EnemyState eState) { m_eState = eState; }
+
 	//更新処理
 	void Update();
-
-	//プレイヤーを追従する
-	void TrackingPlayer(VECTOR vPlayerPos);
 
 	//当たり判定後の処理
 	void HitCalc();

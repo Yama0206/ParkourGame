@@ -652,7 +652,7 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 
 		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyRad))
 		{
-			cEnemy->TrackingPlayer(vPlayerPos);
+			cEnemy->SetState(Tracking);
 		}
 	}
 }

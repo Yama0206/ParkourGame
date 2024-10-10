@@ -1,8 +1,8 @@
 #include "EnemyManager.h"
 
 //定義関連
-static const char ENEMY_MODEL_PATH[] = { "Data/enemy/enemy.pmx" };
-static const int WAIT_TIME = 60;
+static constexpr char ENEMY_MODEL_PATH[] = { "Data/enemy/enemy.pmx" };
+static constexpr int WAIT_TIME = 60;
 
 //コンストラクタ
 CEnemyManager::CEnemyManager()
@@ -80,9 +80,16 @@ void CEnemyManager::Fin()
 //通常処理
 void CEnemyManager::Step(VECTOR vPlayerPos)
 {
-	for (int i = 0; i < m_cEnemyList.size(); i++)
+	//敵の追跡と巡回切り替え
+	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
-		TrackingCheckPoint(i);
+		if (m_cEnemyList[EnemyIndex]->GetState() == Patrol) {
+			TrackingCheckPoint(EnemyIndex);
+		}
+		else if (m_cEnemyList[EnemyIndex]->GetState() == Tracking)
+		{
+			TrackingPlayer(vPlayerPos, EnemyIndex);
+		}
 	}
 }
 
