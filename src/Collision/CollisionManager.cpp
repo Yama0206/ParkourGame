@@ -579,22 +579,20 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 
 void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer)
 {
-	for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetCheckPointSize(); CheckPointIndex++) {
-		//チェックポイントマネージャーを取得
-		CCheckPoint* cCheckPoint = CCheckPointManager::GetInstance()->GetCheckPoint(CheckPointIndex);
-
+	for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetCheckPointSize(); CheckPointIndex++) 
+	{
 		VECTOR vPlayerPos, vCheckPointPos;		//座標
 		float fPlayerRad, fCheckPointRad;		//半径
 
 		//取得
-		cPlayer.GetCenterPos(vPlayerPos);
-		vCheckPointPos = cCheckPoint->GetPosVec();
+		cPlayer.GetPosition(vPlayerPos);
+		vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex);
 		fPlayerRad = cPlayer.GetRadius();
-		fCheckPointRad = cCheckPoint->GetRad();
+		fCheckPointRad = CCheckPointManager::GetInstance()->GetfRad(CheckPointIndex);
 
-		if(SphereCollision(fPlayerRad, vPlayerPos, fCheckPointRad, vCheckPointPos))
+		if (SphereCollision(fPlayerRad, vPlayerPos, fCheckPointRad, vCheckPointPos))
 		{
-			cCheckPoint[CheckPointIndex].SetIsArrived(true);
+			CCheckPointManager::GetInstance()->SetIsAriive(CheckPointIndex, true);
 		}
 	}
 }

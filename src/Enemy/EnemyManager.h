@@ -44,9 +44,10 @@ public:
 public:
 	//プレイヤーを追跡する
 	void TrackingPlayer(VECTOR vPlayerPos, int Index);
-
 	//チェックポイントに移動する
 	void TrackingCheckPoint(int Index);
+	//プレイヤーが通ったチェックポイント
+	void TrackingPassedPlayerPoint(int Index);
 	//敵情報取得
 	inline CEnemy* GetEnemy(int iID) { return m_cEnemyList[iID]; }
 

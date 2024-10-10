@@ -185,6 +185,43 @@ void CEnemyManager::TrackingCheckPoint(int Index)
 	m_cEnemyList[Index]->SetPosVec_Z(m_cEnemyList[Index]->GetPosVec().z + cosf(m_cEnemyList[Index]->GetRotVec().y) * -m_cEnemyList[Index]->GetSpeedVec().z);
 }
 
+void CEnemyManager::TrackingPassedPlayerPoint(int Index)
+{
+	//ホーミング処理
+	VECTOR CheckPosVec;
+	//敵からチェックポイント向かうベクトル
+	CheckPosVec.x = CCheckPointManager::GetInstance()->GetPosVec(CCheckPointManager::GetInstance()->GetiCPNum(m_cEnemyList[Index]->GetCPNum())).x - m_cEnemyList[Index]->GetPosVec().x;
+	CheckPosVec.y = 0.0f;
+	CheckPosVec.z = CCheckPointManager::GetInstance()->GetPosVec(CCheckPointManager::GetInstance()->GetiCPNum(m_cEnemyList[Index]->GetCPNum())).z - m_cEnemyList[Index]->GetPosVec().z;
+
+	float fCrossZ = 0.0f;
+
+	//現在の進行方向のベクトル
+	VECTOR  MoveVec;
+
+	memset(&MoveVec, 0.0f, sizeof(MoveVec));
+
+	MoveVec.x = sinf(m_cEnemyList[Index]->GetRotVec().y) * -1.0f;
+	MoveVec.y = 0.0f;
+	MoveVec.z = cosf(m_cEnemyList[Index]->GetRotVec().y) * -1.0f;
+
+	//2つのベクトルの外積を計算
+	fCrossZ = CheckPosVec.x * MoveVec.z - MoveVec.x * CheckPosVec.z;
+
+	//fCrossZの計算結果で左右の判定を行う
+	if (fCrossZ > 0)
+	{
+		m_cEnemyList[Index]->SetRotVec_Y(m_cEnemyList[Index]->GetRotVec().y + 0.1);
+	}
+	else if (fCrossZ < 0)
+	{
+		m_cEnemyList[Index]->SetRotVec_Y(m_cEnemyList[Index]->GetRotVec().y - 0.1);
+	}
+
+	m_cEnemyList[Index]->SetPosVec_X(m_cEnemyList[Index]->GetPosVec().x + sinf(m_cEnemyList[Index]->GetRotVec().y) * -m_cEnemyList[Index]->GetSpeedVec().x);
+	m_cEnemyList[Index]->SetPosVec_Z(m_cEnemyList[Index]->GetPosVec().z + cosf(m_cEnemyList[Index]->GetRotVec().y) * -m_cEnemyList[Index]->GetSpeedVec().z);
+}
+
 //プレイヤーショットリクエスト
 void CEnemyManager::RequestEnemy()
 {

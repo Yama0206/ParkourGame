@@ -14,6 +14,7 @@ CCheckPoint::CCheckPoint()
 	m_iCPNum = 1;
 	m_IsArrived = false;
 	m_PlayerHit = false;
+	m_IsPassedPlayer = false;
 	m_fRad = 0.0f;
 }
 
