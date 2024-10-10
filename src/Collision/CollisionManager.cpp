@@ -274,7 +274,7 @@ void CCollisionManager::CheckHitPlayerToFootBox(CPlayer& cPlayer,
 		cPlayer.GetCenterPos(vPlayerColliPos);		//プレイヤーの原点座標
 		cPlayer.GetSize(vPlayerSize);				//プレイヤーサイズ取得
 		//箱
-		cFBox[FBoxIndex].GetCenterPos(vFBoxPos, 10.0f);				//箱座標取得
+		cFBox[FBoxIndex].GetCenterPos(vFBoxPos, 10.0f);		//箱座標取得
 		vFBoxSize = cFBox[FBoxIndex].GetSize();				//箱サイズ取得
 
 		//プレイヤーの進んでいる方向取得
@@ -607,8 +607,8 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 
 		VECTOR vEnemyPos, vCheckPointPos;		//座標
 		float fEnemyRad, fCheckPointRad;		//半径
-		int num = 0;
-		int num1 = 0;
+		int CheckPointIndex = 0;
+		int DebugNum = 0;
 		//取得
 		cEnemy->GetPosition(vEnemyPos);
 		vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(cEnemy->GetCPNum());
@@ -621,12 +621,16 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 		//敵が到着してない時だけ当たり判定をとる
 		if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos))
 		{
-  			num = GetRand(3);
-			cEnemy->SetCPNum( CCheckPointManager::GetInstance()->GetNextNum(num, cEnemy->GetCPNum()));
-			num1 = cEnemy->GetCPNum();
+			//ランダムで配列の引数を取得
+			CheckPointIndex = GetRand(3);
+			cEnemy->SetCPNum( CCheckPointManager::GetInstance()->GetNextNum(CheckPointIndex, cEnemy->GetCPNum()));
+			DebugNum = cEnemy->GetCPNum();
+
+			//デバッグ文字表示---------------
 			string s;
-			s + to_string(num1);
+			s + to_string(DebugNum);
 			OutputDebugString(s.c_str());
+			//-------------------------------
 		}
 	}
 }
@@ -653,6 +657,9 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyRad))
 		{
 			cEnemy->SetState(Tracking);
+		}
+		else {
+			cEnemy->SetState(Patrol);
 		}
 	}
 }

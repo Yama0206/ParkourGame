@@ -2,8 +2,8 @@
 #include <math.h>
 
 //定義
-const int ENEMY_CP_MAX = 4;
-constexpr int ENEMY_TRAKINGAREA = 30;
+const int ENEMY_CP_MAX = 4;					//チェックポイントの数
+constexpr int ENEMY_TRAKINGAREA = 100;		//敵がプレイヤーを追跡する範囲
 
 //コンストラクタ
 CEnemy::CEnemy()
