@@ -1,27 +1,31 @@
 #pragma once
 #include "DxLib.h"
+#include <vector>
 
+using namespace std;
 
 class CCheckPoint
 {
 private:
-	VECTOR m_vPos;			//座標
-	VECTOR m_vSize;			//サイズ
+	VECTOR m_vPos;					//座標
+	VECTOR m_vSize;					//サイズ
 
-	float m_fRad;			//半径
+	float m_fRad;					//半径
 
-	int m_iCPNum;			//チェックポイント番号
-	int m_NextCPNum[4];		//次に向かうチェックポイントの番号
+	int m_iCPNum;					//チェックポイント番号
+	int m_NextCPNum[4];				//次に向かうチェックポイントの番号
+	vector<int> m_ViaPlayer;		//プレイヤーが通ったチェックポイントの配列
 
 	//フラグ
-	bool m_PlayerHit;		//プレイヤーが当たったかどうか
-	bool m_IsArrived;		//到着した
-	bool m_IsPassedPlayer;	//プレイヤーが通った
+	bool m_PlayerHit;				//プレイヤーが当たったかどうか
+	bool m_IsArrived;				//到着した
+	bool m_IsPassedPlayer;			//プレイヤーが通った
 
 public:
-	CCheckPoint();			//コンストラクタ
-	~CCheckPoint();			//デストラクタ
+	CCheckPoint();					//コンストラクタ
+	~CCheckPoint();					//デストラクタ
 
+	//	情報の設定
 	void SetInfo(int Num, VECTOR vPos, VECTOR vSize, float fRad, int* NextCPNum);
 
 	//取得関数
@@ -33,6 +37,7 @@ public:
 	bool	GetIsArrived()				{ return m_IsArrived; }			//到着したフラグ取得
 	int		GetNextNum(int iID)			{ return m_NextCPNum[iID]; }	//次に向かうチェックポイントの番号
 	bool	GetSetPassedPlayer()		{ return m_IsPassedPlayer; }	//プレイヤーが通ったかのフラグ
+	int		GetViaPlayer(int iID);										//プレイヤーが通った場所の変数
 		
 
 	//設定関数

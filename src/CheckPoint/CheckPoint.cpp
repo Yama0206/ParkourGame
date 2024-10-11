@@ -28,6 +28,11 @@ void CCheckPoint::AddCPNum()
 	m_iCPNum++;
 }
 
+int CCheckPoint::GetViaPlayer(int iID)
+{
+	return 1;
+}
+
 void CCheckPoint::SetInfo(int Num, VECTOR vPos, VECTOR vSize, float fRad, int* NextCPNum)
 {
 	m_vPos = vPos;

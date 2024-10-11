@@ -44,9 +44,11 @@ public:
 	void SetCPNum(int Num, int iID)			{ m_cCheckPointList[iID]->SetiCPNum(Num); }
 	void AddCPNum(int iID)			{ m_cCheckPointList[iID]->AddCPNum(); }										//チェックポイントの加算
 
-	int GetNextNum(int Num, int iID) { return m_cCheckPointList[iID]->GetNextNum(Num); }
+	int GetNextNum(int Num, int iID) { return m_cCheckPointList[iID]->GetNextNum(Num); }						//次に向かうチェックポイントの番号
 
 	//取得関数
-	VECTOR GetPosVec(int iID)	{ return m_cCheckPointList[iID]->GetPosVec(); }				//座標
-	float  GetfRad(int iID)		{ return m_cCheckPointList[iID]->GetRad(); }				//回転値
+	VECTOR	GetPosVec(int iID)	{ return m_cCheckPointList[iID]->GetPosVec(); }				//座標
+	float	GetfRad(int iID)		{ return m_cCheckPointList[iID]->GetRad(); }				//回転値
+
+	//設定関数
 };
