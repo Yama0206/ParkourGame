@@ -6,7 +6,7 @@
 using namespace std;
 
 //定義
-const char ENEMY_TXT_PATH[] = { "data/File/Enemy.txt" };		//敵情報のテキストファイルパス
+const char ENEMY_TXT_PATH[] = { "data/File/Enemy/Enemy.txt" };		//敵情報のテキストファイルパス
 
 struct SEnemy
 {

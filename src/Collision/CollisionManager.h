@@ -46,7 +46,7 @@ public:
 									 CItemManager& cItemManager);
 
 	//プレイヤーとチェックポイントの当たり判定
-	static void CheckHitPlayerToPoint(CPlayer& cPlayer);
+	static void CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& cEnemyManager);
 
 	//敵とチェックポイントの当たり判定
 	static void CheckHitEnemyToPoint(CEnemyManager& cEnemyManager);

@@ -3,6 +3,7 @@
 
 #include "DxLib.h"				//DXライブラリのインクルード
 #include "Input/Input.h"	
+#include "Fps/Fps.h"
 #include "Scene/SceneManager.h"
 #include "CheckPoint/Manager/CheckPointManager.h"
 
@@ -47,11 +48,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//ゲームメインループ
 	while (ProcessMessage() != -1)
 	{
+		Sleep(1);
+
 		if (CheckHitKey(KEY_INPUT_ESCAPE) == 1)
 		{
 			//エスケープキーが押されたら終了
 			break;
 		}
+
+		//フレームレート制御
+		FpsControll_Update();
 
 		//画面に表示されたものを初期化
 		ClearDrawScreen();
@@ -67,6 +73,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		cSceneManager.Loop();
 		cSceneManager.Draw();
 
+
+		//Fps制御------------------------------
+		InitFPS();							//FPSの初期化	
+		CalcFPS();							//FPSの計算
+		StepFPS();							//FPSの通常処理		
+		DrawFPS();							//FPSの表示		
+		SetNowTimeFps();					//現在の時間を設定		
+		IsExecuteFPS();						//前回の実行から実行可能フレームかチェック	
+		FpsControll_Wait();					//待機
+		//-------------------------------------
 
 		//-----------------------------------------
 		//ループの終わりに

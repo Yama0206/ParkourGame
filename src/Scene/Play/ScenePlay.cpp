@@ -159,7 +159,7 @@ void CPlayScene::Step()
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
 		CCollisionManager::CheckHitEnemyToPoint(m_cEnemyManager);
 		CCollisionManager::CheckHitPlayerToEnemy(m_cPlayer, m_cEnemyManager);
-		CCollisionManager::CheckHitPlayerToPoint(m_cPlayer);
+		CCollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cEnemyManager);
 		//CollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cCheckPointManager);
 		
 		//XVˆ—--------------------------------------------------------------//

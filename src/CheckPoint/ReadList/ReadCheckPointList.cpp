@@ -1,7 +1,7 @@
 #include "ReadCheckPointList.h"
 
 //定義
-const char CHECKPOINT_TEXT_PATH[] = { "data/File/CheckPoint.txt" };		//テキストデータのパス
+const char CHECKPOINT_TEXT_PATH[] = { "data/File/CheckPoint/CheckPoint.txt" };		//テキストデータのパス
 
 void CReadCheckPointList::ReadFile()
 {

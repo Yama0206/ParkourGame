@@ -1,7 +1,7 @@
 #include "ReadItemList.h"
 
 //’è‹`
-const char ITEM_TXT_PATH[] = { "data/File/Item.txt" };
+const char ITEM_TXT_PATH[] = { "data/File/Item/Item.txt" };
 
 void CReadItemList::ReadFile()
 {

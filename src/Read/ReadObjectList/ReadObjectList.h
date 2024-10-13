@@ -5,7 +5,7 @@
 using namespace std;
 
 //’è‹`
-const char OBJECT_TXT_PATH[] = { "data/File/Object.txt" };
+const char OBJECT_TXT_PATH[] = { "data/File/Object/Object.txt" };
 
 struct SObject
 {

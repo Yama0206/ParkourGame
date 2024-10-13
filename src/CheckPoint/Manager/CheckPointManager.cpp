@@ -56,3 +56,8 @@ void CCheckPointManager::DeleteInstance()
 		m_Instance = NULL;	//íœ‚µ‚½‚çNULL‘ã“ü
 	}
 }
+
+void CCheckPointManager::SetViaPlayer(int iID)
+{
+	m_ViaPlayer.push_back(iID);
+}
