@@ -88,7 +88,10 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 		}
 		else if (m_cEnemyList[EnemyIndex]->GetState() == Tracking)
 		{
-			TrackingPlayer(vPlayerPos, EnemyIndex);
+			if (CCheckPointManager::GetInstance()->GetViaPlayerSize() > 0) {
+				TrackingPassedPlayerPoint(EnemyIndex, CCheckPointManager::GetInstance()->GetViaPlayer());
+				/*TrackingPlayer(vPlayerPos, EnemyIndex);*/
+			}
 		}
 
 	}

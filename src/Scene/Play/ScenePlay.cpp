@@ -160,7 +160,6 @@ void CPlayScene::Step()
 		CCollisionManager::CheckHitEnemyToPoint(m_cEnemyManager);
 		CCollisionManager::CheckHitPlayerToEnemy(m_cPlayer, m_cEnemyManager);
 		CCollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cEnemyManager);
-		//CollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cCheckPointManager);
 		
 		//更新処理--------------------------------------------------------------//
 		//プレイヤー

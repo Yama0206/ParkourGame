@@ -52,6 +52,8 @@ public:
 	//取得関数
 	VECTOR	GetPosVec(int iID)				{ return m_cCheckPointList[iID]->GetPosVec(); }						//座標
 	float	GetfRad(int iID)				{ return m_cCheckPointList[iID]->GetRad(); }						//回転値
+	int		GetViaPlayer()					{ return m_ViaPlayer.back(); }										//プレイヤーが通った場所の番号の配列の末尾の要素を返す
+	int		GetViaPlayerSize()				{ return m_ViaPlayer.size(); }										//プレイヤーが通った場所の番号の配列のサイズを返す
 
 	//設定関数
 	void	SetCPNum(int Num, int iID)		{ m_cCheckPointList[iID]->SetiCPNum(Num); }							//次に向かう場所の番号を設定
