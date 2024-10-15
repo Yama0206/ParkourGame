@@ -18,6 +18,8 @@ private:
 	VECTOR m_vOldRot;				//1F前の回転値
 	VECTOR m_vUp;					//上方向
 
+	DINPUT_JOYSTATE m_JoyState;		//パッドの状態
+
 	int* m_MousePosX, * m_MousePosY;	//マウスの座標
 
 public:

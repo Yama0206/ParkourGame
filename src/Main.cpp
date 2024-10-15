@@ -6,6 +6,7 @@
 #include "Fps/Fps.h"
 #include "Scene/SceneManager.h"
 #include "CheckPoint/Manager/CheckPointManager.h"
+#include "Debug/DebugManager.h"
 
 // define
 #define	SCREEN_SIZE_X	1280	// X方向の画面サイズを指定
@@ -31,7 +32,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	//Zバッファを使用する場合TRUE
-	SetUseZBuffer3D(FALSE);
+	SetUseZBuffer3D(TRUE);
 	
 	//-----------------------------------------
 	//一番最初に１回だけやる処理をここに書く
@@ -95,6 +96,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//最後に１回だけやる処理をここに書く
 	//チェックポイントクラスを削除
 	CCheckPointManager::DeleteInstance();
+	CDebugManager::DeleteInstance();
 	//-----------------------------------------
 	//DXライブラリの後処理
 	DxLib_End();

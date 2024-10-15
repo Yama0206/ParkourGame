@@ -35,6 +35,8 @@ void CPlayer::InitValue()
 
 	//変数
 	memset(&m_ViewRot, 0.0f, sizeof(m_ViewRot));					
+	PadXBuf = 0;
+	PadYBuf = 0;
 	m_fMoveSpeed = 0.0f;										
 	m_fChangeRot = 0.0f;											
 	m_fGravity = GRAVITY;											
@@ -158,7 +160,7 @@ void CPlayer::ChangeDir(int FreamCnt)
 void CPlayer::Control(VECTOR vRot)
 {
 	//プレイヤーのフレームカウント用変数
-	int FreamCnt = 0;			
+	int FreamCnt = 0;
 
 	//移動しているかのチェック
 	m_vNextPos = m_vPos;
@@ -167,6 +169,24 @@ void CPlayer::Control(VECTOR vRot)
 	if (m_IsKeyHit) {
 		//フレームをカウント
 		FreamCnt++;
+	}
+
+	GetJoypadAnalogInput(&PadXBuf, &PadYBuf, DX_INPUT_PAD1);
+	//モデルを回転させる
+
+	if (PadXBuf != 0 || PadYBuf != 0)
+	{
+		fRot = (float)atan2f((float)PadXBuf * -1, (float)PadYBuf);
+		
+		//座標移動
+		m_fMoveSpeed -= ADD_SPEED;
+
+		//最大値を決定
+		if (m_fMoveSpeed < -MOVE_SPEED) {
+			m_fMoveSpeed = -MOVE_SPEED;
+		}
+
+		m_ViewRot.y = vRot.y + fRot;
 	}
 
 	//キャラクターの回転
@@ -187,6 +207,8 @@ void CPlayer::Control(VECTOR vRot)
 	//		m_fMoveSpeed -= ADD_SPEED;
 	//	}	
 	//}
+
+
 
 	//Wキーが押されたとき
 	if (CInput::IsKeyKeep(KEY_INPUT_W))

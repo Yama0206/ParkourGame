@@ -61,8 +61,11 @@ private:
 	
 	VECTOR m_ViewRot;				//プレイヤーの見ている向き
 
+	int PadXBuf;					//パッドレバーの左右の入力状態を格納する変数
+	int PadYBuf;					//パッドレバーの上下の入力状態を格納する変数
 	
 	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
+	float fRot;						//回転値
 	float m_fGravity;				//プレイヤーの重力
 
 	//フラグ
@@ -71,7 +74,6 @@ private:
 	bool m_IsHitLength;		//プレイヤーが物体と縦方向で当たった時
 	bool m_IsJump;			//プレイヤーがジャンプしたかどうか
 	bool m_IsKeyHit;		//キーを押したかどうか
-	float fRot;
 
 public:
 	//コンストラクタ

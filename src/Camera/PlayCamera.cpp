@@ -81,6 +81,9 @@ void CPlayerCamera::Step(VECTOR vForcus, VECTOR vSpd)
 //視点操作
 void CPlayerCamera::ViewControl()
 {
+	//パッドの状態を取得
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &m_JoyState);
+
 	//1F前の回転値を入れておく
 	m_vRot = m_vOldRot;
 
@@ -89,7 +92,7 @@ void CPlayerCamera::ViewControl()
 	float MaxRotX = TransAngleToRadian(73.0f);
 
 
-	//キャラクターの回転
+	//キャラクターのカメラの回転
 	if (CInput::IsKeyKeep(KEY_INPUT_RIGHT))
 	{
 		m_vRot.y += VIEWPOINT_SPEED;

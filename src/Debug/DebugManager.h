@@ -5,6 +5,11 @@
 
 using namespace std;
 
+//定義
+const unsigned int DEFAULT_DEBUG_COLOR = GetColor(255, 0, 0);
+const unsigned int DEFALUT_SPHERE_COLOR = GetColor(171, 225, 250);
+constexpr int DEFALUT_DIV_NUM = 8;
+
 class CDebugManager
 {
 private:
@@ -13,21 +18,20 @@ private:
 private:
 	struct Debug
 	{
-		string	m_String;					//表示するデバッグ文字
-		int		m_Color;					//文字の色
-		int		m_RowNumber;				//描画する行の番号	
-		int		m_ColumnNumber;				//描画する列の番号
+		string			m_String;					//表示するデバッグ文字
+		unsigned int	m_Color;					//文字の色
 	};
 
 	struct DebugShere
 	{
-		VECTOR	m_vPos;						//座標
-		float	m_fRad;						//半径
-
-		int		m_Color;					//文字の色
+		VECTOR			m_vPos;						//座標
+		float			m_fRad;						//半径
+		int				m_DivNum;					//球を形成するポリゴンの細かさ
+		unsigned int	m_Color;					//球の色
 	};
 
-	vector <Debug> m_Debug;
+	vector <Debug>		 m_String;					//デバッグ文字
+	vector <DebugShere>	 m_Sphere;					//デバッグ球
 
 public:
 	//シングルトンのクラス取得と削除--------------
@@ -38,9 +42,11 @@ public:
 	//--------------------------------------------
 
 public:
-	void AddDebugInfo(string DebugString, int Color, int RowNumber, int ColumnNumber);
+	void AddDebugInfo(string DebugString, unsigned int Color, int RowNumber,  int ColumnNumber);
 
-	void AddDebugSphereInfo();
+	void AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum = DEFALUT_DIV_NUM, unsigned int Color = DEFALUT_SPHERE_COLOR);
+
+	void DrawSphere();
 
 	void Draw();
 };

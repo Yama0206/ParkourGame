@@ -11,6 +11,7 @@
 #include "../Goal/Goal.h"
 #include "../Item/Manager/ItemManager.h"
 #include "../CheckPoint/Manager/CheckPointManager.h"
+#include "../Debug/DebugManager.h"
 #include <vector>
 
 using namespace std;

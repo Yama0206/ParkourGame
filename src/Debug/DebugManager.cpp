@@ -3,10 +3,10 @@
 CDebugManager* CDebugManager::m_Instance = NULL;
 
 //定義
-const	  int DEFAULT_DEBUG_COLOR = GetColor(255,0,0);
 constexpr int DEFAULT_X_SIZE = 100;
 constexpr int DEFAULT_Y_SIZE = 32;
 constexpr int DEFAULT_LINENUM = 0;
+
 
 
 CDebugManager* CDebugManager::GetInstance()
@@ -29,29 +29,47 @@ void CDebugManager::DeleteInstance()
 	}
 }
 
-void CDebugManager::AddDebugInfo(string DebugString, int Color, int RowNumber, int ColumnNumber)
+void CDebugManager::AddDebugInfo(string DebugString, unsigned int Color, int RowNumber, int ColumnNumber)
 {
 	Debug debug;
 	debug.m_String = DebugString;
 	debug.m_Color = Color;
-	debug.m_RowNumber = RowNumber;
-	debug.m_ColumnNumber = ColumnNumber;
 
-	m_Debug.push_back(debug);
+	m_String.push_back(debug);
+}
+
+void CDebugManager::AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum, unsigned int Color)
+{
+	DebugShere sphere;
+	sphere.m_vPos = vPos;
+	sphere.m_fRad = fRad;
+	sphere.m_DivNum = DivNum;
+	sphere.m_Color = Color;
+
+	m_Sphere.push_back(sphere);
 }
 
 void CDebugManager::Draw()
 {
 	//デバッグする文字がなかったら処理を行わない
-	if (m_Debug.size() <= 0) return;
+	if (m_String.size() <= 0) return;
 
-	for (int i = 0; i < m_Debug.size(); i++)
+	/*for (int i = 0; i < m_String.size(); i++)
 	{
 		
-	}
+	}*/
+
+	//球描画
+	DrawSphere();
 }
 
-void CDebugManager::AddDebugSphereInfo()
+void CDebugManager::DrawSphere()
 {
+	//デバッグする球がなかったら処理を行わない
+	if (m_Sphere.size() <= 0) return;
 
+	for (int i = 0; i < m_Sphere.size(); ++i)
+	{
+		DrawSphere3D(m_Sphere[i].m_vPos, m_Sphere[i].m_fRad, m_Sphere[i].m_DivNum, m_Sphere[i].m_Color, m_Sphere[i].m_Color, false);
+	}
 }

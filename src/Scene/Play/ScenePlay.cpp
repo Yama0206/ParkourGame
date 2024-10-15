@@ -83,6 +83,7 @@ void CPlayScene::Init()
 		cRock[RockIndex].Init();
 	}
 
+
 	//ゴール初期化
 	cGoal.Init();
 
@@ -130,6 +131,9 @@ void CPlayScene::Load()
 	m_cSky.Load();												//空
 	CCheckPointManager::GetInstance()->Load();					//チェックポイント
 
+	for (int i = 0; i < CCheckPointManager::GetInstance()->GetCheckPointSize(); i++) {
+		CDebugManager::GetInstance()->AddDebugSphereInfo(CCheckPointManager::GetInstance()->GetPosVec(i), CCheckPointManager::GetInstance()->GetfRad(i));
+	}
 	//ゴール読み込み
 	cGoal.Load();
 }
@@ -150,6 +154,9 @@ void CPlayScene::Step()
 		
 		//空の通常処理
 		m_cSky.Step();
+
+		GetJoypadDirectInputState(DX_INPUT_PAD1, &m_JoyState);
+		
 
 		//当たり判定処理
 		CCollisionManager::CheckHitShotToEnemy(m_cEnemyManager, m_cShotManager);
@@ -233,6 +240,14 @@ void CPlayScene::Draw()
 	m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
 
 	m_cDebug.PrintPos(900, 32, m_cPlayer.GetPosition());
+
+	DrawFormatString(100, 500, GetColor(255, 0, 0), "%d", m_JoyState.X);
+	DrawFormatString(100, 530, GetColor(255, 0, 0), "%d", m_JoyState.Y);
+	DrawFormatString(100, 560, GetColor(255, 0, 0), "%d", m_JoyState.Z);
+	DrawFormatString(100, 590, GetColor(255, 0, 0), "%d", m_JoyState.Rx);
+	DrawFormatString(100, 620, GetColor(255, 0, 0), "%d", m_JoyState.Ry);
+	DrawFormatString(100, 650, GetColor(255, 0, 0), "%d", m_JoyState.Rz);
+	CDebugManager::GetInstance()->DrawSphere();
 }
 
 void CPlayScene::SetBlock()

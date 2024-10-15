@@ -20,6 +20,7 @@
 #include "../../Debug/Debug.h"
 #include "../../CheckPoint/Manager/CheckPointManager.h"
 #include "../../CheckPoint/Manager/CheckPointManager.h"
+#include "../../Debug/DebugManager.h"
 
 using namespace std;
 
@@ -45,6 +46,8 @@ private:
 	CSky m_cSky;								//空
 	CDebug m_cDebug;							//デバッグクラス
 	tagPLAY_SCENE m_eSceneID;					//シーン保存
+
+	DINPUT_JOYSTATE m_JoyState;
 
 	//仮
 	CBox cBox;		//箱
