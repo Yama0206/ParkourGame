@@ -1,4 +1,7 @@
 #include "PlayCamera.h"
+#include <iostream>
+
+using namespace std;
 
 //’è‹`ŠÖ˜A
 const float VIEWPOINT_SPEED = 0.05f;								//Ž‹“_ˆÚ“®Žž‚Ì‘¬‚³

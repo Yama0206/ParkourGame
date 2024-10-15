@@ -247,7 +247,7 @@ void CPlayScene::Draw()
 	DrawFormatString(100, 590, GetColor(255, 0, 0), "%d", m_JoyState.Rx);
 	DrawFormatString(100, 620, GetColor(255, 0, 0), "%d", m_JoyState.Ry);
 	DrawFormatString(100, 650, GetColor(255, 0, 0), "%d", m_JoyState.Rz);
-	CDebugManager::GetInstance()->DrawSphere();
+	CDebugManager::GetInstance()->Draw();
 }
 
 void CPlayScene::SetBlock()

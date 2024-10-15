@@ -1,6 +1,7 @@
 #pragma once]
 #include "DxLib.h"
 #include <vector>
+#include <algorithm>
 #include "string"
 
 using namespace std;
@@ -20,6 +21,7 @@ private:
 	{
 		string			m_String;					//表示するデバッグ文字
 		unsigned int	m_Color;					//文字の色
+		int				m_DrawNum;					//表示番号
 	};
 
 	struct DebugShere
@@ -30,8 +32,8 @@ private:
 		unsigned int	m_Color;					//球の色
 	};
 
-	vector <Debug>		 m_String;					//デバッグ文字
-	vector <DebugShere>	 m_Sphere;					//デバッグ球
+	vector <Debug>		 m_DebugString;					//デバッグ文字
+	vector <DebugShere>	 m_DebugSphere;					//デバッグ球
 
 public:
 	//シングルトンのクラス取得と削除--------------
@@ -42,9 +44,11 @@ public:
 	//--------------------------------------------
 
 public:
-	void AddDebugInfo(string DebugString, unsigned int Color, int RowNumber,  int ColumnNumber);
+	void AddDebugInfo(string DebugString, unsigned int Color = DEFAULT_DEBUG_COLOR, int DrawNum = -1);
 
 	void AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum = DEFALUT_DIV_NUM, unsigned int Color = DEFALUT_SPHERE_COLOR);
+
+	void Step();
 
 	void DrawSphere();
 

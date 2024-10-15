@@ -3,6 +3,7 @@
 #include "math.h"
 #include "../Input/Input.h"
 #include "../Math/Math.h"
+#include "../Debug/DebugManager.h"
 
 const float CAMERA_LENGTH = 50.0f;								//ƒJƒƒ‰‚Ì‹——£
 const float CAMERA_OFFSET_Y = 50.0f;							//ƒJƒƒ‰‚Ì‹“_‚Ì‚‚³
