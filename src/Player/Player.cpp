@@ -1,16 +1,17 @@
 #include "Player.h"
 
 //定義関連
-static const float VIEWPOINT_SPEED = 0.1f;					//プレイヤーの回転速度
-static const float MOVE_SPEED = 1.0f;						//プレイヤーの移動速度
-static const float ADD_SPEED = 0.2f;						//プレイヤーのスピードを加算する
-static const float SAB_SPEED = 0.1f; 						//プレイヤーのスピードを減算する
-static const float DASH_SPEED = 2.0f;						//プレイヤーが走った時の移動速度
-static const float GRAVITY = 0.2f;							//プレイヤーの重力
-static const float MAX_GRAVITY = 3.0f;						//プレイヤーの重力の限界
-static const float MIN_GRAVITY = 0.1f;						//プレイヤーの重力の最低
-static const float YSPEED = 4.0f;							//プレイヤーのY方向のスピード
-static const float ROTATE_SPEED = 0.1f;						//回転スピード
+static constexpr float VIEWPOINT_SPEED = 0.1f;					//プレイヤーの回転速度
+static constexpr float MOVE_SPEED = 1.0f;						//プレイヤーの移動速度
+static constexpr float ADD_SPEED = 0.2f;						//プレイヤーのスピードを加算する
+static constexpr float SAB_SPEED = 0.1f; 						//プレイヤーのスピードを減算する
+static constexpr float DASH_SPEED = 2.0f;						//プレイヤーが走った時の移動速度
+static constexpr float GRAVITY = 0.2f;							//プレイヤーの重力
+static constexpr float MAX_GRAVITY = 3.0f;						//プレイヤーの重力の限界
+static constexpr float MIN_GRAVITY = 0.1f;						//プレイヤーの重力の最低
+static constexpr float YSPEED = 4.0f;							//プレイヤーのY方向のスピード
+static constexpr float ROTATE_SPEED = 0.1f;						//回転スピード
+static constexpr float SCALE = 2.0f;							//拡大縮小率
 	
 //コンストラクタ
 CPlayer::CPlayer()
@@ -34,7 +35,8 @@ void CPlayer::InitValue()
 	m_eDir = FRONT;								//プレイヤーの方向
 
 	//変数
-	memset(&m_ViewRot, 0.0f, sizeof(m_ViewRot));					
+	memset(&m_ViewRot, 0.0f, sizeof(m_ViewRot));	
+	memset(&m_vScale, SCALE, sizeof(m_vScale));
 	PadXBuf = 0;
 	PadYBuf = 0;
 	m_fMoveSpeed = 0.0f;										
@@ -341,6 +343,7 @@ void CPlayer::Update()
 
 	MV1SetRotationXYZ(m_iHndl, m_ViewRot);
 	MV1SetPosition(m_iHndl, m_vPos);
+	//MV1SetScale(m_iHndl, m_vScale);
 }
 
 void CPlayer::Draw()
