@@ -9,7 +9,7 @@
 #include "../Camera/CameraManager.h"
 
 static const char PLAYER_MODEL_PATH[]	
-= { "data/char/3DGame Player.mv1" };						//ロードするファイル名
+= { "data/char/char.pmd" };									//ロードするファイル名
 static const float PLAYER_RADIUS = 2.5f;					//プレイヤーの半径
 
 static const float PLAYER_WIDTH = 10.0f;					//プレイヤーの横サイズ
