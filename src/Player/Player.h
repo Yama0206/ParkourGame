@@ -129,9 +129,9 @@ public:
 	void ChangeDir(int FreamCnt);
 
 	//座標取得
-	inline VECTOR GetPosition() { return m_vPos; }						//プレイヤーの座標
-	inline void GetPosition(VECTOR &vPos) {  vPos = m_vPos; }			//プレイヤーの座標
-	inline void GetNextPosVec(VECTOR& vPos) { vPos = m_vNextPos; }		//プレイヤーの移動後の座標
+	inline VECTOR	GetPosition()					{ return m_vPos; }			//プレイヤーの座標
+	inline void		GetPosition(VECTOR &vPos)		{  vPos = m_vPos; }			//プレイヤーの座標
+	inline void		GetNextPosVec(VECTOR& vPos)		{ vPos = m_vNextPos; }		//プレイヤーの移動後の座標
 
 
 	//Y軸角度取得
@@ -139,25 +139,26 @@ public:
 	//半径取得
 	inline float GetRadius() { return PLAYER_RADIUS; }
 
-	tagPlayerState GetPlayerState()			{ return m_eState; }	//プレイヤーの状態を取得
-	void GetHalfSize(VECTOR& vHalfSize);							//半分のサイズを取得
-  VECTOR GetSpd()							{ return m_vSpd; }		//プレイヤーの速さを取得
-	float GetfSpd()						{ return m_fMoveSpeed; }	//スピードを取得(float)
-	void GetSize(VECTOR& vSize);									//縦、横、奥行きのサイズ取得
-	void GetCenterPos(VECTOR& vPos);								//プレイヤーの中心座標を設定
+	tagPlayerState	GetPlayerState()					{ return m_eState; }			//プレイヤーの状態を取得
+	void			GetHalfSize(VECTOR& vHalfSize);										//半分のサイズを取得
+	VECTOR			GetSpd()							{ return m_vSpd; }				//プレイヤーの速さを取得
+	float			GetfSpd()							{ return m_fMoveSpeed; }		//スピードを取得(float)
+	void			GetSize(VECTOR& vSize);												//縦、横、奥行きのサイズ取得
+	void			GetCenterPos(VECTOR& vPos);											//プレイヤーの中心座標を設定
+	VECTOR			GetForcsPos();														//プレイヤーカメラに渡す注視点座標
 
 	//物体にあっているかどうか
-	bool SetIsHit(bool flag) { return m_IsHit = flag; }	
-	bool SetIsHitSide(bool flag) { return m_IsHitSide = flag; }
-	bool SetIsHitLength(bool flag) { return m_IsHitLength = flag; }
+	bool SetIsHit(bool flag)		{ return m_IsHit = flag; }	
+	bool SetIsHitSide(bool flag)	{ return m_IsHitSide = flag; }
+	bool SetIsHitLength(bool flag)	{ return m_IsHitLength = flag; }
 
 	//生存フラグの設定・取得
 	void SetIsAllive(bool flag) { m_IsAllive = flag; }			//生存フラグの設定
-	bool GetIsAllive() { return m_IsAllive; }					//生存フラグの取得
+	bool GetIsAllive()			{ return m_IsAllive; }			//生存フラグの取得
 
 	//ジャンプフラグ取得・設定
-	void SetIsJamp(bool flag) { m_IsJump = flag; }				//ジャンプフラグ設定
-	bool GetIsJamp() { return m_IsJump; }						//ジャンプフラグ取得
+	void SetIsJamp(bool flag)	{ m_IsJump = flag; }			//ジャンプフラグ設定
+	bool GetIsJamp()			{ return m_IsJump; }			//ジャンプフラグ取得
 
 private:
 	//何もしていないときの処理

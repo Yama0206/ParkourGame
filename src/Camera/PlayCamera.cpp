@@ -94,8 +94,31 @@ void CPlayerCamera::ViewControl()
 	//角度をラジアンに変換
 	float MaxRotX = TransAngleToRadian(73.0f);
 
-
 	//キャラクターのカメラの回転
+	//スティック
+	//右に倒したとき
+	if (m_JoyState.Rx > 0)
+	{
+		m_vRot.y += VIEWPOINT_SPEED;
+	}
+	//左に倒したとき
+	else if (m_JoyState.Rx < 0)
+	{
+		m_vRot.y -= VIEWPOINT_SPEED;
+	}
+	//上に倒したとき
+	if (m_JoyState.Ry < 0)
+	{
+		m_vRot.x += -VIEWPOINT_SPEED;
+	}
+	//下に倒したとき
+	else if (m_JoyState.Ry > 0)
+	{
+		m_vRot.x += VIEWPOINT_SPEED;
+	}
+
+
+	//キーボード
 	if (CInput::IsKeyKeep(KEY_INPUT_RIGHT))
 	{
 		m_vRot.y += VIEWPOINT_SPEED;

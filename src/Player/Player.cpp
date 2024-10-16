@@ -176,7 +176,7 @@ void CPlayer::Control(VECTOR vRot)
 
 	if (PadXBuf != 0 || PadYBuf != 0)
 	{
-		fRot = (float)atan2f((float)PadXBuf * -1, (float)PadYBuf);
+		fRot = atan2f((float)PadXBuf * -1, (float)PadYBuf);
 		
 		//座標移動
 		m_fMoveSpeed -= ADD_SPEED;
@@ -435,6 +435,21 @@ void CPlayer::SetPosY(float vPosY)
 void CPlayer::SetPosZ(float vPosZ)
 {
 	m_vPos.z = vPosZ;
+}
+
+VECTOR CPlayer::GetForcsPos()
+{
+	VECTOR vHead = { 0 };
+	VECTOR vForcus = { 0 };
+
+	//プレイヤーの頭の座標を計算	
+	vHead = VAdd(m_vPos, VGet(0, PLAYER_HEIGHT, 0));
+
+	vHead.y += 10.0f;
+
+	vForcus = vHead;
+
+	return vForcus;
 }
 
 void CPlayer::ReflectCollision(VECTOR vAddVec)

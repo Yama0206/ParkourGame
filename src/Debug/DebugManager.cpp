@@ -32,7 +32,7 @@ void CDebugManager::DeleteInstance()
 void CDebugManager::AddDebugInfo(string DebugString, unsigned int Color, int DrawNum)
 {
 	Debug debug;
-	debug.m_String = DebugString;
+	debug.m_String += DebugString;
 	debug.m_Color = Color;
 
 	if (DrawNum == -1)
@@ -70,7 +70,7 @@ void CDebugManager::Draw()
 	for (int i = 0; i < m_DebugString.size(); i++)
 	{
 		//•¶Žš•`‰æ
-		DrawFormatString(DEFAULT_X_SIZE, i * DEFAULT_Y_SIZE, m_DebugString[i].m_Color,"%s" ,m_DebugString[i].m_String);
+		DrawFormatString(DEFAULT_X_SIZE, i * DEFAULT_Y_SIZE, m_DebugString[i].m_Color,"%s" ,m_DebugString[i].m_String.c_str());
 	}
 
 	//‹…•`‰æ

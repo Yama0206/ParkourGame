@@ -131,6 +131,7 @@ void CPlayScene::Load()
 	m_cSky.Load();												//空
 	CCheckPointManager::GetInstance()->Load();					//チェックポイント
 
+
 	for (int i = 0; i < CCheckPointManager::GetInstance()->GetCheckPointSize(); i++) {
 		CDebugManager::GetInstance()->AddDebugSphereInfo(CCheckPointManager::GetInstance()->GetPosVec(i), CCheckPointManager::GetInstance()->GetfRad(i));
 	}
@@ -187,12 +188,12 @@ void CPlayScene::Step()
 	if (CInput::IsKeyPush(KEY_INPUT_C))
 	{
 		//カメラマネージャー
-		m_cCameraManager.Step(m_cPlayer.GetPosition(), m_cPlayer.GetRotate());
+		m_cCameraManager.Step(m_cPlayer.GetForcsPos(), m_cPlayer.GetRotate());
 		m_cCameraManager.ChangeCamera(CCameraManager::CAMERA_ID_DEBUG);
 	}
 	else if (CInput::IsKeyPush(KEY_INPUT_V))
 	{
-
+		//デバッグモード
 		m_cCameraManager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
 	}
 
@@ -204,7 +205,7 @@ void CPlayScene::Step()
 	}
 
 	//カメラ更新処理
-	m_cCameraManager.Step(m_cPlayer.GetPosition(), m_cPlayer.GetSpd());
+	m_cCameraManager.Step(m_cPlayer.GetForcsPos(), m_cPlayer.GetSpd());
 
 	//プレイヤーが死亡したら
 	GameEnd();
