@@ -6,20 +6,20 @@
 
 enum JoyPadKey
 {
-	INPUT_DOWN = 1,
-	INPUT_LEFT = 10,
-	INPUT_RIGHT = 20,
-	INPUT_UP = 30,
-	INPUT_1 = 40,
-	INPUT_2 = 50,
-	INPUT_3 = 60,
-	INPUT_4 = 70,
-	INPUT_5 = 80,
-	INPUT_6 = 90,
-	INPUT_7 = 100,
-	INPUT_8 = 110,
-	INPUT_9 = 120,
-	INPUT_10 = 130,
+	INPUT_DOWN = 0,
+	INPUT_LEFT,
+	INPUT_RIGHT,
+	INPUT_UP,
+	INPUT_A,
+	INPUT_B,
+	INPUT_X,
+	INPUT_Y,
+	INPUT_5,
+	INPUT_6,
+	INPUT_7,
+	INPUT_8,
+	INPUT_9,
+	INPUT_10
 };
 
 static class CPad
@@ -36,7 +36,7 @@ private:
 public:
 	static void Init();
 
-	//static void StepInputPad();
+	static void Step();
 
 	//Padä÷òA
 //ç°âüÇ≥ÇÍÇΩ
@@ -47,5 +47,7 @@ public:
 	static bool IsPadRelease(int key_code);
 	//âüÇ≥ÇÍÇΩÇ©Ç«Ç§Ç©
 	static bool IsPadDown(int key_code);
+
+	static int GetHitPadStateAll(char* PadBuf);
 
 };

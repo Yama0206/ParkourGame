@@ -3,6 +3,7 @@
 
 #include "DxLib.h"				//DXライブラリのインクルード
 #include "Input/Input.h"	
+#include "Input/Pad/Pad.h"	
 #include "Fps/Fps.h"
 #include "Scene/SceneManager.h"
 #include "CheckPoint/Manager/CheckPointManager.h"
@@ -42,6 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//入力関連初期化
 	CInput::InitInput();
+	CPad::Init();
 
 	 int iHndl = MV1LoadModel(BULLET_PATH);
 	//-----------------------------------------
@@ -69,6 +71,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 		//入力関連
 		CInput::StepInput();
+		CPad::Step();
 
 
 		cSceneManager.Loop();

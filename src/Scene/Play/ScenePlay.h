@@ -21,6 +21,7 @@
 #include "../../CheckPoint/Manager/CheckPointManager.h"
 #include "../../CheckPoint/Manager/CheckPointManager.h"
 #include "../../Debug/DebugManager.h"
+#include "../../Input/Pad/Pad.h"
 
 using namespace std;
 
@@ -36,21 +37,21 @@ private:
 		PLAY_SCENE_NUM
 	};
 
-	CCameraManager m_cCameraManager;			//カメラマネージャー
-	CShotManager m_cShotManager;				//弾の発射
-	CPlayer m_cPlayer;							//プレイヤー処理
-	CEnemyManager m_cEnemyManager;				//敵
-	CObjectManager m_cObjectManager;			//オブジェクト
-	CItemManager m_cItemManager;				//アイテムマネージャー
-	CField m_cField;							//背景処理
-	CSky m_cSky;								//空
-	CDebug m_cDebug;							//デバッグクラス
-	tagPLAY_SCENE m_eSceneID;					//シーン保存
+	CCameraManager		m_cCameraManager;			//カメラマネージャー
+	CShotManager		m_cShotManager;				//弾の発射
+	CPlayer				m_cPlayer;					//プレイヤー処理
+	CEnemyManager		m_cEnemyManager;			//敵
+	CObjectManager		m_cObjectManager;			//オブジェクト
+	CItemManager		m_cItemManager;				//アイテムマネージャー
+	CField				m_cField;					//背景処理
+	CSky				m_cSky;						//空
+	CDebug				m_cDebug;					//デバッグクラス
+	tagPLAY_SCENE		m_eSceneID;					//シーン保存
 
 	DINPUT_JOYSTATE m_JoyState;
 
 	//仮
-	CBox cBox;		//箱
+	CBox			 cBox;	//箱
 	vector<CFootBox> cFBox;	//足場の箱
 	vector<CRock>    cRock;	//足場の石
 	CGoal			 cGoal;	//ゴール
