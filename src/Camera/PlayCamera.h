@@ -45,6 +45,9 @@ public:
 	//視点操作
 	void ViewControl();
 
+	//感度
+	void RightStickSensitivity(DINPUT_JOYSTATE JoyState);
+
 	//カメラ情報の更新
 	void UpDate();
 };

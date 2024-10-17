@@ -6,11 +6,6 @@ char CInput::currentKeyBuf[KEY_BUF_LEN] = { 0 };
 //前フレームのキー情報
 char CInput::preKeyBuf[KEY_BUF_LEN] = { 0 };
 
-//現在のフレームのPad情報
-char CInput::currentPadBuf[PAD_BUF_LEN] = { 0 };
-//前フレームのPad情報
-char CInput::prePadBuf[PAD_BUF_LEN] = { 0 };
-
 //現在のフレームのマウス情報
 int CInput::currentMouseBuf[MOUSE_BUF_LEN] = { 0 };
 //前フレームのマウス情報
@@ -28,22 +23,12 @@ void CInput::InitInput()
 		preKeyBuf[index] = '\0';
 	}
 
-	//パッド
-	for (int index = 0; index < KEY_BUF_LEN; index++)
-	{
-		currentPadBuf[index] = '\0';
-		prePadBuf[index] = '\0';
-	}
-
 	//マウス
 	for (int index = 0; index < MOUSE_BUF_LEN; index++)
 	{
 		currentMouseBuf[index] = 0;
 		preMouseBuf[index] = 0;
 	}
-
-	//パッドの数を保存
-	JoypadNum = GetJoypadNum();
 }
 
 //入力制御のステップ
@@ -68,17 +53,6 @@ void CInput::StepInput()
 	GetHitMouseStateAll();
 }
 
-//パッドの入力制御のステップ
-void CInput::StepInputPad()
-{
-	//前のフレームのパッドの情報変数に記録しておく
-	for (int index = 0; index < KEY_BUF_LEN; index++)
-	{
-		prePadBuf[index] = currentKeyBuf[index];
-	}
-
-	GetHitPadStateAll();
-}
 
 //キー
 bool CInput::IsKeyPush(int key_code)
@@ -124,49 +98,7 @@ bool CInput::IsKeyDown(int key_code)
 	return false;
 }
 
-//パッド関連
-bool CInput::IsPadPush(int key_code)
-{
-	//前振れで押されてない　かつ　現フレで押されている
-	if (prePadBuf[key_code] == 0 && currentPadBuf[key_code] == 1)
-		return true;
 
-	//押されてないのでfalse
-	return false;
-}
-
-bool CInput::IsPadKeep(int key_code)
-{
-	//前振れで押されている　かつ　現フレも押されている
-	if (preKeyBuf[key_code] == 1 && currentKeyBuf[key_code] == 1)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool CInput::IsPadRelease(int key_code)
-{
-	//前フレで押されている　かつ　現フレで押されていない
-	if (prePadBuf[key_code] == 1 && currentPadBuf[key_code] == 0)
-	{
-		return true;
-	}
-	return false;
-}
-
-//押されている
-bool CInput::IsPadDown(int key_code)
-{
-	//現フレで押されている（前振れの状態は関係なし）
-	if (currentPadBuf[key_code] == 1)
-	{
-		return true;
-	}
-
-	return false;
-}
 
 
 //マウス関連
@@ -217,78 +149,78 @@ void CInput::GetHitMouseStateAll()
 	}
 }
 
-void CInput::GetHitPadStateAll()
-{
-	memset(currentPadBuf, 0, sizeof(currentPadBuf));
+//void CInput::GetHitPadStateAll()
+//{
+//	memset(currentPadBuf, 0, sizeof(currentPadBuf));
+//
+//	//下キー
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_DOWN) != 0){
+//		//押されている
+//		currentPadBuf[INPUT_DOWN] = 1;
+//	}
+//	//左キー
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_LEFT) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_LEFT] = 1;
+//	}
+//	//右キー
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_RIGHT) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_RIGHT] = 1;
+//	}
+//	//上キー
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_UP) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_UP] = 1;
+//	}
+//	//　1ボタンチェックマスク(Zキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_1) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_1] = 1;
+//	}
+//	//　2ボタンチェックマスク(Xキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_2) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_2] = 1;
+//	}
+//	//　3ボタンチェックマスク(Cキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_3) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_3] = 1;
+//	}
+//	//　4ボタンチェックマスク(Aキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_4) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_4] = 1;
+//	}
+//	//　5ボタンチェックマスク(Sキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_5) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_5] = 1;
+//	}
+//	//　6ボタンチェックマスク(Dキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_6) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_6] = 1;
+//	}
+//	//　7ボタンチェックマスク(Qキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_7) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_7] = 1;
+//	}
+//	//　8ボタンチェックマスク(Wキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_8) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_8] = 1;
+//	}
+//	//　9ボタンチェックマスク(ESCキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_9) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_9] = 1;
+//	}
+//	//　10ボタンチェックマスク(スペースキー)
+//	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_10) != 0) {
+//		//押されている
+//		currentPadBuf[INPUT_10] = 1;
+//	}
 
-	//下キー
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_DOWN) != 0){
-		//押されている
-		currentPadBuf[INPUT_DOWN] = 1;
-	}
-	//左キー
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_LEFT) != 0) {
-		//押されている
-		currentPadBuf[INPUT_LEFT] = 1;
-	}
-	//右キー
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_RIGHT) != 0) {
-		//押されている
-		currentPadBuf[INPUT_RIGHT] = 1;
-	}
-	//上キー
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_UP) != 0) {
-		//押されている
-		currentPadBuf[INPUT_UP] = 1;
-	}
-	//　1ボタンチェックマスク(Zキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_1) != 0) {
-		//押されている
-		currentPadBuf[INPUT_1] = 1;
-	}
-	//　2ボタンチェックマスク(Xキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_2) != 0) {
-		//押されている
-		currentPadBuf[INPUT_2] = 1;
-	}
-	//　3ボタンチェックマスク(Cキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_3) != 0) {
-		//押されている
-		currentPadBuf[INPUT_3] = 1;
-	}
-	//　4ボタンチェックマスク(Aキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_4) != 0) {
-		//押されている
-		currentPadBuf[INPUT_4] = 1;
-	}
-	//　5ボタンチェックマスク(Sキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_5) != 0) {
-		//押されている
-		currentPadBuf[INPUT_5] = 1;
-	}
-	//　6ボタンチェックマスク(Dキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_6) != 0) {
-		//押されている
-		currentPadBuf[INPUT_6] = 1;
-	}
-	//　7ボタンチェックマスク(Qキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_7) != 0) {
-		//押されている
-		currentPadBuf[INPUT_7] = 1;
-	}
-	//　8ボタンチェックマスク(Wキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_8) != 0) {
-		//押されている
-		currentPadBuf[INPUT_8] = 1;
-	}
-	//　9ボタンチェックマスク(ESCキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_9) != 0) {
-		//押されている
-		currentPadBuf[INPUT_9] = 1;
-	}
-	//　10ボタンチェックマスク(スペースキー)
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_10) != 0) {
-		//押されている
-		currentPadBuf[INPUT_10] = 1;
-	}
-}

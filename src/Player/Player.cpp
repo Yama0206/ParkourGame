@@ -11,7 +11,7 @@ static constexpr float MAX_GRAVITY = 3.0f;						//プレイヤーの重力の限界
 static constexpr float MIN_GRAVITY = 0.1f;						//プレイヤーの重力の最低
 static constexpr float YSPEED = 4.0f;							//プレイヤーのY方向のスピード
 static constexpr float ROTATE_SPEED = 0.1f;						//回転スピード
-static constexpr float SCALE = 2.0f;							//拡大縮小率
+static constexpr float SCALE = 0.1f;							//拡大縮小率
 	
 //コンストラクタ
 CPlayer::CPlayer()
@@ -36,9 +36,9 @@ void CPlayer::InitValue()
 
 	//変数
 	memset(&m_ViewRot, 0.0f, sizeof(m_ViewRot));	
-	memset(&m_vScale, SCALE, sizeof(m_vScale));
-	PadXBuf = 0;
-	PadYBuf = 0;
+	m_vScale = { SCALE , SCALE , SCALE };
+	m_PadXBuf = 0;
+	m_PadYBuf = 0;
 	m_fMoveSpeed = 0.0f;										
 	m_fChangeRot = 0.0f;											
 	m_fGravity = GRAVITY;											
@@ -173,12 +173,12 @@ void CPlayer::Control(VECTOR vRot)
 		FreamCnt++;
 	}
 
-	GetJoypadAnalogInput(&PadXBuf, &PadYBuf, DX_INPUT_PAD1);
+	GetJoypadAnalogInput(&m_PadXBuf, &m_PadYBuf, DX_INPUT_PAD1);
 	//モデルを回転させる
 
-	if (PadXBuf != 0 || PadYBuf != 0)
+	if (m_PadXBuf != 0 || m_PadYBuf != 0)
 	{
-		fRot = atan2f((float)PadXBuf * -1, (float)PadYBuf);
+		fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
 		
 		//座標移動
 		m_fMoveSpeed -= ADD_SPEED;
@@ -343,7 +343,7 @@ void CPlayer::Update()
 
 	MV1SetRotationXYZ(m_iHndl, m_ViewRot);
 	MV1SetPosition(m_iHndl, m_vPos);
-	//MV1SetScale(m_iHndl, m_vScale);
+	MV1SetScale(m_iHndl, m_vScale);
 }
 
 void CPlayer::Draw()
@@ -357,7 +357,7 @@ void CPlayer::Draw()
 void CPlayer::ExecDefault()
 {
 	//Wキーを押したとき
-	if (CInput::IsKeyKeep(KEY_INPUT_W) || CInput::IsKeyKeep(KEY_INPUT_S) || CInput::IsKeyKeep(KEY_INPUT_D) || CInput::IsKeyKeep(KEY_INPUT_A))
+	if (CInput::IsKeyKeep(KEY_INPUT_W) || CInput::IsKeyKeep(KEY_INPUT_S) || CInput::IsKeyKeep(KEY_INPUT_D) || CInput::IsKeyKeep(KEY_INPUT_A) || m_PadXBuf != 0 || m_PadYBuf != 0)
 	{
 		//シフトキーを押しているとき
 		if (CInput::IsKeyKeep(KEY_INPUT_LSHIFT))
@@ -379,8 +379,8 @@ void CPlayer::ExecDefault()
 //歩いているとき
 void CPlayer::ExecWalk()
 {
-	//Wキーを話したとき
-	if (CInput::IsKeyRelease(KEY_INPUT_W) || CInput::IsKeyRelease(KEY_INPUT_S) || CInput::IsKeyRelease(KEY_INPUT_D) || CInput::IsKeyRelease(KEY_INPUT_A))
+	//Wキーを離したとき
+	if (CInput::IsKeyRelease(KEY_INPUT_W) || CInput::IsKeyRelease(KEY_INPUT_S) || CInput::IsKeyRelease(KEY_INPUT_D) || CInput::IsKeyRelease(KEY_INPUT_A) || m_PadXBuf == 0 && m_PadYBuf == 0)
 	{
 		RequestLoop(ANIMID_DEFAULT, 1.0f);
 	}

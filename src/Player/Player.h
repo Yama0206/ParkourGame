@@ -9,7 +9,7 @@
 #include "../Camera/CameraManager.h"
 
 static const char PLAYER_MODEL_PATH[]	
-= { "data/char/char.pmd" };									//ロードするファイル名
+= { "data/char/Player.mv1" };									//ロードするファイル名
 static const float PLAYER_RADIUS = 2.5f;					//プレイヤーの半径
 
 static const float PLAYER_WIDTH = 10.0f;					//プレイヤーの横サイズ
@@ -61,8 +61,8 @@ private:
 	
 	VECTOR m_ViewRot;				//プレイヤーの見ている向き
 
-	int PadXBuf;					//パッドレバーの左右の入力状態を格納する変数
-	int PadYBuf;					//パッドレバーの上下の入力状態を格納する変数
+	int m_PadXBuf;					//パッドレバーの左右の入力状態を格納する変数
+	int m_PadYBuf;					//パッドレバーの上下の入力状態を格納する変数
 	
 	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
 	float fRot;						//回転値

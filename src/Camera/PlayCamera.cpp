@@ -5,6 +5,8 @@ using namespace std;
 
 //定義関連
 const float VIEWPOINT_SPEED = 0.05f;								//視点移動時の速さ
+constexpr float INCLINE_STICK_RATE = 0.1f;							//スティックを傾けたときの何%倒したか
+constexpr float STICK_MAX_VALUE = 1000.0f;							//スティックを傾けたときの最大値
 
 //コンストラクタ
 CPlayerCamera::CPlayerCamera()
@@ -95,30 +97,12 @@ void CPlayerCamera::ViewControl()
 	float MaxRotX = TransAngleToRadian(73.0f);
 
 	//キャラクターのカメラの回転
-	//スティック
-	//右に倒したとき
-	if (m_JoyState.Rx > 0)
-	{
-		m_vRot.y += VIEWPOINT_SPEED;
-	}
-	//左に倒したとき
-	else if (m_JoyState.Rx < 0)
-	{
-		m_vRot.y -= VIEWPOINT_SPEED;
-	}
-	//上に倒したとき
-	if (m_JoyState.Ry < 0)
-	{
-		m_vRot.x += -VIEWPOINT_SPEED;
-	}
-	//下に倒したとき
-	else if (m_JoyState.Ry > 0)
-	{
-		m_vRot.x += VIEWPOINT_SPEED;
-	}
+	// パッド
+	//右スティックの感度
+	RightStickSensitivity(m_JoyState);
 
 
-	//キーボード
+	// キーボード
 	if (CInput::IsKeyKeep(KEY_INPUT_RIGHT))
 	{
 		m_vRot.y += VIEWPOINT_SPEED;
@@ -141,6 +125,15 @@ void CPlayerCamera::ViewControl()
 		m_vRot = m_vOldRot;
 	}
 
+}
+
+void CPlayerCamera::RightStickSensitivity(DINPUT_JOYSTATE JoyState)
+{
+	//左右
+	m_vRot.y += VIEWPOINT_SPEED * (JoyState.Rx / 1000.0f);
+
+	//上下
+	m_vRot.x += VIEWPOINT_SPEED * (JoyState.Ry / 1000.0f);	
 }
 
 //更新したデータを反映
