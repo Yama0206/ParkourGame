@@ -1,4 +1,4 @@
-#include "Controller.h"
+#include "Pad.h"
 
 //Œ»İ‚ÌƒtƒŒ[ƒ€‚ÌPadî•ñ
 char CPad::currentPadBuf[PAD_BUF_LEN] = { 0 };
