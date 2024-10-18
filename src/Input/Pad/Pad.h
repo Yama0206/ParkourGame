@@ -14,12 +14,12 @@ enum JoyPadKey
 	INPUT_B,
 	INPUT_X,
 	INPUT_Y,
-	INPUT_5,
-	INPUT_6,
+	INPUT_L,
+	INPUT_R,
 	INPUT_7,
 	INPUT_8,
-	INPUT_9,
-	INPUT_10
+	INPUT_L3,
+	INPUT_R3
 };
 
 static class CPad
@@ -48,6 +48,6 @@ public:
 	//‰Ÿ‚³‚ê‚½‚©‚Ç‚¤‚©
 	static bool IsPadDown(int key_code);
 
-	static int GetHitPadStateAll(char* PadBuf);
+	static void GetHitPadStateAll(char* PadBuf);
 
 };

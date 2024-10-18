@@ -6,6 +6,7 @@
 #include "../shot/ShotManager.h"
 #include "../Model/Model.h"
 #include "../Math/Math.h"
+#include "../Input/Pad/Pad.h"
 #include "../Camera/CameraManager.h"
 
 static const char PLAYER_MODEL_PATH[]	
@@ -24,18 +25,21 @@ class CPlayer : public CModel
 private:
 	//プレイヤーの状態
 	enum tagPlayerState {
-		PLAYER_STATE_NORMAL,		//待機・歩き中
-		PLAYER_STATE_JUMP,			//ジャンプ中
+		PLAYER_STATE_NORMAL,		//待機
+		PLAYER_STATE_WALK,			//歩き中
 		PLAYER_STATE_DASH,			//走り中
+		PLAYER_STATE_JUMP,			//ジャンプ中
+		
 
 		PLAYER_STATE_NUM
 	};
 
 	//アニメーション一覧
 	enum tagAnim {
-		ANIMID_DEFAULT,			//デフォルトモーション
-		ANIMID_WALK,			//歩きモーション
 		ANIMID_RUN,				//走りモーション
+		ANIMID_WALK,			//歩きモーション
+		ANIMID_JUMP,			//ジャンプモーション
+		ANIMID_DEFAULT,			//デフォルトモーション
 		ANIMID_WAIT,			//ぶらぶら
 		ANIMID_UPDOWN,			//くねくね上下
 		ANIMID_SHAKE,			//手を振る

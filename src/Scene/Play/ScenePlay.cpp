@@ -248,7 +248,7 @@ void CPlayScene::Draw()
 	DrawFormatString(100, 590, GetColor(255, 0, 0), "%d", m_JoyState.Rx);
 	DrawFormatString(100, 620, GetColor(255, 0, 0), "%d", m_JoyState.Ry);
 	int num = 0;
-	if (CPad::IsPadKeep(PAD_INPUT_1)) {
+	if (CPad::IsPadKeep(INPUT_R)) {
 		//
 		num = GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_4;
 		DrawFormatString(100, 650, GetColor(255, 0, 0), "%d", num);
