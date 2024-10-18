@@ -109,6 +109,10 @@ public:
 	void Fin();
 
 public:
+	//ó‘Ô‚ğ•ÏX‚·‚é
+	void StateChange();
+	//ó‘Ô‚²‚Æ‚Ìˆ—
+	void StateStep(VECTOR vRot);
 	//“–‚½‚Á‚½•ª–ß‚·
 	void ReflectCollision(VECTOR vAddVec);
 

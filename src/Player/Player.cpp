@@ -178,75 +178,9 @@ void CPlayer::Control(VECTOR vRot)
 
 	//Pad
 	//状態変更
-	//待機アニメーション
-	//m_eState = PLAYER_STATE_NORMAL;
+	StateChange();
 
-	if (m_PadXBuf != 0 || m_PadYBuf != 0)
-	{
-		if (m_eState != PLAYER_STATE_DASH) {
-			//歩いている
-			m_eState = PLAYER_STATE_WALK;
-		}
-	}
-	if (CPad::IsPadPush(INPUT_L3) && m_eState == PLAYER_STATE_WALK) {
-		m_eState = PLAYER_STATE_DASH;
-	}
-	else if (CPad::IsPadPush(INPUT_L3) && m_eState == PLAYER_STATE_DASH){
-			m_eState = PLAYER_STATE_WALK;
-	}
-	//何も押してないもしくは離した場合
-	else if (m_PadXBuf == 0 && m_PadYBuf == 0 && (m_eState == PLAYER_STATE_DASH || m_eState == PLAYER_STATE_WALK)) {
-		m_eState = PLAYER_STATE_NORMAL;
-	}
-
-	if (m_eState == PLAYER_STATE_NORMAL) {
-		//離したときの止まるまでの猶予
-		if (fabs(m_fMoveSpeed) > 0.01f) {
-			m_fMoveSpeed *= 0.9;
-		}
-		else {
-			m_fMoveSpeed = 0.0f;
-		}
-		m_IsKeyHit = false;
-		FreamCnt = 0;
-	}
-
-	//歩いているときの処理
-	else if (m_eState == PLAYER_STATE_WALK) {
-		//スティックの角度に合わせてプレイヤーを回転
-		fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
-
-		//通常スピードまで少しずつ減らす
-		if (m_fMoveSpeed > -MOVE_SPEED) {
-			m_fMoveSpeed -= ADD_SPEED;
-		}
-		else {
-			//速さ加算
-			m_fMoveSpeed -= ADD_SPEED;
-		}
-		//最大値を決定
-		if (m_fMoveSpeed < -MOVE_SPEED) {
-			m_fMoveSpeed = -MOVE_SPEED;
-		}
-
-		//プレイヤーを回転
-		m_ViewRot.y = vRot.y + fRot;
-	}
-	//ダッシュ中の処理
-	else if (m_eState == PLAYER_STATE_DASH) {
-		//スティックの角度に合わせてプレイヤーを回転
-		fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
-		//少しずつ足していく
-		m_fMoveSpeed -= ADD_SPEED;
-
-		//プレイヤーのダッシュスピードの上限
-		if (m_fMoveSpeed < -DASH_SPEED) {
-			m_fMoveSpeed = -DASH_SPEED;
-		}
-
-		//プレイヤーを回転
-		m_ViewRot.y = vRot.y + fRot;
-	}
+	StateStep(vRot);
 
 
 
@@ -402,6 +336,85 @@ void CPlayer::Draw()
 {
 	if (m_IsAllive) {
 		MV1DrawModel(m_iHndl);
+	}
+}
+
+void CPlayer::StateChange()
+{
+	//パッドの左スティック入力が始まったら
+	if (m_PadXBuf != 0 || m_PadYBuf != 0)
+	{
+		//ダッシュ以外の場合
+		if (m_eState != PLAYER_STATE_DASH) {
+			//歩いている
+			m_eState = PLAYER_STATE_WALK;
+		}
+	}
+	//L3ボタンが押されてかつプレイヤーが歩いていたら
+	if (CPad::IsPadPush(INPUT_L3) && m_eState == PLAYER_STATE_WALK) {
+		//状態をダッシュに変更
+		m_eState = PLAYER_STATE_DASH;
+	}
+	//すでにダッシュだった場合
+	else if (CPad::IsPadPush(INPUT_L3) && m_eState == PLAYER_STATE_DASH) {
+		//歩きに戻す
+		m_eState = PLAYER_STATE_WALK;
+	}
+	//何も押してないもしくは離した場合
+	else if ((m_PadXBuf == 0 && m_PadYBuf == 0) && (m_eState == PLAYER_STATE_DASH || m_eState == PLAYER_STATE_WALK)) {
+		//待機モーションに変更
+		m_eState = PLAYER_STATE_NORMAL;
+	}
+}
+
+void CPlayer::StateStep(VECTOR vRot)
+{
+	//待機状態のとき
+	if (m_eState == PLAYER_STATE_NORMAL) {
+		//もしスピードが0.01以上あった場合
+		if (fabs(m_fMoveSpeed) > 0.01f) {
+			//離したときの止まるまでの猶予
+			m_fMoveSpeed *= 0.9;
+		}
+		else {
+			m_fMoveSpeed = 0.0f;
+		}
+	}
+	//歩いているときの処理
+	else if (m_eState == PLAYER_STATE_WALK) {
+		//スティックの角度に合わせてプレイヤーを回転
+		fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
+
+		//通常スピードまで少しずつ減らす
+		if (m_fMoveSpeed > -MOVE_SPEED) {
+			m_fMoveSpeed -= ADD_SPEED;
+		}
+		else {
+			//速さ加算
+			m_fMoveSpeed -= ADD_SPEED;
+		}
+		//最大値を決定
+		if (m_fMoveSpeed < -MOVE_SPEED) {
+			m_fMoveSpeed = -MOVE_SPEED;
+		}
+
+		//プレイヤーを回転
+		m_ViewRot.y = vRot.y + fRot;
+	}
+	//ダッシュ中の処理
+	else if (m_eState == PLAYER_STATE_DASH) {
+		//スティックの角度に合わせてプレイヤーを回転
+		fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
+		//少しずつ足していく
+		m_fMoveSpeed -= ADD_SPEED;
+
+		//プレイヤーのダッシュスピードの上限
+		if (m_fMoveSpeed < -DASH_SPEED) {
+			m_fMoveSpeed = -DASH_SPEED;
+		}
+
+		//プレイヤーを回転
+		m_ViewRot.y = vRot.y + fRot;
 	}
 }
 
