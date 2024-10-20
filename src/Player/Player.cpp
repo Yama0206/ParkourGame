@@ -176,96 +176,16 @@ void CPlayer::Control(VECTOR vRot)
 	//左スティックの情報を取得
 	GetJoypadAnalogInput(&m_PadXBuf, &m_PadYBuf, DX_INPUT_PAD1);
 
+	//キーボード操作
+	Control_KeyBord(vRot);
+
 	//Pad
 	//状態変更
-	StateChange();
+	StateChange_Pad();
 
+	//状態ごとに毎回行う処理
 	StateStep(vRot);
 
-
-
-
-	//キーボード
-	//Wキーが押されたとき
-	if (CInput::IsKeyKeep(KEY_INPUT_W))
-	{
-		//歩いている
-		m_eState = PLAYER_STATE_WALK;
-
-		//キーが押されたフラグON
-		m_IsKeyHit = true;
-
-		//座標移動
-		m_fMoveSpeed -= ADD_SPEED;
-	
-		//最大値を決定
-		if (m_fMoveSpeed < -MOVE_SPEED) {
-			m_fMoveSpeed = -MOVE_SPEED;
-		}
-
-		fRot = DX_PI_F;
-		//モデルを回転させる
-		m_ViewRot.y = vRot.y + fRot;
-	}
-	else if (CInput::IsKeyKeep(KEY_INPUT_S))
-	{
-		//歩いている
-		m_eState = PLAYER_STATE_WALK;
-
-		//座標移動
-		m_fMoveSpeed -= ADD_SPEED;
-
-		//最大値
-		if (m_fMoveSpeed < MOVE_SPEED)
-		{
-			//加速
-			m_fMoveSpeed = -MOVE_SPEED;
-		}
-
-		fRot = 0.0f * DX_PI_F / 180.0f;
-
-		//向いている方向
-		m_ViewRot.y = vRot.y + fRot;
-	}
-	else if (CInput::IsKeyKeep(KEY_INPUT_A))
-	{
-		//歩いている
-		m_eState = PLAYER_STATE_WALK;
-
-		//座標移動
-		m_fMoveSpeed -= ADD_SPEED;
-
-		//最大値を決定
-		if (m_fMoveSpeed < -MOVE_SPEED) {
-			m_fMoveSpeed = -MOVE_SPEED;
-		}
-
-		//回転値
-		fRot = 90.0f * DX_PI_F / 180.0f;
-
-		//向いている方向
-		m_ViewRot.y = vRot.y + fRot;
-	}
-	else if (CInput::IsKeyKeep(KEY_INPUT_D)) 
-	{
-		//歩いている
-		m_eState = PLAYER_STATE_WALK;
-
-		//座標移動
-		m_fMoveSpeed -= ADD_SPEED;
-
-		//最大値
-		if (m_fMoveSpeed < MOVE_SPEED)
-		{
-			m_fMoveSpeed = -MOVE_SPEED;
-		}
-
-		fRot = -90.0f * DX_PI_F / 180.0f;
-
-		//向いている方向
-		m_ViewRot.y = vRot.y + fRot;
-	}
-	
 
 	//入力したキー情報とプレイヤーの角度から移動速度を求める
 	//移動ベクトルの計算
@@ -283,6 +203,7 @@ void CPlayer::Jamp()
 	//スペースキーを押したとき
 	if (CInput::IsKeyPush(KEY_INPUT_SPACE) && !m_IsJump)
 	{
+		m_eState = PLAYER_STATE_JUMP;
 		//m_IsJump = true;
 		m_vSpd.y = YSPEED;
 	}
@@ -339,7 +260,7 @@ void CPlayer::Draw()
 	}
 }
 
-void CPlayer::StateChange()
+void CPlayer::StateChange_Pad()
 {
 	//パッドの左スティック入力が始まったら
 	if (m_PadXBuf != 0 || m_PadYBuf != 0)
@@ -360,11 +281,103 @@ void CPlayer::StateChange()
 		//歩きに戻す
 		m_eState = PLAYER_STATE_WALK;
 	}
-	//何も押してないもしくは離した場合
+	if (CPad::IsPadPush(INPUT_A) && m_eState == PLAYER_STATE_WALK ||  m_eState == PLAYER_STATE_DASH)
+	{
+		m_eState = PLAYER_STATE_JUMP;
+	}
+	//離した場合
 	else if ((m_PadXBuf == 0 && m_PadYBuf == 0) && (m_eState == PLAYER_STATE_DASH || m_eState == PLAYER_STATE_WALK)) {
 		//待機モーションに変更
 		m_eState = PLAYER_STATE_NORMAL;
 	}
+	/*else {
+		待機モーションに変更
+		m_eState = PLAYER_STATE_NORMAL;
+	}*/
+}
+void CPlayer::Control_KeyBord(VECTOR vRot)
+{
+	//キーボード
+	//Wキーが押されたとき
+	if (CInput::IsKeyKeep(KEY_INPUT_W))
+	{
+		//歩いている
+		m_eState = PLAYER_STATE_WALK;
+
+		//キーが押されたフラグON
+		m_IsKeyHit = true;
+
+		//座標移動
+		m_fMoveSpeed -= ADD_SPEED;
+
+		//最大値を決定
+		if (m_fMoveSpeed < -MOVE_SPEED) {
+			m_fMoveSpeed = -MOVE_SPEED;
+		}
+
+		fRot = DX_PI_F;
+		//モデルを回転させる
+		m_ViewRot.y = vRot.y + fRot;
+	}
+	else if (CInput::IsKeyKeep(KEY_INPUT_S))
+	{
+		//歩いている
+		m_eState = PLAYER_STATE_WALK;
+
+		//座標移動
+		m_fMoveSpeed -= ADD_SPEED;
+
+		//最大値
+		if (m_fMoveSpeed < MOVE_SPEED)
+		{
+			//加速
+			m_fMoveSpeed = -MOVE_SPEED;
+		}
+
+		fRot = 0.0f * DX_PI_F / 180.0f;
+
+		//向いている方向
+		m_ViewRot.y = vRot.y + fRot;
+	}
+	else if (CInput::IsKeyKeep(KEY_INPUT_A))
+	{
+		//歩いている
+		m_eState = PLAYER_STATE_WALK;
+
+		//座標移動
+		m_fMoveSpeed -= ADD_SPEED;
+
+		//最大値を決定
+		if (m_fMoveSpeed < -MOVE_SPEED) {
+			m_fMoveSpeed = -MOVE_SPEED;
+		}
+
+		//回転値
+		fRot = 90.0f * DX_PI_F / 180.0f;
+
+		//向いている方向
+		m_ViewRot.y = vRot.y + fRot;
+	}
+	else if (CInput::IsKeyKeep(KEY_INPUT_D))
+	{
+		//歩いている
+		m_eState = PLAYER_STATE_WALK;
+
+		//座標移動
+		m_fMoveSpeed -= ADD_SPEED;
+
+		//最大値
+		if (m_fMoveSpeed < MOVE_SPEED)
+		{
+			m_fMoveSpeed = -MOVE_SPEED;
+		}
+
+		fRot = -90.0f * DX_PI_F / 180.0f;
+
+		//向いている方向
+		m_ViewRot.y = vRot.y + fRot;
+	}
+
 }
 
 void CPlayer::StateStep(VECTOR vRot)
@@ -424,7 +437,7 @@ void CPlayer::ExecDefault()
 	//待機
 	if (m_eState == PLAYER_STATE_NORMAL)
 	{
-		RequestLoop(ANIMID_DEFAULT, 1.0f);
+		RequestLoop(ANIMID_DEFAULT, 10.0f);
 	}
 	//歩いている状態の時
 	else if (m_eState == PLAYER_STATE_WALK)
@@ -440,7 +453,7 @@ void CPlayer::ExecDefault()
 	else if (CInput::IsKeyPush(KEY_INPUT_Z))
 	{
 		//Zキーをぶらぶらする
-		RequestLoop(ANIMID_WAIT, 1.0f);
+		RequestLoop(ANIMID_DEFAULT, 1.0f);
 	}
 }
 
@@ -456,6 +469,10 @@ void CPlayer::ExecWalk()
 	if (m_eState == PLAYER_STATE_DASH)
 	{
 		RequestLoop(ANIMID_RUN, 1.0f);
+	}
+	if (m_eState == PLAYER_STATE_JUMP)
+	{
+		RequestLoop(ANIMID_JUMP, 1.0f);
 	}
 }
 

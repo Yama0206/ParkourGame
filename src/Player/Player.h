@@ -36,10 +36,11 @@ private:
 
 	//アニメーション一覧
 	enum tagAnim {
-		ANIMID_RUN,				//走りモーション
-		ANIMID_WALK,			//歩きモーション
-		ANIMID_JUMP,			//ジャンプモーション
 		ANIMID_DEFAULT,			//デフォルトモーション
+		ANIMID_WALK,			//歩きモーション
+		ANIMID_RUN,				//走りモーション
+		ANIMID_JUMP,			//ジャンプモーション
+		ANIMID_TPOSE,			//Ｔポーズ
 		ANIMID_WAIT,			//ぶらぶら
 		ANIMID_UPDOWN,			//くねくね上下
 		ANIMID_SHAKE,			//手を振る
@@ -109,8 +110,10 @@ public:
 	void Fin();
 
 public:
-	//状態を変更する
-	void StateChange();
+	//Pad操作で状態を変更する
+	void StateChange_Pad();
+	//キーボード操作
+	void Control_KeyBord(VECTOR vRot);
 	//状態ごとの処理
 	void StateStep(VECTOR vRot);
 	//当たった分戻す
