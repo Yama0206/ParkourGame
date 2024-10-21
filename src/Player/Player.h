@@ -10,7 +10,7 @@
 #include "../Camera/CameraManager.h"
 
 static const char PLAYER_MODEL_PATH[]	
-= { "data/char/Player.mv1" };									//ロードするファイル名
+= { "data/char/Player.mv1" };								//ロードするファイル名
 static const float PLAYER_RADIUS = 2.5f;					//プレイヤーの半径
 
 static const float PLAYER_WIDTH = 10.0f;					//プレイヤーの横サイズ
@@ -62,6 +62,7 @@ private:
 	};
 
 	tagPlayerState m_eState;		//プレイヤーの状態
+	tagPlayerState m_eOldState;		//プレイヤーの1フレーム前の状態
 	tagDir m_eDir;					//プレイヤーの方向
 	
 	VECTOR m_ViewRot;				//プレイヤーの見ている向き
@@ -178,8 +179,8 @@ private:
 	void ExecWalk();
 	//走り中
 	void ExecRun();
-	////待機中
-	//void ExecWait();
+	//ジャンプ
+	void ExecJump();
 	////くねくね中
 	//void ExecUpDown();
 	////手を振る

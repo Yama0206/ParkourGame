@@ -67,9 +67,9 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 		case ANIMID_RUN:
 			ExecRun();
 			break;
-			//case ANIMID_WAIT:
-			//	ExecWait();
-			//	break;
+			case ANIMID_JUMP:
+			ExecJump();
+			break;
 			//case ANIMID_UPDOWN:
 			//	ExecUpDown();
 			//	break;
@@ -87,8 +87,7 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 		Shot(cShotManager);
 		//操作関数
 		Control(cCameraManager.GetPlayCamRot());
-		//ジャンプ処理
-		Jamp();
+
 		//重力処理
 		Gravity();
 	}
@@ -167,17 +166,15 @@ void CPlayer::Control(VECTOR vRot)
 	//移動しているかのチェック
 	m_vNextPos = m_vPos;
 
-	//何かのキーが押されたら
-	if (m_IsKeyHit) {
-		//フレームをカウント
-		FreamCnt++;
-	}
-
 	//左スティックの情報を取得
 	GetJoypadAnalogInput(&m_PadXBuf, &m_PadYBuf, DX_INPUT_PAD1);
 
+	//ジャンプ処理
+	Jamp();
+
+
 	//キーボード操作
-	Control_KeyBord(vRot);
+	//Control_KeyBord(vRot);
 
 	//Pad
 	//状態変更
@@ -205,6 +202,12 @@ void CPlayer::Jamp()
 	{
 		m_eState = PLAYER_STATE_JUMP;
 		//m_IsJump = true;
+		m_vSpd.y = YSPEED;
+	}
+
+	if (CPad::IsPadPush(INPUT_A) && !m_IsJump)
+	{
+		m_IsJump = true;
 		m_vSpd.y = YSPEED;
 	}
 }
@@ -266,7 +269,7 @@ void CPlayer::StateChange_Pad()
 	if (m_PadXBuf != 0 || m_PadYBuf != 0)
 	{
 		//ダッシュ以外の場合
-		if (m_eState != PLAYER_STATE_DASH) {
+		if (m_eState != PLAYER_STATE_DASH && m_eState != PLAYER_STATE_JUMP) {
 			//歩いている
 			m_eState = PLAYER_STATE_WALK;
 		}
@@ -281,9 +284,16 @@ void CPlayer::StateChange_Pad()
 		//歩きに戻す
 		m_eState = PLAYER_STATE_WALK;
 	}
-	if (CPad::IsPadPush(INPUT_A) && m_eState == PLAYER_STATE_WALK ||  m_eState == PLAYER_STATE_DASH)
+	//ジャンプ中の処理
+	if (CPad::IsPadPush(INPUT_A) && (m_eState == PLAYER_STATE_WALK ||  m_eState == PLAYER_STATE_DASH))
 	{
+		m_eOldState = m_eState;
 		m_eState = PLAYER_STATE_JUMP;
+	}
+	//ジャンプが終わった瞬間
+	if (!m_IsJump && m_eState == PLAYER_STATE_JUMP)
+	{
+		m_eState = m_eOldState;
 	}
 	//離した場合
 	else if ((m_PadXBuf == 0 && m_PadYBuf == 0) && (m_eState == PLAYER_STATE_DASH || m_eState == PLAYER_STATE_WALK)) {
@@ -376,6 +386,17 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 
 		//向いている方向
 		m_ViewRot.y = vRot.y + fRot;
+	}
+	else {
+		m_eState = PLAYER_STATE_NORMAL;
+		//もしスピードが0.01以上あった場合
+		if (fabs(m_fMoveSpeed) > 0.01f) {
+			//離したときの止まるまでの猶予
+			m_fMoveSpeed *= 0.9;
+		}
+		else {
+			m_fMoveSpeed = 0.0f;
+		}
 	}
 
 }
@@ -484,10 +505,33 @@ void CPlayer::ExecRun()
 	{
 		RequestLoop(ANIMID_DEFAULT, 1.0f);
 	}
+	//Wキーを離したとき
+	if (m_eState == PLAYER_STATE_NORMAL)
+	{
+		RequestLoop(ANIMID_DEFAULT, 1.0f);
+	}
 	//ジャンプしたとき
 	if (m_eState == PLAYER_STATE_JUMP)
 	{
 		RequestLoop(ANIMID_JUMP, 1.0f);
+	}
+}
+
+void CPlayer::ExecJump()
+{
+	if (!m_IsJump) {
+		//通常だったら
+		if (m_eState == PLAYER_STATE_NORMAL) {
+			RequestLoop(ANIMID_DEFAULT, 1.0f);
+		}
+		//歩いていたら
+		if (m_eState == PLAYER_STATE_WALK) {
+			RequestLoop(ANIMID_DEFAULT, 1.0f);
+		}
+		//走っていたら
+		if (m_eState == PLAYER_STATE_DASH) {
+			RequestLoop(ANIMID_RUN, 1.0f);
+		}
 	}
 }
 
@@ -550,8 +594,10 @@ void CPlayer::ReflectCollision(VECTOR vAddVec)
 	//オールゼロなら何もしない
 	if(vAddVec.x == 0.0f && vAddVec.y == 0.0f && vAddVec.z == 0.0f) return;
 
-	m_vNextPos = VAdd(vAddVec, m_vNextPos);
+	m_IsJump = false;
 
+	m_vNextPos = VAdd(vAddVec, m_vNextPos);
+	
 	//当たった時は重力処理をしない
 	/*m_fGravity = 0.0f;*/
 }
