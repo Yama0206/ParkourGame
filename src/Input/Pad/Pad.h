@@ -22,6 +22,11 @@ enum JoyPadKey
 	INPUT_R3
 };
 
+enum DUALSHOCK4_Key
+{
+
+};
+
 static class CPad
 {
 private:

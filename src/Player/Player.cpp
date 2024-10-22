@@ -174,7 +174,7 @@ void CPlayer::Control(VECTOR vRot)
 
 
 	//キーボード操作
-	//Control_KeyBord(vRot);
+	Control_KeyBord(vRot);
 
 	//Pad
 	//状態変更
