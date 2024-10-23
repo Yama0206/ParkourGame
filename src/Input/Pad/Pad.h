@@ -24,7 +24,18 @@ enum JoyPadKey
 
 enum DUALSHOCK4_Key
 {
-
+	INPUT_DOWN = 0,
+	INPUT_LEFT,
+	INPUT_RIGHT,
+	INPUT_UP,
+	INPUT_Å†,
+	INPUT_Å~,
+	INPUT_ÅZ,
+	INPUT_Å¢,
+	INPUT_L2,
+	INPUT_R2,
+	INPUT_9,
+	INPUT_10,
 };
 
 static class CPad
