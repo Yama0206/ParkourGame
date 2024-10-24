@@ -244,9 +244,9 @@ void CPlayScene::Draw()
 
 	DrawFormatString(100, 500, GetColor(255, 0, 0), "%d", m_JoyState.X);
 	DrawFormatString(100, 530, GetColor(255, 0, 0), "%d", m_JoyState.Y);
-	DrawFormatString(100, 560, GetColor(255, 0, 0), "%d", m_JoyState.Z);
-	DrawFormatString(100, 590, GetColor(255, 0, 0), "%d", m_JoyState.Rx);
-	DrawFormatString(100, 620, GetColor(255, 0, 0), "%d", m_JoyState.Ry);
+	DrawFormatString(100, 560, GetColor(255, 0, 0), "%f", m_cPlayer.Player);
+	DrawFormatString(100, 590, GetColor(255, 0, 0), "%f", m_cPlayer.Camera);
+	DrawFormatString(100, 620, GetColor(255, 0, 0), "%f,%f,%f", m_cPlayer.GerViwPoint().x, m_cPlayer.GerViwPoint().y, m_cPlayer.GerViwPoint().z);
 	int num = 0;
 	if (CPad::IsPadKeep(INPUT_R)) {
 		//

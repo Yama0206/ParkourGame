@@ -169,23 +169,24 @@ void CPlayer::Control(VECTOR vRot)
 	//左スティックの情報を取得
 	GetJoypadAnalogInput(&m_PadXBuf, &m_PadYBuf, DX_INPUT_PAD1);
 
-	//ジャンプ処理
-	Jamp();
-
-
-	//キーボード操作
-	Control_KeyBord(vRot);
-
 	//Pad
 	//状態変更
 	StateChange_Pad();
-
 	//状態ごとに毎回行う処理
 	StateStep(vRot);
+
+	//キーボード操作
+	//Control_KeyBord(vRot);
+
+	//ジャンプ処理
+	Jamp(vRot);
 
 
 	//入力したキー情報とプレイヤーの角度から移動速度を求める
 	//移動ベクトルの計算
+	Camera = vRot.y;
+	Player = fRot;
+
 	m_vSpd.x = sinf(vRot.y + fRot) * m_fMoveSpeed;
 	m_vSpd.z = cosf(vRot.y + fRot) * m_fMoveSpeed;
 
@@ -195,7 +196,7 @@ void CPlayer::Control(VECTOR vRot)
 }
 
 //ジャンプ処理
-void CPlayer::Jamp()
+void CPlayer::Jamp(VECTOR vRot)
 {
 	//スペースキーを押したとき
 	if (CInput::IsKeyPush(KEY_INPUT_SPACE) && !m_IsJump)
@@ -205,7 +206,7 @@ void CPlayer::Jamp()
 		m_vSpd.y = YSPEED;
 	}
 
-	if (CPad::IsPadPush(INPUT_A) && !m_IsJump)
+	if (m_eState == PLAYER_STATE_JUMP)
 	{
 		m_IsJump = true;
 		m_vSpd.y = YSPEED;
@@ -228,41 +229,6 @@ void CPlayer::Gravity()
 	m_vNextPos.y += m_vSpd.y;
 }
 
-//弾の発射
-void CPlayer::Shot(CShotManager &cShotManager)
-{
-	if (CInput::IsKeyPush(KEY_INPUT_Z))
-	{
-		//プレイヤーの体から出るように座標を上げる
-		VECTOR vPos = m_vPos;
-		vPos.y += 5.0f;
-		//速度はプレイヤーと同じ方法で移動方向を決める
-		VECTOR vSpd;
-		const float SHOT_SPEED = 5.0f;
-		vSpd.x = sinf(m_vRot.y) * - SHOT_SPEED;
-		vSpd.z = cosf(m_vRot.y) * - SHOT_SPEED;
-		vSpd.y = 0.0f;
-		cShotManager.RequestPlayerShot(vPos, vSpd);
-	}
-}
-
-void CPlayer::Update()
-{
-	//1F前のプレイヤーの座標を更新する
-	m_vPos = m_vNextPos;
-
-	MV1SetRotationXYZ(m_iHndl, m_ViewRot);
-	MV1SetPosition(m_iHndl, m_vPos);
-	MV1SetScale(m_iHndl, m_vScale);
-}
-
-void CPlayer::Draw()
-{
-	if (m_IsAllive) {
-		MV1DrawModel(m_iHndl);
-	}
-}
-
 void CPlayer::StateChange_Pad()
 {
 	//パッドの左スティック入力が始まったら
@@ -275,23 +241,23 @@ void CPlayer::StateChange_Pad()
 		}
 	}
 	//L3ボタンが押されてかつプレイヤーが歩いていたら
-	if (CPad::IsPadPush(INPUT_L3) && m_eState == PLAYER_STATE_WALK) {
+	if (CPad::IsPadKeep(INPUT_R) && m_eState == PLAYER_STATE_WALK) {
 		//状態をダッシュに変更
 		m_eState = PLAYER_STATE_DASH;
 	}
 	//すでにダッシュだった場合
-	else if (CPad::IsPadPush(INPUT_L3) && m_eState == PLAYER_STATE_DASH) {
+	else if (CPad::IsPadRelease(INPUT_R) && m_eState == PLAYER_STATE_DASH) {
 		//歩きに戻す
 		m_eState = PLAYER_STATE_WALK;
 	}
-	//ジャンプ中の処理
-	if (CPad::IsPadPush(INPUT_A) && (m_eState == PLAYER_STATE_WALK ||  m_eState == PLAYER_STATE_DASH))
+	//ジャンプ処理
+	if (CPad::IsPadPush(INPUT_A) && !m_IsJump && (m_eState == PLAYER_STATE_WALK || m_eState == PLAYER_STATE_DASH))
 	{
 		m_eOldState = m_eState;
 		m_eState = PLAYER_STATE_JUMP;
 	}
 	//ジャンプが終わった瞬間
-	if (!m_IsJump && m_eState == PLAYER_STATE_JUMP)
+	else if (m_IsJump && m_eState == PLAYER_STATE_JUMP)
 	{
 		m_eState = m_eOldState;
 	}
@@ -305,6 +271,59 @@ void CPlayer::StateChange_Pad()
 		m_eState = PLAYER_STATE_NORMAL;
 	}*/
 }
+
+void CPlayer::StateStep(VECTOR vRot)
+{
+	//左スティックが傾いているとき
+	if (m_PadXBuf != 0 || m_PadYBuf != 0) {
+		//スティックの角度に合わせてプレイヤーを回転
+		fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
+		//プレイヤーを回転
+		m_ViewRot.y = vRot.y + fRot;
+	}
+
+	//待機状態のとき
+	if (m_eState == PLAYER_STATE_NORMAL) {
+		//もしスピードが0.01以上あった場合
+		if (fabs(m_fMoveSpeed) > 0.01f) {
+			//離したときの止まるまでの猶予
+			m_fMoveSpeed *= 0.9;
+		}
+		else {
+			//スピードを0に
+			m_fMoveSpeed = 0.0f;
+		}
+	}
+	//歩いているときの処理
+	else if (m_eState == PLAYER_STATE_WALK) {
+
+		//通常スピードまで少しずつ減らす
+		if (m_fMoveSpeed > -MOVE_SPEED) {
+			//速さ加算
+			m_fMoveSpeed -= ADD_SPEED;
+		}
+		else {
+			//速さ加算
+			m_fMoveSpeed -= ADD_SPEED;
+		}
+		//最大値を決定
+		if (m_fMoveSpeed < -MOVE_SPEED) {
+			//速さ加算
+			m_fMoveSpeed = -MOVE_SPEED;
+		}
+	}
+	//ダッシュ中の処理
+	else if (m_eState == PLAYER_STATE_DASH) {
+		//少しずつ足していく
+		m_fMoveSpeed -= ADD_SPEED;
+
+		//プレイヤーのダッシュスピードの上限
+		if (m_fMoveSpeed < -DASH_SPEED) {
+			m_fMoveSpeed = -DASH_SPEED;
+		}
+	}
+}
+
 void CPlayer::Control_KeyBord(VECTOR vRot)
 {
 	//キーボード
@@ -401,54 +420,39 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 
 }
 
-void CPlayer::StateStep(VECTOR vRot)
+
+//弾の発射
+void CPlayer::Shot(CShotManager& cShotManager)
 {
-	//待機状態のとき
-	if (m_eState == PLAYER_STATE_NORMAL) {
-		//もしスピードが0.01以上あった場合
-		if (fabs(m_fMoveSpeed) > 0.01f) {
-			//離したときの止まるまでの猶予
-			m_fMoveSpeed *= 0.9;
-		}
-		else {
-			m_fMoveSpeed = 0.0f;
-		}
+	if (CInput::IsKeyPush(KEY_INPUT_Z))
+	{
+		//プレイヤーの体から出るように座標を上げる
+		VECTOR vPos = m_vPos;
+		vPos.y += 5.0f;
+		//速度はプレイヤーと同じ方法で移動方向を決める
+		VECTOR vSpd;
+		const float SHOT_SPEED = 5.0f;
+		vSpd.x = sinf(m_vRot.y) * -SHOT_SPEED;
+		vSpd.z = cosf(m_vRot.y) * -SHOT_SPEED;
+		vSpd.y = 0.0f;
+		cShotManager.RequestPlayerShot(vPos, vSpd);
 	}
-	//歩いているときの処理
-	else if (m_eState == PLAYER_STATE_WALK) {
-		//スティックの角度に合わせてプレイヤーを回転
-		fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
+}
 
-		//通常スピードまで少しずつ減らす
-		if (m_fMoveSpeed > -MOVE_SPEED) {
-			m_fMoveSpeed -= ADD_SPEED;
-		}
-		else {
-			//速さ加算
-			m_fMoveSpeed -= ADD_SPEED;
-		}
-		//最大値を決定
-		if (m_fMoveSpeed < -MOVE_SPEED) {
-			m_fMoveSpeed = -MOVE_SPEED;
-		}
+void CPlayer::Update()
+{
+	//1F前のプレイヤーの座標を更新する
+	m_vPos = m_vNextPos;
 
-		//プレイヤーを回転
-		m_ViewRot.y = vRot.y + fRot;
-	}
-	//ダッシュ中の処理
-	else if (m_eState == PLAYER_STATE_DASH) {
-		//スティックの角度に合わせてプレイヤーを回転
-		fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
-		//少しずつ足していく
-		m_fMoveSpeed -= ADD_SPEED;
+	MV1SetRotationXYZ(m_iHndl, m_ViewRot);
+	MV1SetPosition(m_iHndl, m_vPos);
+	MV1SetScale(m_iHndl, m_vScale);
+}
 
-		//プレイヤーのダッシュスピードの上限
-		if (m_fMoveSpeed < -DASH_SPEED) {
-			m_fMoveSpeed = -DASH_SPEED;
-		}
-
-		//プレイヤーを回転
-		m_ViewRot.y = vRot.y + fRot;
+void CPlayer::Draw()
+{
+	if (m_IsAllive) {
+		MV1DrawModel(m_iHndl);
 	}
 }
 

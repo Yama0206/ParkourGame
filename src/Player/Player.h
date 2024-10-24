@@ -100,7 +100,7 @@ public:
 	//操作処理
 	void Control(VECTOR vRot);
 	//ジャンプ処理
-	void Jamp();
+	void Jamp(VECTOR vRot);
 	//重力計算
 	void Gravity();
 	//弾の発射処理
@@ -119,6 +119,8 @@ public:
 	void StateStep(VECTOR vRot);
 	//当たった分戻す
 	void ReflectCollision(VECTOR vAddVec);
+
+	float Camera, Player;
 
 public:
 
@@ -148,6 +150,8 @@ public:
 
 	//Y軸角度取得
 	inline VECTOR GetRotate() { return m_vRot; }
+	inline VECTOR GerViwPoint() { return m_ViewRot; }
+
 	//半径取得
 	inline float GetRadius() { return PLAYER_RADIUS; }
 
