@@ -16,8 +16,11 @@ void CModel::Init()
 	m_iHndl = -1;									//プレイヤーのモデルハンドル
 
 	ZeroMemory(&m_sAnimData, sizeof(m_sAnimData));
+	ZeroMemory(&m_sOldAnimData, sizeof(m_sOldAnimData));
 	m_sAnimData.m_iHndl = -1;						//アニメデータのモデルハンドル
 	m_sAnimData.m_iID = -0;							//アニメデータのアニメ番号
+	m_sOldAnimData.m_iHndl = -1;					//更新前のアニメデータのモデルハンドル
+	m_sOldAnimData.m_iID = -0;						//更新前のアニメデータのアニメ番号
 }
 
 //終了処理
@@ -78,8 +81,10 @@ void CModel::DeleteModel()
 //アニメリクエスト
 void CModel::Request(int iAnimID, float fAnimSpd, int iAnimSrcHndl, bool NameCheck)
 {
-	//アニメ消去
-	DetachAnim();
+	m_sOldAnimData.m_iID = m_sAnimData.m_iID;
+	m_sOldAnimData.m_fFrm = m_sAnimData.m_fFrm;
+	m_sOldAnimData.m_fSpd = m_sAnimData.m_fSpd;
+	m_sOldAnimData.m_fEndFrm = m_sAnimData.m_fEndFrm;
 
 	//アニメ再生&各種データをセット
 	m_sAnimData.m_iHndl = MV1AttachAnim(m_iHndl, iAnimID, iAnimSrcHndl, NameCheck);
@@ -117,6 +122,22 @@ void CModel::DetachAnim()
 	}
 }
 
+void CModel::UpdateBlendRate()
+{
+	if (m_sOldAnimData.m_iID != -1) {
+
+		m_sAnimData.m_fRate += 0.1f;
+
+		MV1SetAttachAnimBlendRate(m_iHndl, m_sOldAnimData.m_iID, 1.0 - m_sAnimData.m_fRate);
+		MV1SetAttachAnimBlendRate(m_iHndl, m_sAnimData.m_iID, m_sAnimData.m_fRate);
+
+		if (m_sAnimData.m_fRate >= 1.0f) {
+			MV1DetachAnim(m_iHndl, m_sOldAnimData.m_iID);
+			m_sOldAnimData.m_iID = -1;
+		}
+	}
+}
+
 //アニメアップデータ
 void CModel::UpdateAnim()
 {
@@ -150,4 +171,14 @@ void CModel::UpdateAnim()
 
 	//再生時間設定
 	MV1SetAttachAnimTime(m_iHndl, m_sAnimData.m_iHndl, m_sAnimData.m_fFrm);
+
+
+	// 過去のアニメーションの再生時間を更新
+	m_sOldAnimData.m_fFrm += m_sOldAnimData.m_fSpd;
+
+	if (m_sOldAnimData.m_fFrm > m_sOldAnimData.m_fEndFrm) {
+		m_sOldAnimData.m_fFrm = 0.0f;
+	}
+
+	MV1SetAttachAnimTime(m_iHndl, m_sOldAnimData.m_iHndl, m_sOldAnimData.m_fFrm);
 }

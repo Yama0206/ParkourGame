@@ -175,6 +175,7 @@ void CPlayScene::Step()
 		//敵
 		m_cEnemyManager.Update();
 		//アニメーション
+		m_cPlayer.UpdateBlendRate();
 		m_cPlayer.UpdateAnim();	
 		//天球
 		m_cSky.UpDate();
