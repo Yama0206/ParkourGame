@@ -83,17 +83,23 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 	//敵の追跡と巡回切り替え
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
+		//状態を格納しておく
+		m_cEnemyList[EnemyIndex]->SetOldState(m_cEnemyList[EnemyIndex]->GetState());
+
+		if(m_cEnemyList[EnemyIndex]->GetOldState() == )
+
+		//巡回
 		if (m_cEnemyList[EnemyIndex]->GetState() == Patrol) {
 			TrackingCheckPoint(EnemyIndex);
 		}
-		else if (m_cEnemyList[EnemyIndex]->GetState() == Tracking)
+		//ポイントに向かう
+		else if (m_cEnemyList[EnemyIndex]->GetState() == TrackingPoint)
 		{
 			if (CCheckPointManager::GetInstance()->GetViaPlayerSize() > 0) {
 				TrackingPassedPlayerPoint(EnemyIndex, CCheckPointManager::GetInstance()->GetViaPlayer());
 				/*TrackingPlayer(vPlayerPos, EnemyIndex);*/
 			}
 		}
-
 	}
 }
 
@@ -222,6 +228,7 @@ void CEnemyManager::TrackingPassedPlayerPoint(int EnemyIndex, int CheckPointInde
 		m_cEnemyList[EnemyIndex]->SetRotVec_Y(m_cEnemyList[EnemyIndex]->GetRotVec().y - 0.1);
 	}
 
+	//敵の座標更新
 	m_cEnemyList[EnemyIndex]->SetPosVec_X(m_cEnemyList[EnemyIndex]->GetPosVec().x + sinf(m_cEnemyList[EnemyIndex]->GetRotVec().y) * -m_cEnemyList[EnemyIndex]->GetSpeedVec().x);
 	m_cEnemyList[EnemyIndex]->SetPosVec_Z(m_cEnemyList[EnemyIndex]->GetPosVec().z + cosf(m_cEnemyList[EnemyIndex]->GetRotVec().y) * -m_cEnemyList[EnemyIndex]->GetSpeedVec().z);
 }

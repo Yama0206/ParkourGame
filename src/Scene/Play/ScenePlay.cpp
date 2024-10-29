@@ -175,7 +175,6 @@ void CPlayScene::Step()
 		//敵
 		m_cEnemyManager.Update();
 		//アニメーション
-		m_cPlayer.UpdateBlendRate();
 		m_cPlayer.UpdateAnim();	
 		//天球
 		m_cSky.UpDate();
@@ -248,15 +247,6 @@ void CPlayScene::Draw()
 	DrawFormatString(100, 560, GetColor(255, 0, 0), "%f", m_cPlayer.Player);
 	DrawFormatString(100, 590, GetColor(255, 0, 0), "%f", m_cPlayer.Camera);
 	DrawFormatString(100, 620, GetColor(255, 0, 0), "%f,%f,%f", m_cPlayer.GerViwPoint().x, m_cPlayer.GerViwPoint().y, m_cPlayer.GerViwPoint().z);
-	int num = 0;
-	if (CPad::IsPadKeep(INPUT_R)) {
-		//
-		num = GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_4;
-		DrawFormatString(100, 650, GetColor(255, 0, 0), "%d", num);
-	}
-	else {
-		
-	}
 	CDebugManager::GetInstance()->Draw();
 }
 

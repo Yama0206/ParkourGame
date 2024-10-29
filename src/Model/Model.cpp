@@ -81,10 +81,8 @@ void CModel::DeleteModel()
 //アニメリクエスト
 void CModel::Request(int iAnimID, float fAnimSpd, int iAnimSrcHndl, bool NameCheck)
 {
-	m_sOldAnimData.m_iID = m_sAnimData.m_iID;
-	m_sOldAnimData.m_fFrm = m_sAnimData.m_fFrm;
-	m_sOldAnimData.m_fSpd = m_sAnimData.m_fSpd;
-	m_sOldAnimData.m_fEndFrm = m_sAnimData.m_fEndFrm;
+	//アニメーションでタッチ
+	DetachAnim();
 
 	//アニメ再生&各種データをセット
 	m_sAnimData.m_iHndl = MV1AttachAnim(m_iHndl, iAnimID, iAnimSrcHndl, NameCheck);
@@ -171,14 +169,4 @@ void CModel::UpdateAnim()
 
 	//再生時間設定
 	MV1SetAttachAnimTime(m_iHndl, m_sAnimData.m_iHndl, m_sAnimData.m_fFrm);
-
-
-	// 過去のアニメーションの再生時間を更新
-	m_sOldAnimData.m_fFrm += m_sOldAnimData.m_fSpd;
-
-	if (m_sOldAnimData.m_fFrm > m_sOldAnimData.m_fEndFrm) {
-		m_sOldAnimData.m_fFrm = 0.0f;
-	}
-
-	MV1SetAttachAnimTime(m_iHndl, m_sOldAnimData.m_iHndl, m_sOldAnimData.m_fFrm);
 }
