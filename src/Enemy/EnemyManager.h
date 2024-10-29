@@ -49,6 +49,9 @@ public:
 	void TrackingCheckPoint(int Index);
 	//プレイヤーが通ったチェックポイント
 	void TrackingPassedPlayerPoint(int EnemyIndex, int CheckPointIndex);
+	//敵が最後に通ったチェックポイントに向かう
+	void TrackingPassedEnemyPoint(int Index);
+
 	//敵情報取得
 	inline CEnemy* GetEnemy(int iID) { return m_cEnemyList[iID]; }
 

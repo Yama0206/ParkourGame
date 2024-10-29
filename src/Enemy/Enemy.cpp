@@ -18,6 +18,7 @@ CEnemy::CEnemy()
 	m_iHndl = -1;
 	m_IsActive = false;
 	m_iCPNum = 0;
+	m_iPassedCP = 0;
 	m_fRadius = 5;
 	m_fTrackingArea = ENEMY_TRAKINGAREA;
 	m_eState = Patrol;

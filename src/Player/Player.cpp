@@ -171,12 +171,12 @@ void CPlayer::Control(VECTOR vRot)
 
 	//Pad
 	//状態変更
-	//StateChange_Pad();
+	StateChange_Pad();
 	//状態ごとに毎回行う処理
-	//StateStep(vRot);
+	StateStep(vRot);
 
 	//キーボード操作
-	Control_KeyBord(vRot);
+	//Control_KeyBord(vRot);
 
 	//ジャンプ処理
 	Jamp(vRot);
@@ -497,7 +497,7 @@ void CPlayer::ExecWalk()
 	}
 	if (m_eState == PLAYER_STATE_JUMP)
 	{
-		RequestLoop(ANIMID_JUMP, 1.0f);
+		Request(ANIMID_JUMP, 1.0f);
 	}
 }
 
@@ -517,7 +517,7 @@ void CPlayer::ExecRun()
 	//ジャンプしたとき
 	if (m_eState == PLAYER_STATE_JUMP)
 	{
-		RequestLoop(ANIMID_JUMP, 1.0f);
+		Request(ANIMID_JUMP, 1.0f);
 	}
 }
 

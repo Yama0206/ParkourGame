@@ -12,8 +12,8 @@ const float RADIUS = 5.0f;					//敵の半径
 enum EnemyState
 {
 	Patrol = 1,		//巡回
-	TrackingPoint,	//チェックポイントを追跡
-	TrackingPlayer,	//プレイヤーを追跡
+	TrackingCp,	//チェックポイントを追跡
+	TrackingPl,	//プレイヤーを追跡
 };
 
 
@@ -31,6 +31,7 @@ protected:
 	float m_fRadius;			//半径
 	float m_fTrackingArea;		//追従する半径
 	int m_iCPNum;				//次に向かうチェックポイントの番号
+	int m_iPassedCP;			//敵が通ったチェックポイント
 
 	int FrameCnt;				//フレームカウント
 
@@ -74,13 +75,14 @@ public:
 	void GetPosition(VECTOR& vPos) { vPos = m_vPos; }
 
 	//戻り値
-	VECTOR GetPosVec()			{ return m_vPos; }
-	VECTOR GetSpeedVec()		{ return m_vSpeed; }
-	VECTOR GetRotVec()			{ return m_vRot; }
-	float GetRadius()			{ return m_fRadius; }
-	float GetTrackingRad()		{ return m_fTrackingArea; }
-	EnemyState GetState()		{ return m_eState; }
-	EnemyState GetOldState()	{ return m_eOldState; }
+	VECTOR		GetPosVec()			{ return m_vPos; }
+	VECTOR		GetSpeedVec()		{ return m_vSpeed; }
+	VECTOR		GetRotVec()			{ return m_vRot; }
+	float		GetRadius()			{ return m_fRadius; }
+	float		GetTrackingRad()	{ return m_fTrackingArea; }
+	int			GetPassedCp()		{ return m_iPassedCP; }
+	EnemyState	GetState()			{ return m_eState; }
+	EnemyState	GetOldState()		{ return m_eOldState; }
 
 	//情報の設定
 	void SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vSize, VECTOR vRot, bool IsActive);
@@ -94,6 +96,9 @@ public:
 	void SetRotVec_X(float fRot) { m_vRot.x = fRot; }
 	void SetRotVec_Y(float fRot) { m_vRot.y = fRot; }
 	void SetRotVec_Z(float fRot) { m_vPos.z = fRot; }
+
+	//通ったチェックポイントの番号
+	void SetPassedCp(int Num) { m_iPassedCP = Num; }
 
 	//状態
 	void SetState(EnemyState eState) { m_eState = eState; }				//現在

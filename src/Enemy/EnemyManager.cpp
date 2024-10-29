@@ -83,17 +83,16 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 	//敵の追跡と巡回切り替え
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
-		//状態を格納しておく
-		m_cEnemyList[EnemyIndex]->SetOldState(m_cEnemyList[EnemyIndex]->GetState());
-
-		if(m_cEnemyList[EnemyIndex]->GetOldState() == )
-
 		//巡回
 		if (m_cEnemyList[EnemyIndex]->GetState() == Patrol) {
+			if (m_cEnemyList[EnemyIndex]->GetOldState() == TrackingCp)
+			{
+				TrackingPassedEnemyPoint(m_cEnemyList[EnemyIndex]->GetPassedCp());
+			}
 			TrackingCheckPoint(EnemyIndex);
 		}
 		//ポイントに向かう
-		else if (m_cEnemyList[EnemyIndex]->GetState() == TrackingPoint)
+		else if (m_cEnemyList[EnemyIndex]->GetState() == TrackingCp)
 		{
 			if (CCheckPointManager::GetInstance()->GetViaPlayerSize() > 0) {
 				TrackingPassedPlayerPoint(EnemyIndex, CCheckPointManager::GetInstance()->GetViaPlayer());
@@ -231,6 +230,43 @@ void CEnemyManager::TrackingPassedPlayerPoint(int EnemyIndex, int CheckPointInde
 	//敵の座標更新
 	m_cEnemyList[EnemyIndex]->SetPosVec_X(m_cEnemyList[EnemyIndex]->GetPosVec().x + sinf(m_cEnemyList[EnemyIndex]->GetRotVec().y) * -m_cEnemyList[EnemyIndex]->GetSpeedVec().x);
 	m_cEnemyList[EnemyIndex]->SetPosVec_Z(m_cEnemyList[EnemyIndex]->GetPosVec().z + cosf(m_cEnemyList[EnemyIndex]->GetRotVec().y) * -m_cEnemyList[EnemyIndex]->GetSpeedVec().z);
+}
+
+void CEnemyManager::TrackingPassedEnemyPoint(int Index)
+{
+	//ホーミング処理
+	VECTOR CheckPosVec;
+	//敵からチェックポイント向かうベクトル
+	CheckPosVec.x = CCheckPointManager::GetInstance()->GetPosVec(CCheckPointManager::GetInstance()->GetiCPNum(m_cEnemyList[Index]->GetCPNum())).x - m_cEnemyList[Index]->GetPosVec().x;
+	CheckPosVec.y = 0.0f;
+	CheckPosVec.z = CCheckPointManager::GetInstance()->GetPosVec(CCheckPointManager::GetInstance()->GetiCPNum(m_cEnemyList[Index]->GetCPNum())).z - m_cEnemyList[Index]->GetPosVec().z;
+
+	float fCrossZ = 0.0f;
+
+	//現在の進行方向のベクトル
+	VECTOR  MoveVec;
+
+	memset(&MoveVec, 0.0f, sizeof(MoveVec));
+
+	MoveVec.x = sinf(m_cEnemyList[Index]->GetRotVec().y) * -1.0f;
+	MoveVec.y = 0.0f;
+	MoveVec.z = cosf(m_cEnemyList[Index]->GetRotVec().y) * -1.0f;
+
+	//2つのベクトルの外積を計算
+	fCrossZ = CheckPosVec.x * MoveVec.z - MoveVec.x * CheckPosVec.z;
+
+	//fCrossZの計算結果で左右の判定を行う
+	if (fCrossZ > 0)
+	{
+		m_cEnemyList[Index]->SetRotVec_Y(m_cEnemyList[Index]->GetRotVec().y + 0.1);
+	}
+	else if (fCrossZ < 0)
+	{
+		m_cEnemyList[Index]->SetRotVec_Y(m_cEnemyList[Index]->GetRotVec().y - 0.1);
+	}
+
+	m_cEnemyList[Index]->SetPosVec_X(m_cEnemyList[Index]->GetPosVec().x + sinf(m_cEnemyList[Index]->GetRotVec().y) * -m_cEnemyList[Index]->GetSpeedVec().x);
+	m_cEnemyList[Index]->SetPosVec_Z(m_cEnemyList[Index]->GetPosVec().z + cosf(m_cEnemyList[Index]->GetRotVec().y) * -m_cEnemyList[Index]->GetSpeedVec().z);
 }
 
 //プレイヤーショットリクエスト

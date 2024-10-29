@@ -142,7 +142,6 @@ void CPlayScene::Load()
 //毎フレーム呼ぶ処理
 void CPlayScene::Step()
 {
-	
 	//プレイヤー更新処理
 	if (m_cCameraManager.GetCameraID() == CCameraManager::CAMERA_ID_PLAY)
 	{

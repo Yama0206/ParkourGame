@@ -46,6 +46,14 @@ void CDebugManager::AddDebugInfo(string DebugString, unsigned int Color, int Dra
 	m_DebugString.push_back(debug);
 }
 
+void CDebugManager::AddDebugNumInfo(int Number, unsigned int Color)
+{
+	DebugNum debug;
+	debug.m_iNum = Number;
+
+	m_DebugNum.push_back(debug);
+}
+
 void CDebugManager::AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum, unsigned int Color)
 {
 	DebugShere debug;
@@ -73,8 +81,24 @@ void CDebugManager::Draw()
 		DrawFormatString(DEFAULT_X_SIZE, i * DEFAULT_Y_SIZE, m_DebugString[i].m_Color,"%s" ,m_DebugString[i].m_String.c_str());
 	}
 
+	//”š•`‰æ
+	DrawNum();
+
 	//‹…•`‰æ
 	DrawSphere();
+}
+
+void CDebugManager::DrawNum()
+{
+	/*if (m_DebugNum.size() <= 0) return;*/
+
+	for (int i = 0; i < m_DebugNum.size(); i++)
+	{
+		DrawFormatString(10, i * 20, m_DebugNum[i].m_Color, "%d", m_DebugNum[i].m_iNum);
+		
+	}
+	DrawFormatString(500, 100, GetColor(255,0,0), "%d", Num);
+	DrawFormatString(500, 120, GetColor(255,0,0), "%d", Num_2);
 }
 
 void CDebugManager::DrawSphere()
