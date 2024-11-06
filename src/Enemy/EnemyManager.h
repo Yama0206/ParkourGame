@@ -43,22 +43,20 @@ public:
 	void Update();
 
 public:
-	//プレイヤーを追跡する
-	void TrackingPlayer(VECTOR vPlayerPos, int Index);
-	//チェックポイントに移動する
-	void TrackingCheckPoint(int Index);
-	//プレイヤーが通ったチェックポイント
-	void TrackingPassedPlayerPoint(int EnemyIndex, int CheckPointIndex);
-	//敵が最後に通ったチェックポイントに向かう
-	void TrackingPassedEnemyPoint(int Index);
-
 	//敵情報取得
 	inline CEnemy* GetEnemy(int iID) { return m_cEnemyList[iID]; }
-
+	//クラスのサイズ取得
 	int GetEnemySize() { return m_cEnemyList.size(); }
 
-	VECTOR GetPosVec(int iID) { return m_cEnemyList[iID]->GetPosVec(); }
-	VECTOR GetSpeedVec(int iID) { return m_cEnemyList[iID]->GetSpeedVec(); }
+	//取得関数
+	//VECTOR	GetPosVec(int iID)				{ return m_cEnemyList[iID]->GetPosVec(); }									//座標
+	//VECTOR	GetSpeedVec(int iID)			{ return m_cEnemyList[iID]->GetSpeedVec(); }								//速さ
+	//int		GetPassedCheckPoint(int iID)	{ return m_cEnemyList[iID]->GetLastPassedCheckPoint(); }					//最後に通ったチェックポイント
+
+	//設定関数
+	//void	SetPosVec(VECTOR vPos, int iID)				{ return m_cEnemyList[iID]->SetPosVec(vPos); }					//座標
+	//void	SetSpeedVec(VECTOR vSpeed, int iID)			{ return m_cEnemyList[iID]->SetSpeedVec(vSpeed); }				//速さ
+	//void	SetPassedCheckPoint(int Num, int iID)		{ return m_cEnemyList[iID]->SetLastPassedCheckPoint(Num); }		//最後に通ったチェックポイント
 
 	//敵リクエスト
 	void RequestEnemy();

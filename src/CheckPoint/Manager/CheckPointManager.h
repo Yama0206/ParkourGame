@@ -18,9 +18,6 @@ private:
 	//情報を入れるリストクラス
 	CReadCheckPointList m_cFileDataList;				//チェックポイントの情報を入れるリスト
 
-	//プレイヤーが通ったチェックポイントの配列
-	vector<int> m_ViaPlayer;
-
 public:
 	//シングルトンのクラス取得と破棄--------------
 	//CCheckPointManagerを取得
@@ -36,26 +33,20 @@ public:
 	//読み込み
 	void Load();
 
-	//クラス取得
-	inline CCheckPoint* GetCheckPoint(int iID) { return m_cCheckPointList[iID]; }								//チェックポイントクラス取得(おそらくもう使わない)
-
-	//	//チェックポイントリスト数を取得
-	int		 GetCheckPointSize()					{ return m_cCheckPointList.size(); }						//チェックポイントクラスのサイズを取得
-	bool	 GetIsArrive(int iID)				{ return m_cCheckPointList[iID]->GetIsArrived(); }				//到着したかどうかのフラグを取得
-	void	 SetIsAriive(int iID, bool IsFrag)	{ m_cCheckPointList[iID]->SetIsArrived(IsFrag); }				//到着したかどうかのフラグの設定
-
-	int		 GetiCPNum(int iID)					{ return m_cCheckPointList[iID]->GetiCPNum(); }					//次に向かう場所の番号を取得
-	void	 AddCPNum(int iID)					{ m_cCheckPointList[iID]->AddCPNum(); }							//チェックポイントの加算
-
-	int		 GetNextNum(int Num, int iID)		{ return m_cCheckPointList[iID]->GetNextNum(Num); }				//次に向かうチェックポイントの番号
+	//クラスのサイズ取得
+	inline int	GetSize() { return m_cCheckPointList.size(); }
 
 	//取得関数
-	VECTOR	GetPosVec(int iID)				{ return m_cCheckPointList[iID]->GetPosVec(); }						//座標
-	float	GetfRad(int iID)				{ return m_cCheckPointList[iID]->GetRad(); }						//回転値
-	int		GetViaPlayer()					{ return m_ViaPlayer.back(); }										//プレイヤーが通った場所の番号の配列の末尾の要素を返す
-	int		GetViaPlayerSize()				{ return m_ViaPlayer.size(); }										//プレイヤーが通った場所の番号の配列のサイズを返す
+	//　iID : チェックポイントの番号
+	VECTOR	GetPosVec			(int iID)					{ return m_cCheckPointList[iID]->GetPosVec(); }							//座標
+	float	GetRad				(int iID)					{ return m_cCheckPointList[iID]->GetRad(); }							//半径
+	bool	GetIsPassedPlayer	(int iID)					{ return m_cCheckPointList[iID]->GetPassedPlayer(); }					//プレイヤーが通ったかどうか
+	int		GetArrayIndex		(int iID)					{ return m_cCheckPointList[iID]->GetArrayIndex(); }						//チェックポイントの次の場所の数
+	int		GetNextCurrentNum	(int iID, int CurrentIndex)	{ return m_cCheckPointList[iID]->GetNextCurrentNum(CurrentIndex); }		//次に向かうチェックポイントの番号
 
 	//設定関数
-	void	SetCPNum(int Num, int iID)		{ m_cCheckPointList[iID]->SetiCPNum(Num); }							//次に向かう場所の番号を設定
-	void	SetViaPlayer(int iID);																				//プレイヤーが来た場所の番号を記憶
+	//　iID : チェックポイントの番号
+	void	SetPosVec			(int iID, VECTOR vPos)		{  m_cCheckPointList[iID]->SetPosVec(vPos); }					//座標
+	void	SetRad				(int iID, float fRad)		{  m_cCheckPointList[iID]->SetRad(fRad); }						//半径
+	void	SetIsPassedPlayer	(int iID, bool IsFrag)		{ m_cCheckPointList[iID]->SetPassedPlayer(IsFrag); }			//プレイヤーが通ったかどうか
 };

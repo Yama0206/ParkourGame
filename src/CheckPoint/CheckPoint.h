@@ -5,50 +5,45 @@
 using namespace std;
 
 //定義
-constexpr int NEXT_CHECKPOINT_NUM = 10;			//次に向かうチェックポイントを記憶する変数の配列の最大数
+constexpr int NEXT_CHECKPOINT_NUM = 4;													//次に向かうチェックポイントを記憶する変数の配列の最大数
 
 class CCheckPoint
 {
 private:
-	VECTOR m_vPos;								//座標
-	VECTOR m_vSize;								//サイズ
+	VECTOR m_vPos;																		//座標
+	VECTOR m_vSize;																		//サイズ
 
-	float m_fRad;								//半径
+	float m_fRad;																		//半径
 
-	int m_iCPNum;								//チェックポイント番号
-	int m_NextCPNum[NEXT_CHECKPOINT_NUM];		//次に向かうチェックポイントの番号
-
+	int m_iCurrentNum;																	//チェックポイント番号
+	int m_NextCurrentNum[NEXT_CHECKPOINT_NUM];											//次に向かうチェックポイントの番号
+	int m_iArrayIndex;																	//チェックポイントの次に迎える場所の数
+	int m_EnemyLastPassedNum;															//敵が最後に通ったチェックポイントの番号
+	
 	//フラグ
-	bool m_PlayerHit;							//プレイヤーが当たったかどうか
-	bool m_IsArrived;							//到着した
-	bool m_IsPassedPlayer;						//プレイヤーが通った
+	bool m_IsPassedPlayer;																//プレイヤーが当たったかどうか
+	bool m_IsArrived;																	//到着した
 
 public:
-	CCheckPoint();								//コンストラクタ
-	~CCheckPoint();								//デストラクタ
+	CCheckPoint();																		//コンストラクタ
+	~CCheckPoint();																		//デストラクタ
 
 	//	情報の設定
-	void SetInfo(int Num, VECTOR vPos, VECTOR vSize, float fRad, int* NextCPNum);
+	void SetInfo(int Num, VECTOR vPos, float fRad, int* NextCPNum);
 
 	//取得関数
-	VECTOR	GetPosVec()					{ return m_vPos; }				//座標
-	VECTOR* GetpPosVec()				{ return &m_vPos; }				//座標取得
-	VECTOR	GetSizeVec()				{ return m_vSize; }				//サイズ
-	float	GetRad()					{ return m_fRad; }				//半径
-	int		GetiCPNum()					{ return m_iCPNum; }			//チェックポイントの番号
-	bool	GetIsArrived()				{ return m_IsArrived; }			//到着したフラグ取得
-	int		GetNextNum(int iID)			{ return m_NextCPNum[iID]; }	//次に向かうチェックポイントの番号
-	bool	GetSetPassedPlayer()		{ return m_IsPassedPlayer; }	//プレイヤーが通ったかのフラグ
-	int 	GetViaPlayer(int iID);										//プレイヤーが通った場所の変数
-		
+	VECTOR	GetPosVec()					{ return m_vPos; }											//座標
+	float	GetRad()					{ return m_fRad; }											//半径
+	bool	GetPassedPlayer()			{ return m_IsPassedPlayer; }								//プレイヤーが通ったかどうか
+	int		GetArrayIndex()				{ return m_iArrayIndex; }									//チェックポイントの次に迎える場所
+	int		GetNextCurrentNum(int iID)	{ return m_NextCurrentNum[iID]; }							//次に向かうチェックポイント
 
 	//設定関数
-	void SetIsArrived(bool IsFrag)		{ m_IsArrived = IsFrag; }			//到着したフラグ
-	void SetiCPNum(int Num)				{ m_iCPNum = Num; }					//チェックポイントの番号
-	void SetPassedPlayer(bool IsFrag)	{ m_IsPassedPlayer = IsFrag; }		//プレイヤーが通ったかどうかのフラグ
-	void SetViaPlayer(int iID);												//プレイヤーが通った場所の変数の設定
+	void SetPosVec			(VECTOR vPos)				{ m_vPos = vPos; }							//座標
+	void SetRad				(float fRad)				{ m_fRad = fRad; }							//半径
+	void SetPassedPlayer	(bool IsFrag)				{  m_IsPassedPlayer = IsFrag; }				//プレイヤーが通ったかどうか
+	void SetNextCurrentNum(int CurrentNum, int iID)		{ m_NextCurrentNum[iID] = CurrentNum; }		//次に向かうチェックポイントの番号
 
-	//チェックポイント番号の加算
-	void AddCPNum();
-
-};
+	//チェックポイントの次に迎える場所の数を加算
+	void AddArayIndex() { m_iArrayIndex++; }
+};		

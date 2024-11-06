@@ -26,9 +26,18 @@ void CCheckPointManager::Load()
 			//上で作ったクラスに情報を入力
 		cCheckPoint->SetInfo(m_cFileDataList.checkPointList[CheckPointIndex].m_iCPNum,
 						  	 m_cFileDataList.checkPointList[CheckPointIndex].m_vPos,
-							 m_cFileDataList.checkPointList[CheckPointIndex].m_vSize,
 						  	 m_cFileDataList.checkPointList[CheckPointIndex].fRad,
 							 m_cFileDataList.checkPointList[CheckPointIndex].m_NextCPNum);
+		
+		//配列の数分for分を回す
+		for (int ArrayIndex = 0; ArrayIndex < NEXT_CHECKPOINT_NUM; ArrayIndex++)
+		{
+			//次に向かう場所が-1以外だったら次に迎える場所の数を+1する
+			if (m_cFileDataList.checkPointList[CheckPointIndex].m_NextCPNum[ArrayIndex] != -1)
+			{
+				cCheckPoint->AddArayIndex();
+			}
+		}
 
 			//アイテムのリストにpush_backする
 		m_cCheckPointList.push_back(cCheckPoint);
@@ -55,9 +64,4 @@ void CCheckPointManager::DeleteInstance()
 		delete m_Instance;
 		m_Instance = NULL;	//削除したらNULL代入
 	}
-}
-
-void CCheckPointManager::SetViaPlayer(int iID)
-{
-	m_ViaPlayer.push_back(iID);
 }

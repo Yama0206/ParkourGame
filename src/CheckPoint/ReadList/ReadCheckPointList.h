@@ -10,7 +10,6 @@ using namespace std;
 struct SCheckPoint
 {
 	VECTOR m_vPos;		//座標
-	VECTOR m_vSize;		//サイズ
 
 	float fRad;			//半径
 	int m_iCPNum;		//チェックポイント番号

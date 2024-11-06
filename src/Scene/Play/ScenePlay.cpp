@@ -132,8 +132,8 @@ void CPlayScene::Load()
 	CCheckPointManager::GetInstance()->Load();					//チェックポイント
 
 
-	for (int i = 0; i < CCheckPointManager::GetInstance()->GetCheckPointSize(); i++) {
-		CDebugManager::GetInstance()->AddDebugSphereInfo(CCheckPointManager::GetInstance()->GetPosVec(i), CCheckPointManager::GetInstance()->GetfRad(i));
+	for (int i = 0; i < CCheckPointManager::GetInstance()->GetSize(); i++) {
+		CDebugManager::GetInstance()->AddDebugSphereInfo(CCheckPointManager::GetInstance()->GetPosVec(i), CCheckPointManager::GetInstance()->GetRad(i));
 	}
 	//ゴール読み込み
 	cGoal.Load();

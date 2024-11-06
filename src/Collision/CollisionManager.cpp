@@ -583,25 +583,24 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 		//エネミークラス取得
 		CEnemy* cEnemy = cEnemyManager.GetEnemy(EnemyIndex);
 		//敵が追跡モードに入っていたら
-		if (cEnemy->GetState() == TrackingCp) {
+		if (cEnemy->GetState() == TrackingCheckPoint) {
 			//チェックポイントの数分for文を回す
-			for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetCheckPointSize(); CheckPointIndex++) 
+			for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetSize(); CheckPointIndex++) 
 			{
 				VECTOR vPlayerPos, vCheckPointPos;		//座標
 				float fPlayerRad, fCheckPointRad;		//半径
 
-				//取得
+				//プレイヤーとチェックポイント情報取得
 				cPlayer.GetPosition(vPlayerPos);
 				vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex);
 				fPlayerRad = cPlayer.GetRadius();
-				fCheckPointRad = CCheckPointManager::GetInstance()->GetfRad(CheckPointIndex);
+				fCheckPointRad = CCheckPointManager::GetInstance()->GetRad(CheckPointIndex);
 		
 				//チェックポイントとプレイヤーの当たり判定
 				if (SphereCollision(fPlayerRad, vPlayerPos, fCheckPointRad, vCheckPointPos))
 				{
-					//当たったポイントの番号をチェックポイント側に記憶させて記憶させた配列の末尾から敵の次のチェックポイントの番号に格納していく
-					//格納の仕方は敵が次のチェックポイントについたときに更新する
-					CCheckPointManager::GetInstance()->SetViaPlayer(CheckPointIndex);
+					//プレイヤーが通ったかどうか
+					CCheckPointManager::GetInstance()->SetIsPassedPlayer(CheckPointIndex, true);
 				}
 			} 
 		}
@@ -616,36 +615,30 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 
 		VECTOR vEnemyPos, vCheckPointPos;		//座標
 		float fEnemyRad, fCheckPointRad;		//半径
-		int CheckPointIndex = 0;
+
+		int NextCheckPointArrayIndex = -1;
 		int DebugNum = 0;
+		
 		//取得
 		cEnemy->GetPosition(vEnemyPos);
 		fEnemyRad = cEnemy->GetRadius();
-		for (int i = 0; i < CCheckPointManager::GetInstance()->GetCheckPointSize(); i++) {
-			vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(i);
-			fCheckPointRad = CCheckPointManager::GetInstance()->GetfRad(i);
-
-			//DrawSphere3D(vEnemyPos, fEnemyRad, 8, GetColor(255, 0, 0), GetColor(0, 255, 0), false);
-			//DrawSphere3D(vCheckPointPos, fCheckPointRad, 8, GetColor(255, 0, 0), GetColor(0, 255, 0), true);
-
-			CDebugManager::GetInstance()->SetNum(CCheckPointManager::GetInstance()->GetNextNum(CheckPointIndex, cEnemy->GetCPNum()));
-			CDebugManager::GetInstance()->SetNum(i);
+		for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetSize(); CheckPointIndex++) {
+			vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex);
+			fCheckPointRad = CCheckPointManager::GetInstance()->GetRad(CheckPointIndex);
 
 			//敵が到着してない時だけ当たり判定をとる
-			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos) && cEnemy->GetPassedCp() != i)
+			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos) && cEnemy->GetLastPassedCheckPoint() != CheckPointIndex)
 			{
-				cEnemy->SetCPNum(CheckPointIndex);
+				//通った場所を保存
+				cEnemy->SetLastPassedCheckPoint(CheckPointIndex);
 
 				//ランダムで配列の引数を取得
-				CheckPointIndex = GetRand(3);
-				cEnemy->SetCPNum(CCheckPointManager::GetInstance()->GetNextNum(CheckPointIndex, cEnemy->GetCPNum()));
-				DebugNum = cEnemy->GetCPNum();
+				//配列の引数がほしいので値を-1する
+				NextCheckPointArrayIndex = GetRand(CCheckPointManager::GetInstance()->GetArrayIndex(CheckPointIndex) - 1);
+				NextCheckPointArrayIndex = CCheckPointManager::GetInstance()->GetNextCurrentNum(CheckPointIndex, NextCheckPointArrayIndex);
 
-				//デバッグ文字表示---------------
-				string s;
-				s + to_string(DebugNum);
-				OutputDebugString(s.c_str());
-				//-------------------------------
+				//次に向かう場所を設定
+				cEnemy->SetNextCheckPointNum(NextCheckPointArrayIndex);
 			}
 		}
 	}
@@ -672,12 +665,26 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		fPlayerRad = cPlayer.GetRadius();
 		fEnemyRad = cEnemy->GetTrackingRad();
 
+		//追跡範囲の当たり判定
 		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyRad)){
-			cEnemy->SetState(TrackingCp);
+			for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetSize(); CheckPointIndex++) {
+				if (CCheckPointManager::GetInstance()->GetIsPassedPlayer(CheckPointIndex)) {
+					//追跡モード(チェックポイント)
+					cEnemy->SetState(TrackingCheckPoint);
+
+					break;
+				}
+				else {
+					cEnemy->SetState(TrackingPlayer);
+				}
+			}
 		}
+		//範囲外の場合
 		else {
+			//巡回モード
 			cEnemy->SetState(Patrol);
 		}
+
 	}
 }
 

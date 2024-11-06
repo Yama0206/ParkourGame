@@ -9,12 +9,13 @@ CCheckPoint::CCheckPoint()
 {
 	memset(&m_vPos, 0.0f, sizeof(VECTOR));
 	memset(&m_vSize, 0.0f, sizeof(VECTOR));
-	memset(m_NextCPNum, 0, sizeof(m_NextCPNum));
+	memset(m_NextCurrentNum, 0, sizeof(m_NextCurrentNum));
 
-	m_iCPNum = 1;
+	m_iCurrentNum = -1;
+	m_EnemyLastPassedNum = -1;
 	m_IsArrived = false;
-	m_PlayerHit = false;
 	m_IsPassedPlayer = false;
+	m_iArrayIndex = 0;
 	m_fRad = 0.0f;
 }
 
@@ -23,28 +24,14 @@ CCheckPoint::~CCheckPoint()
 
 }
 
-void CCheckPoint::AddCPNum()
-{
-	m_iCPNum++;
-}
 
-int CCheckPoint::GetViaPlayer(int iID)
-{
-	return 1;
-}
-
-void CCheckPoint::SetViaPlayer(int iID)
-{
-}
-
-void CCheckPoint::SetInfo(int Num, VECTOR vPos, VECTOR vSize, float fRad, int* NextCPNum)
+void CCheckPoint::SetInfo(int Num, VECTOR vPos, float fRad, int* NextCPNum)
 {
 	m_vPos = vPos;
-	m_vSize = vSize;
 	m_fRad = fRad;
-	m_iCPNum = Num;
-	m_NextCPNum[0] = NextCPNum[0];
-	m_NextCPNum[1] = NextCPNum[1];
-	m_NextCPNum[2] = NextCPNum[2];
-	m_NextCPNum[3] = NextCPNum[3];
+	m_iCurrentNum = Num;
+	m_NextCurrentNum[0] = NextCPNum[0];
+	m_NextCurrentNum[1] = NextCPNum[1];
+	m_NextCurrentNum[2] = NextCPNum[2];
+	m_NextCurrentNum[3] = NextCPNum[3];
 }
