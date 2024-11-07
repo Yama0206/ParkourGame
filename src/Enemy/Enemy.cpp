@@ -166,8 +166,8 @@ void CEnemy::TrackingCheckPoint(int Index)
 		m_vRot.y -= 0.1;
 	}
 
-	m_vPos.x += sinf(m_vRot.y) * -m_vSpeed.x;
-	m_vPos.z += cosf(m_vRot.y) * -m_vSpeed.z;
+	m_vPos.x += sinf(m_vRot.y) * - m_vSpeed.x;
+	m_vPos.z += cosf(m_vRot.y) * - m_vSpeed.z;
 }
 
 

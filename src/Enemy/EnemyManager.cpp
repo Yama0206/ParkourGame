@@ -91,9 +91,12 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 {
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
+		//プレイヤーの通ったチェックポイントに向かう
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingCheckPoint)
 		{
+			m_cEnemyList[EnemyIndex]->TrackingCheckPoint(m_cEnemyList[EnemyIndex]->GetNextCheckPointNum());
 		}
+		//プレイヤーを追跡する
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingPlayer)
 		{
 			m_cEnemyList[EnemyIndex]->TrackingPlayer(vPlayerPos);
