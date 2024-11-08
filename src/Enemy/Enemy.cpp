@@ -3,7 +3,8 @@
 
 //定義
 const int ENEMY_CP_MAX = 4;					//チェックポイントの数
-constexpr int ENEMY_TRAKINGAREA = 200;		//敵がプレイヤーを追跡する範囲
+constexpr int ENEMY_SEARCHAREA = 200;		//敵がプレイヤーを索敵する範囲
+constexpr int ENEMY_TRACKINGAREA = 400;		//敵がプレイヤーを追いかける範囲
 
 //コンストラクタ
 CEnemy::CEnemy()
@@ -20,7 +21,8 @@ CEnemy::CEnemy()
 	m_iNextCheckPointNum = 0;
 	m_iLastPassedCP = -1;
 	m_fRad = 5;
-	m_fTrackingRad = ENEMY_TRAKINGAREA;
+	m_fTrackingRad = ENEMY_TRACKINGAREA;
+	m_fSearchRad = ENEMY_SEARCHAREA;
 	m_eState = Patrol;
 	m_eOldState = Patrol;
 
@@ -49,7 +51,8 @@ void CEnemy::Init()
 	m_iNextCheckPointNum = 0;
 	m_iLastPassedCP = -1;
 	m_fRad = 5;
-	m_fTrackingRad = ENEMY_TRAKINGAREA;
+	m_fTrackingRad = ENEMY_TRACKINGAREA;
+	m_fSearchRad = ENEMY_SEARCHAREA;
 	m_eState = Patrol;
 	m_eOldState = Patrol;
 

@@ -31,6 +31,7 @@ protected:
 	bool	m_IsAllive;				//生存フラグ
 	float	m_fRad;					//半径
 	float	m_fTrackingRad;			//追従する半径
+	float	m_fSearchRad;			//索敵範囲
 	int		m_iNextCheckPointNum;	//次に向かうチェックポイントの番号
 	int		m_iLastPassedCP;		//敵が通ったチェックポイント
 
@@ -85,6 +86,7 @@ public:
 	int			GetNextCheckPointNum()		{ return m_iNextCheckPointNum; }		//次に向かうチェックポイント
 	float		GetRadius()					{ return m_fRad; }						//半径
 	float		GetTrackingRad()			{ return m_fTrackingRad; }				//追跡をする半径
+	float		GetSearchRad()				{ return m_fSearchRad; }				//索敵をする半径
 	int			GetLastPassedCheckPoint()	{ return m_iLastPassedCP; }				//最後に通ったチェックポイントの番号
 	EnemyState	GetState()					{ return m_eState; }					//現在の状態
 	EnemyState	GetOldState()				{ return m_eOldState; }					//1F前の状態

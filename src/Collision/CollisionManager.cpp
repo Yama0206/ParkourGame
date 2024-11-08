@@ -652,32 +652,35 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 
 		cEnemy->SetOldState(cEnemy->GetState());
 
-		VECTOR vPlayerPos, vEnemyPos;	//座標
-		float fPlayerRad, fEnemyRad;	//半径
+		VECTOR vPlayerPos, vEnemyPos;									//座標
+		float fPlayerRad, fEnemyTrackingRad, fEnemySearchRad;			//半径
 
 		memset(&vPlayerPos, 0.0f, sizeof(VECTOR));
 		memset(&vEnemyPos, 0.0f, sizeof(VECTOR));
 		fPlayerRad = 0.0f;
-		fEnemyRad = 0.0f;
+		fEnemyTrackingRad = 0.0f;
+		fEnemySearchRad = 0.0f;
 
 		cPlayer.GetPosition(vPlayerPos);
 		cEnemy->GetPosition(vEnemyPos);
 		fPlayerRad = cPlayer.GetRadius();
-		fEnemyRad = cEnemy->GetTrackingRad();
+		fEnemyTrackingRad = cEnemy->GetTrackingRad();
+		fEnemySearchRad = cEnemy->GetSearchRad();
+
+		//索敵範囲のあたり判定
+		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemySearchRad)) {
+			//プレイヤーが通った最後の場所がすでに通った場所かどこも通ってない場合
+
+			//プレイヤーを直接追跡する
+
+			//プレイヤーが最後に通った場所にまだたどり着いてない場合
+			//追跡モード(チェックポイント)
+			cEnemy->SetState(TrackingCheckPoint);
+		}
 
 		//追跡範囲の当たり判定
-		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyRad)){
-			for (int CheckPointIndex = 0; CheckPointIndex < CCheckPointManager::GetInstance()->GetSize(); CheckPointIndex++) {
-				if (CCheckPointManager::GetInstance()->GetIsPassedPlayer(CheckPointIndex)) {
-					//追跡モード(チェックポイント)
-					cEnemy->SetState(TrackingCheckPoint);
-
-					break;
-				}
-				else {
-					cEnemy->SetState(TrackingPlayer);
-				}
-			}
+		//この範囲より外にプレイヤーが出た場合巡回モードに戻す
+		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyTrackingRad)){
 		}
 		//範囲外の場合
 		else {

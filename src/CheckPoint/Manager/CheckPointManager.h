@@ -18,6 +18,8 @@ private:
 	//情報を入れるリストクラス
 	CReadCheckPointList m_cFileDataList;				//チェックポイントの情報を入れるリスト
 
+	vector<int> m_iPassedPlayer;						//プレイヤーが通った場所
+
 public:
 	//シングルトンのクラス取得と破棄--------------
 	//CCheckPointManagerを取得
