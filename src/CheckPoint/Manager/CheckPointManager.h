@@ -18,7 +18,7 @@ private:
 	//情報を入れるリストクラス
 	CReadCheckPointList m_cFileDataList;				//チェックポイントの情報を入れるリスト
 
-	vector<int> m_iPassedPlayer;						//プレイヤーが通った場所
+	vector<int> m_iPassedPlayerNum;						//プレイヤーが通った場所
 
 public:
 	//シングルトンのクラス取得と破棄--------------
@@ -45,6 +45,7 @@ public:
 	bool	GetIsPassedPlayer	(int iID)					{ return m_cCheckPointList[iID]->GetPassedPlayer(); }					//プレイヤーが通ったかどうか
 	int		GetArrayIndex		(int iID)					{ return m_cCheckPointList[iID]->GetArrayIndex(); }						//チェックポイントの次の場所の数
 	int		GetNextCurrentNum	(int iID, int CurrentIndex)	{ return m_cCheckPointList[iID]->GetNextCurrentNum(CurrentIndex); }		//次に向かうチェックポイントの番号
+	int		GetPassedPlayerNum	(int iID)					{ return m_iPassedPlayerNum[iID]; }										//プレイヤーが通った場所を記憶した変数
 
 	//設定関数
 	//　iID : チェックポイントの番号
