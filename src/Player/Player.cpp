@@ -41,7 +41,7 @@ void CPlayer::InitValue()
 	m_PadYBuf = 0;
 	m_fMoveSpeed = 0.0f;										
 	m_fChangeRot = 0.0f;											
-	m_fGravity = GRAVITY;											
+	m_fGravity = GRAVITY;
 
 	//ƒtƒ‰ƒO
 	memset(&m_IsHit, false, sizeof(bool));						

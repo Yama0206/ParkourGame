@@ -595,11 +595,22 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 			fPlayerRad = cPlayer.GetRadius();
 			fCheckPointRad = CCheckPointManager::GetInstance()->GetRad(CheckPointIndex);
 	
-			//チェックポイントとプレイヤーの当たり判定
-			if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
+			if (CCheckPointManager::GetInstance()->GetPassedPlayerSize() >= 1)
 			{
+				//チェックポイントとプレイヤーの当たり判定
+				int a = CCheckPointManager::GetInstance()->GetPassedPlayerNum();
+				if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad) && CCheckPointManager::GetInstance()->GetPassedPlayerNum() != CheckPointIndex)
+				{
+					//通った場所を保存
+					CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
+				}
+			}
+			else if(IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
+			{
+				//通った場所を保存
 				CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
 			}
+		
 		} 
 	}
 }
