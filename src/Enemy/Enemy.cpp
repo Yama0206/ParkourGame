@@ -2,9 +2,10 @@
 #include <math.h>
 
 //定義
-const int ENEMY_CP_MAX = 4;					//チェックポイントの数
-constexpr int ENEMY_SEARCHAREA = 200;		//敵がプレイヤーを索敵する範囲
-constexpr int ENEMY_TRACKINGAREA = 400;		//敵がプレイヤーを追いかける範囲
+constexpr int ENEMY_CP_MAX = 4;						//チェックポイントの数
+constexpr int ENEMY_SEARCH_AREA = 200;				//敵がプレイヤーを索敵する範囲
+constexpr int ENEMY_TRACKING_AREA = 250;			//敵がプレイヤーを追いかける範囲
+constexpr int ENEMY_TRACKING_PALYER_AREA = 100;		//敵がプレイヤーを直接追いかける
 
 //コンストラクタ
 CEnemy::CEnemy()
@@ -21,8 +22,9 @@ CEnemy::CEnemy()
 	m_iNextCheckPointNum = 0;
 	m_iLastPassedCP = -1;
 	m_fRad = 5;
-	m_fTrackingRad = ENEMY_TRACKINGAREA;
-	m_fSearchRad = ENEMY_SEARCHAREA;
+	m_fTrackingRad = ENEMY_TRACKING_AREA;
+	m_fSearchRad = ENEMY_SEARCH_AREA;
+	m_fTrackingPlayerRad = ENEMY_TRACKING_PALYER_AREA;
 	m_eState = Patrol;
 	m_eOldState = Patrol;
 
@@ -51,8 +53,9 @@ void CEnemy::Init()
 	m_iNextCheckPointNum = 0;
 	m_iLastPassedCP = -1;
 	m_fRad = 5;
-	m_fTrackingRad = ENEMY_TRACKINGAREA;
-	m_fSearchRad = ENEMY_SEARCHAREA;
+	m_fTrackingRad = ENEMY_TRACKING_AREA;
+	m_fSearchRad = ENEMY_SEARCH_AREA;
+	m_fTrackingPlayerRad = ENEMY_TRACKING_PALYER_AREA;
 	m_eState = Patrol;
 	m_eOldState = Patrol;
 

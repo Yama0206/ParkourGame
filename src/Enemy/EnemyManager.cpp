@@ -94,7 +94,7 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 		//プレイヤーの通ったチェックポイントに向かう
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingCheckPoint)
 		{
-			m_cEnemyList[EnemyIndex]->TrackingCheckPoint(m_cEnemyList[EnemyIndex]->GetNextCheckPointNum());
+			m_cEnemyList[EnemyIndex]->TrackingCheckPoint(CCheckPointManager::GetInstance()->GetPassedPlayerNum());
 		}
 		//プレイヤーを追跡する
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingPlayer)
