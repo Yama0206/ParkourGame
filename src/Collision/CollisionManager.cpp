@@ -587,6 +587,7 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 		{
 			VECTOR vPlayerPos, vCheckPointPos;		//座標
 			float fPlayerRad, fCheckPointRad;		//半径
+			int Num;
 
 			//プレイヤーとチェックポイント情報取得
 			cPlayer.GetPosition(vPlayerPos);
@@ -597,11 +598,7 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 			//チェックポイントとプレイヤーの当たり判定
 			if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
 			{
-				//敵がチェックポイントを追っているとき
-				if (cEnemy->GetState() == TrackingPlayer) {
-					//プレイヤーが通った番号
 				CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
-				}
 			}
 		} 
 	}
@@ -626,7 +623,7 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 			vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex);
 			fCheckPointRad = CCheckPointManager::GetInstance()->GetRad(CheckPointIndex);
 
-			//敵が到着してない時だけ当たり判定をとる
+			//敵が到着してないチェックポイントだけ当たり判定をとる
 			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos) && cEnemy->GetLastPassedCheckPoint() != CheckPointIndex)
 			{
 				//通った場所を保存

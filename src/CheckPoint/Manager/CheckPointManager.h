@@ -45,7 +45,8 @@ public:
 	bool	GetIsPassedPlayer	(int iID)					{ return m_cCheckPointList[iID]->GetPassedPlayer(); }					//プレイヤーが通ったかどうか
 	int		GetArrayIndex		(int iID)					{ return m_cCheckPointList[iID]->GetArrayIndex(); }						//チェックポイントの次の場所の数
 	int		GetNextCurrentNum	(int iID, int CurrentIndex)	{ return m_cCheckPointList[iID]->GetNextCurrentNum(CurrentIndex); }		//次に向かうチェックポイントの番号
-	int		GetPassedPlayerNum	()					{ return m_iPassedPlayerNum.back(); }										//プレイヤーが通った場所の番号
+	int		GetPassedPlayerNum	(int iID)					{ return m_iPassedPlayerNum[iID]; }										//プレイヤーが通った場所の番号
+	int		GetPassedPlayerNum	()							{ return m_iPassedPlayerNum.back(); }									//プレイヤーが通った場所の番号
 	int		GetPassedPlayerSize	()							{ return m_iPassedPlayerNum.size(); }									//プレイヤーが通った場所サイズ
 
 	//設定関数

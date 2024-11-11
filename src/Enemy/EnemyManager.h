@@ -22,6 +22,9 @@ private:
 	//敵情報を読み込むためのクラス
 	CEnemyRead m_cEnemyRead;
 
+	//(仮)サイズを保存する変数
+	int EnemySize = 0;
+
 public:
 	//コンストラクタ・デストラクタ
 	CEnemyManager();

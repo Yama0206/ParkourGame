@@ -5,7 +5,7 @@
 constexpr int ENEMY_CP_MAX = 4;						//チェックポイントの数
 constexpr int ENEMY_SEARCH_AREA = 200;				//敵がプレイヤーを索敵する範囲
 constexpr int ENEMY_TRACKING_AREA = 250;			//敵がプレイヤーを追いかける範囲
-constexpr int ENEMY_TRACKING_PALYER_AREA = 100;		//敵がプレイヤーを直接追いかける
+constexpr int ENEMY_TRACKING_PALYER_AREA = 25;		//敵がプレイヤーを直接追いかける
 
 //コンストラクタ
 CEnemy::CEnemy()

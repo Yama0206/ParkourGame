@@ -75,18 +75,18 @@ private:
 	float m_fGravity;				//プレイヤーの重力
 
 	//フラグ
-	bool m_IsHit;			//プレイヤーが物体に当たっているかどうか
-	bool m_IsHitSide;		//プレイヤーが物体と横方向で当たった時
-	bool m_IsHitLength;		//プレイヤーが物体と縦方向で当たった時
-	bool m_IsJump;			//プレイヤーがジャンプしたかどうか
-	bool m_IsKeyHit;		//キーを押したかどうか
+	bool m_IsHit;					//プレイヤーが物体に当たっているかどうか
+	bool m_IsHitSide;				//プレイヤーが物体と横方向で当たった時
+	bool m_IsHitLength;				//プレイヤーが物体と縦方向で当たった時
+	bool m_IsJump;					//プレイヤーがジャンプしたかどうか
+	bool m_IsKeyHit;				//キーを押したかどうか
+	float m_fMoveSpeed;				//プレイヤーのスピード
+	int	m_iLastPassedNum;			//最後に通ったチェックポイントの番号
 
 public:
 	//コンストラクタ
 	CPlayer();
 	~CPlayer();
-	float m_fMoveSpeed;				//プレイヤーのスピード
-
 public:
 
 	//初期値設定
@@ -162,6 +162,7 @@ public:
 	void			GetSize(VECTOR& vSize);												//縦、横、奥行きのサイズ取得
 	void			GetCenterPos(VECTOR& vPos);											//プレイヤーの中心座標を設定
 	VECTOR			GetForcsPos();														//プレイヤーカメラに渡す注視点座標
+	int				GetLastPassedNum()					{ return m_iLastPassedNum; }	//最後に通ったチェックポイントの番号
 
 	//物体にあっているかどうか
 	bool SetIsHit(bool flag)		{ return m_IsHit = flag; }	
@@ -173,8 +174,9 @@ public:
 	bool GetIsAllive()			{ return m_IsAllive; }			//生存フラグの取得
 
 	//ジャンプフラグ取得・設定
-	void SetIsJamp(bool flag)	{ m_IsJump = flag; }			//ジャンプフラグ設定
-	bool GetIsJamp()			{ return m_IsJump; }			//ジャンプフラグ取得
+	void SetIsJamp(bool flag)			{ m_IsJump = flag; }				//ジャンプフラグ設定
+	bool GetIsJamp()					{ return m_IsJump; }				//ジャンプフラグ取得
+	void SetLastPassedNum(int Num)		{ m_iLastPassedNum = Num; }			//最後に通ったチェックポイントの番号
 
 private:
 	//何もしていないときの処理
