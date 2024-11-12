@@ -4,6 +4,7 @@ CCheckPointManager* CCheckPointManager::m_Instance = NULL;
 
 //定義
 const int CHECKPOINT_NUM = 10;
+constexpr int PLAYER_PASSED_LIST_SIZE = 20;				//プレイヤーが通った場所を保存しておくリストのサイズ
 
 CCheckPointManager::CCheckPointManager()
 {
@@ -42,6 +43,30 @@ void CCheckPointManager::Load()
 			//アイテムのリストにpush_backする
 		m_cCheckPointList.push_back(cCheckPoint);
 	}
+}
+
+int CCheckPointManager::GetPassedPlayerNum()
+{
+	//通った場所が1以上あれば
+	if (m_iPassedPlayerNum.size() > 0){
+		//末尾の値を返す
+		return m_iPassedPlayerNum.back();
+	}
+	else {
+		//何もなければ-1を返す
+		return -1;
+	}
+	 
+}
+
+void CCheckPointManager::SetPassedPlayerNum(int Num)
+{
+	//サイズ上限を超えたら先頭要素を削除
+	if (m_iPassedPlayerNum.size() > PLAYER_PASSED_LIST_SIZE) {
+		m_iPassedPlayerNum.erase(m_iPassedPlayerNum.begin());
+	}
+	//値を入れる
+	m_iPassedPlayerNum.push_back(Num);
 }
 
 CCheckPointManager* CCheckPointManager::GetInstance()

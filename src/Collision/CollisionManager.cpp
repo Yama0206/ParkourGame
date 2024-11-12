@@ -594,12 +594,16 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 			vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex);
 			fPlayerRad = cPlayer.GetRadius();
 			fCheckPointRad = CCheckPointManager::GetInstance()->GetRad(CheckPointIndex);
-	
-			if (CCheckPointManager::GetInstance()->GetPassedPlayerSize() >= 1)
+			
+			//サイズが0以上だったら
+			if (CCheckPointManager::GetInstance()->GetPassedPlayerSize() > 0)
 			{
+				//
+				if (CCheckPointManager::GetInstance()->GetPassedPlayerNum() == CheckPointIndex) {
+					continue;
+				}
 				//チェックポイントとプレイヤーの当たり判定
-				int a = CCheckPointManager::GetInstance()->GetPassedPlayerNum();
-				if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad) && CCheckPointManager::GetInstance()->GetPassedPlayerNum() != CheckPointIndex)
+				if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
 				{
 					//通った場所を保存
 					CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
@@ -607,6 +611,9 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 			}
 			else if(IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
 			{
+				if (CCheckPointManager::GetInstance()->GetPassedPlayerNum() == CheckPointIndex) {
+					continue;
+				}
 				//通った場所を保存
 				CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
 			}

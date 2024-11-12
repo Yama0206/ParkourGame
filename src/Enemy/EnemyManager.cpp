@@ -3,6 +3,7 @@
 //定義関連
 static constexpr char ENEMY_MODEL_PATH[] = { "Data/enemy/enemy.pmx" };
 static constexpr int WAIT_TIME = 60;
+constexpr int CHECKPOINT_NEXTCURRENT_NUM = 4;
 
 //コンストラクタ
 CEnemyManager::CEnemyManager()
@@ -94,19 +95,13 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 		//プレイヤーの通ったチェックポイントに向かう
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingCheckPoint)
 		{
-			//1F前がチェックポイントを追跡する状態ではなかったら
-			if (m_cEnemyList[EnemyIndex]->GetOldState() != TrackingCheckPoint) {
-				m_cEnemyList[EnemyIndex]->TrackingCheckPoint(CCheckPointManager::GetInstance()->GetPassedPlayerNum());
-				EnemySize = CCheckPointManager::GetInstance()->GetPassedPlayerSize();
-			}
-			else {
-				if (m_cEnemyList[EnemyIndex]->GetLastPassedCheckPoint() == EnemySize)
-				{
-					EnemySize += 1;
+			for (int NextCurrentIndex = 0; NextCurrentIndex < CHECKPOINT_NEXTCURRENT_NUM; NextCurrentIndex++) {
+				for (int PassedPlayerIndex = 0; PassedPlayerIndex < CCheckPointManager::GetInstance()->GetPassedPlayerSize(); PassedPlayerIndex++) {
+					if (CCheckPointManager::GetInstance()->GetNextCurrentNum(m_cEnemyList[EnemyIndex]->GetLastPassedCheckPoint(), NextCurrentIndex) == CCheckPointManager::GetInstance()->GetPassedPlayerNum()) {
+						m_cEnemyList[EnemyIndex]->TrackingCheckPoint(CCheckPointManager::GetInstance()->GetPassedPlayerNum(PassedPlayerIndex));
+					}
 				}
-				m_cEnemyList[EnemyIndex]->TrackingCheckPoint(CCheckPointManager::GetInstance()->GetPassedPlayerNum(EnemySize));
 			}
-
 		}
 		//プレイヤーを追跡する
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingPlayer)

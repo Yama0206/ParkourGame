@@ -46,16 +46,16 @@ public:
 	int		GetArrayIndex		(int iID)					{ return m_cCheckPointList[iID]->GetArrayIndex(); }						//チェックポイントの次の場所の数
 	int		GetNextCurrentNum	(int iID, int CurrentIndex)	{ return m_cCheckPointList[iID]->GetNextCurrentNum(CurrentIndex); }		//次に向かうチェックポイントの番号
 	int		GetPassedPlayerNum	(int iID)					{ return m_iPassedPlayerNum[iID]; }										//プレイヤーが通った場所の番号
-	int		GetPassedPlayerNum	()							{ return m_iPassedPlayerNum.back(); }									//プレイヤーが通った場所の番号
+	int		GetPassedPlayerNum	();																									//プレイヤーが通った場所の番号
 	int		GetPassedPlayerSize	()							{ return m_iPassedPlayerNum.size(); }									//プレイヤーが通った場所サイズ
 
 	//設定関数
 	//　iID : チェックポイントの番号
-	void	SetPosVec			(int iID, VECTOR vPos)		{  m_cCheckPointList[iID]->SetPosVec(vPos); }					//座標
-	void	SetRad				(int iID, float fRad)		{  m_cCheckPointList[iID]->SetRad(fRad); }						//半径
-	void	SetIsPassedPlayer	(int iID, bool IsFrag)		{ m_cCheckPointList[iID]->SetPassedPlayer(IsFrag); }			//プレイヤーが通ったかどうか
-	void	SetPassedPlayerNum	(int Num)					{ m_iPassedPlayerNum.push_back(Num); }							//プレイヤーが通った場所の番号
+	void	SetPosVec			(int iID, VECTOR vPos)		{  m_cCheckPointList[iID]->SetPosVec(vPos); }							//座標
+	void	SetRad				(int iID, float fRad)		{  m_cCheckPointList[iID]->SetRad(fRad); }								//半径
+	void	SetIsPassedPlayer	(int iID, bool IsFrag)		{ m_cCheckPointList[iID]->SetPassedPlayer(IsFrag); }					//プレイヤーが通ったかどうか
+	void	SetPassedPlayerNum	(int Num);																							//プレイヤーが通った場所の番号
 
 	//プレイヤーが通った場所の配列を削除
-	void	ClearPassedPlayerNum()							{ m_iPassedPlayerNum.clear(); }									//プレイヤーが通った場所の番号
+	void	ClearPassedPlayerNum()							{ m_iPassedPlayerNum.clear(); }											//プレイヤーが通った場所の番号
 };
