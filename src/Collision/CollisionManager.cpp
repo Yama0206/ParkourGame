@@ -256,11 +256,11 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 			if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
 			{
 				//一つ前に通った場所とは当たる判定をとらない
-				if (CCheckPointManager::GetInstance()->GetPassedPlayerNum() == CheckPointIndex) {
+				/*if () {
 					continue;
-				}	
+				}	*/
 				//プレイヤーが通った場所を保存
-				CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
+				
 			}			
 		} 
 	}
@@ -335,7 +335,7 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		//索敵範囲のあたり判定
 		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemySearchRad)) {
 			//プレイヤーが通った最後の場所がすでに通った場所かどこも通ってない場合
-			if (CCheckPointManager::GetInstance()->GetPassedPlayerSize() == 0) {
+			if () {
 
 				//プレイヤーを直接追跡する
 				cEnemy->SetState(TrackingPlayer);
@@ -359,7 +359,8 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		//範囲外の場合
 		//巡回モード
 			//切り替わるとき配列を削除
-			CCheckPointManager::GetInstance()->ClearPassedPlayerNum();
+
+			//巡回モードに変更
 			cEnemy->SetState(Patrol);
 		}
 

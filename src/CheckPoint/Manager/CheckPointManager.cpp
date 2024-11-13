@@ -59,23 +59,41 @@ void CCheckPointManager::Step()
 int CCheckPointManager::GetPassedPlayerNum()
 {
 	//通った場所が1以上あれば
-	if (CHECKPOINT_INDEX > 0){
+	for (int PassedPlayerIndex = PLAYER_PASSED_LIST_SIZE - 1; PassedPlayerIndex >= 0; PassedPlayerIndex++)
+	{
 		//末尾の値を返す
-	
-	}
-	else {
-		//何もなければ-1を返す
-		return -1;
+		if (m_iPassedPlayerNum[PassedPlayerIndex] != -1) {
+			return m_iPassedPlayerNum[PassedPlayerIndex];
+		}
+		else {
+			//何もなければ-1を返す
+			return -1;
+		}
 	}
 }
 
 void CCheckPointManager::SetPassedPlayerNum(int Num)
 {
 	//サイズ上限を超えたら先頭要素を削除
-	if (CHECKPOINT_INDEX > PLAYER_PASSED_LIST_SIZE) {
-	
+	if (CHECKPOINT_INDEX > PLAYER_PASSED_LIST_SIZE){
+		for (int PassedPlayerIndex = 0; PassedPlayerIndex < PLAYER_PASSED_LIST_SIZE; PassedPlayerIndex++)
+		{
+
+			if (m_iPassedPlayerNum[PassedPlayerIndex] != -1) {
+				m_iPassedPlayerNum[PassedPlayerIndex] = -1;
+				break;
+			}
+		}
 	}
-	//値を入れる
+	//
+	for (int PassedPlayerIndex = 0; PassedPlayerIndex < PLAYER_PASSED_LIST_SIZE; PassedPlayerIndex++)
+	{
+		//要素のない場所を見つける
+		if (m_iPassedPlayerNum[PassedPlayerIndex] == -1)
+		{
+			m_iPassedPlayerNum[PassedPlayerIndex] = Num;
+		}
+	}
 }
 
 CCheckPointManager* CCheckPointManager::GetInstance()

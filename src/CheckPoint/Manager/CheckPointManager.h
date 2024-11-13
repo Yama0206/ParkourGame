@@ -52,7 +52,6 @@ public:
 	int		GetNextCurrentNum		(int iID, int CurrentIndex)	{ return m_cCheckPointList[iID]->GetNextCurrentNum(CurrentIndex); }		//次に向かうチェックポイントの番号
 	int		GetPassedPlayerNum		(int iID)					{ return m_iPassedPlayerNum[iID]; }										//プレイヤーが通った場所の番号
 	int		GetPassedPlayerNum		();																									//プレイヤーが通った場所の番号
-	int		GetPassedPlayerSize() { return m_iLastPassedEnemyNum; }									//プレイヤーが通った場所サイズ
 	int		GetLastPassedEnemyNum	()							{ return m_iLastPassedEnemyNum; }										//敵が最後に通った場所
 
 	//設定関数
