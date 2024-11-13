@@ -29,29 +29,21 @@ void CDebugManager::DeleteInstance()
 	}
 }
 
-void CDebugManager::AddDebugInfo(string DebugString, unsigned int Color, int DrawNum)
+//コンストラクタ
+CDebugManager::CDebugManager()
 {
-	Debug debug;
-	debug.m_String += DebugString;
-	debug.m_Color = Color;
-
-	if (DrawNum == -1)
+	//リストの初期化
+	m_TextInfoList.resize(TEXTINFO_LIST_SIZE);
+	for (TextInfo& value : m_TextInfoList)
 	{
-		DrawNum = m_DebugString.size();
+		value.IsUse = false;
 	}
-	else {
-		debug.m_DrawNum = DrawNum;
-	}
-
-	m_DebugString.push_back(debug);
 }
 
-void CDebugManager::AddDebugNumInfo(int Number, unsigned int Color)
+//デストラクタ
+CDebugManager::~CDebugManager()
 {
-	DebugNum debug;
-	debug.m_iNum = Number;
 
-	m_DebugNum.push_back(debug);
 }
 
 void CDebugManager::AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum, unsigned int Color)
@@ -65,40 +57,70 @@ void CDebugManager::AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum, unsi
 	m_DebugSphere.push_back(debug);
 }
 
-void CDebugManager::Step()
+void CDebugManager::AddString(int _x, int _y, string _string)
 {
+	TextInfo value = { _x, _y, _string, DEFALUT_COLOR, true };
 
+	AddTextInfo(value);
+}
+
+void CDebugManager::AddFormatString(int _x, int _y, const char* format, ...)
+{
+	//フォーマット済み文字列を格納するバッファ
+	char buffer[CHAR_SIZE];
+
+	//可変引数を処理
+	va_list args;
+	va_start(args, format);
+	//フォーマット済みの文字列を生成する
+	vsnprintf(buffer, sizeof(buffer), format, args);
+
+	va_end(args);
+
+	TextInfo value = { _x, _y, buffer, DEFALUT_COLOR, true };
+
+	AddTextInfo(value);
+
+}
+void CDebugManager::DrawLogString(string _string)
+{
+	if (!IsDeBug) { return; }
+
+	_string += "\n";
+
+	OutputDebugString(_string.c_str());
+}
+
+void CDebugManager::DrawLogFormatString(const char* format, ...)
+{
+	//フォーマット済み文字列を格納するバッファ
+	char buffer[CHAR_SIZE];
+
+	//可変引数を処理
+	va_list args;
+	va_start(args, format);
+	//フォーマット済みの文字列を生成する
+	vsnprintf(buffer, sizeof(buffer), format, args);
+	va_end(args);
+
+	DrawLogString(buffer);
 }
 
 void CDebugManager::Draw()
 {
-	//デバッグする文字がなかったら処理を行わない
-	if (m_DebugString.size() <= 0 && m_DebugSphere.size() <= 0) return;
+	if (!IsDeBug) { return; }
 
-	for (int i = 0; i < m_DebugString.size(); i++)
+	for (TextInfo& value : m_TextInfoList)
 	{
-		//文字描画
-		DrawFormatString(DEFAULT_X_SIZE, i * DEFAULT_Y_SIZE, m_DebugString[i].m_Color,"%s" ,m_DebugString[i].m_String.c_str());
+		if (value.IsUse) {
+			DrawString(value.m_x, value.m_y, value.DebugString.c_str(), value.Color);
+			//表示したら未使用にする
+			value.IsUse = false;
+		}
 	}
-
-	//数字描画
-	DrawNum();
 
 	//球描画
 	DrawSphere();
-}
-
-void CDebugManager::DrawNum()
-{
-	/*if (m_DebugNum.size() <= 0) return;*/
-
-	for (int i = 0; i < m_DebugNum.size(); i++)
-	{
-		DrawFormatString(10, i * 20, m_DebugNum[i].m_Color, "%d", m_DebugNum[i].m_iNum);
-		
-	}
-	DrawFormatString(500, 100, GetColor(255,0,0), "%d", Num);
-	DrawFormatString(500, 120, GetColor(255,0,0), "%d", Num_2);
 }
 
 void CDebugManager::DrawSphere()
@@ -106,5 +128,17 @@ void CDebugManager::DrawSphere()
 	for (int i = 0; i < m_DebugSphere.size(); ++i)
 	{
 		DrawSphere3D(m_DebugSphere[i].m_vPos, m_DebugSphere[i].m_fRad, m_DebugSphere[i].m_DivNum, m_DebugSphere[i].m_Color, m_DebugSphere[i].m_Color, false);
+	}
+}
+
+void CDebugManager::AddTextInfo(TextInfo _textInfo)
+{
+	for (TextInfo& value : m_TextInfoList)
+	{
+		if (!value.IsUse) {
+			//データを追加
+			value = _textInfo;
+			return;
+		}
 	}
 }

@@ -8,6 +8,8 @@ constexpr int PLAYER_PASSED_LIST_SIZE = 20;				//ƒvƒŒƒCƒ„[‚ª’Ê‚Á‚½êŠ‚ğ•Û‘¶‚µ‚
 
 CCheckPointManager::CCheckPointManager()
 {
+		//ƒvƒŒƒCƒ„[‚ª’Ê‚Á‚½êŠ
+	m_iLastPassedEnemyNum = 0;									//“G‚ªÅŒã‚É’Ê‚Á‚½êŠ
 }
 
 CCheckPointManager::~CCheckPointManager()
@@ -45,28 +47,35 @@ void CCheckPointManager::Load()
 	}
 }
 
+void CCheckPointManager::Step()
+{
+	CDebugManager::GetInstance()->AddFormatString(400, 0, "“G‚ªÅŒã‚É’Ê‚Á‚½êŠ = %d", m_iLastPassedEnemyNum);
+	CDebugManager::GetInstance()->AddFormatString(0, 200, "ƒvƒŒƒCƒ„[‚ª’Ê‚Á‚½êŠ‚ğŠi”[‚µ‚Ä‚¢‚éƒŠƒXƒgƒTƒCƒY = %d", CHECKPOINT_INDEX);
+	for (int i = 0; i < CHECKPOINT_INDEX; i++) {
+		CDebugManager::GetInstance()->AddFormatString(0, 220+(i*20), "ƒvƒŒƒCƒ„[‚ª’Ê‚Á‚½êŠ = %d", m_iPassedPlayerNum[i]);
+	}
+}
+
 int CCheckPointManager::GetPassedPlayerNum()
 {
 	//’Ê‚Á‚½êŠ‚ª1ˆÈã‚ ‚ê‚Î
-	if (m_iPassedPlayerNum.size() > 0){
+	if (CHECKPOINT_INDEX > 0){
 		//––”ö‚Ì’l‚ğ•Ô‚·
-		return m_iPassedPlayerNum.back();
+	
 	}
 	else {
 		//‰½‚à‚È‚¯‚ê‚Î-1‚ğ•Ô‚·
 		return -1;
 	}
-	 
 }
 
 void CCheckPointManager::SetPassedPlayerNum(int Num)
 {
 	//ƒTƒCƒYãŒÀ‚ğ’´‚¦‚½‚çæ“ª—v‘f‚ğíœ
-	if (m_iPassedPlayerNum.size() > PLAYER_PASSED_LIST_SIZE) {
-		m_iPassedPlayerNum.erase(m_iPassedPlayerNum.begin());
+	if (CHECKPOINT_INDEX > PLAYER_PASSED_LIST_SIZE) {
+	
 	}
 	//’l‚ğ“ü‚ê‚é
-	m_iPassedPlayerNum.push_back(Num);
 }
 
 CCheckPointManager* CCheckPointManager::GetInstance()

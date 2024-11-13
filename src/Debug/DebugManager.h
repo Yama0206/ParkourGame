@@ -1,15 +1,38 @@
 #pragma once]
 #include "DxLib.h"
 #include <vector>
+#include <list>
 #include <algorithm>
 #include "string"
 
 using namespace std;
 
 //定義
+//デバッグフラグ
+constexpr bool IsDeBug = true;
+
+//デバッグ文言の色
+#define DEFALUT_COLOR  GetColor(255,255,255)
 const unsigned int DEFAULT_DEBUG_COLOR = GetColor(255, 0, 0);
 const unsigned int DEFALUT_SPHERE_COLOR = GetColor(171, 225, 250);
-constexpr int DEFALUT_DIV_NUM = 8;
+
+constexpr int DEFALUT_DIV_NUM = 16;
+
+//デバッグ文言表示リストのサイズ
+constexpr int TEXTINFO_LIST_SIZE = 50;
+
+//表示文字列のサイズ
+constexpr int CHAR_SIZE = 512;
+
+//デバッグ文言表示用構造体
+struct  TextInfo
+{
+	int m_x;					// X座標
+	int m_y;					// Y座標
+	string DebugString;			// 文言
+	unsigned int Color;			// 文字色
+	bool IsUse;					// 使用フラグ
+};
 
 class CDebugManager
 {
@@ -17,19 +40,7 @@ private:
 	static CDebugManager* m_Instance;
 
 private:
-	struct Debug
-	{
-		string			m_String;					//表示するデバッグ文字
-		unsigned int	m_Color;					//文字の色
-		int				m_DrawNum;					//表示番号
-	};
 
-	struct DebugNum
-	{
-		VECTOR			m_vPos;						//座標
-		int				m_iNum;						//デバッグする数字
-		unsigned int	m_Color;					//数字の色
-	};
 
 	struct DebugShere
 	{
@@ -39,8 +50,6 @@ private:
 		unsigned int	m_Color;					//球の色
 	};
 
-	vector <Debug>		 m_DebugString;					//デバッグ文字
-	vector <DebugNum>	 m_DebugNum;					//デバッグ数字
 	vector <DebugShere>	 m_DebugSphere;					//デバッグ球
 
 	int Num;
@@ -55,21 +64,30 @@ public:
 	//--------------------------------------------
 
 public:
-	//文字
-	void AddDebugInfo(string DebugString, unsigned int Color = DEFAULT_DEBUG_COLOR, int DrawNum = -1);
-	//数字
-	void AddDebugNumInfo(int DebugNum, unsigned int Color = DEFAULT_DEBUG_COLOR);
+	CDebugManager();
+	~CDebugManager();
+
+public:
+	//デバッグ文言データを追加
+	void AddString(int _x, int _y, string _string);
+	void AddFormatString(int _x, int _y, const char* format, ...);
+
+	//出力ログに表示
+	void DrawLogString(string _string);
+	void DrawLogFormatString(const char* format, ...);
 	//球
 	void AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum = DEFALUT_DIV_NUM, unsigned int Color = DEFALUT_SPHERE_COLOR);
-	//通常処理
-	void Step();
+
+public:
 	//描画(球)
 	void DrawSphere();
-	//描画(数字)
-	void DrawNum();
 	//描画
 	void Draw();
 
-	void SetNum(int num) { Num = num; }
-	void SetNum_2(int num) { Num_2 = num; }
+private:
+	//デバッグ文言の表示リスト
+	list<TextInfo> m_TextInfoList;
+
+	//listにデータを追加
+	void AddTextInfo(TextInfo _textInfo);
 };

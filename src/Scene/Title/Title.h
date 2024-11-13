@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "../../Input/Input.h"
 #include "../../Collision/CollisionManager.h"
+#include "../../Debug/DebugManager.h"
 
 //定義
 const char TITLE_BACKIMG_PATH[] = { "data/Title/ゲーム課題　タイトル画面.png" };		//背景画像パス

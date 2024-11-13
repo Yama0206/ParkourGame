@@ -155,11 +155,12 @@ void CPlayScene::Step()
 		//空の通常処理
 		m_cSky.Step();
 
+		CCheckPointManager::GetInstance()->Step();
+
 		GetJoypadDirectInputState(DX_INPUT_PAD1, &m_JoyState);
 		
 
 		//当たり判定処理
-		CCollisionManager::CheckHitShotToEnemy(m_cEnemyManager, m_cShotManager);
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
@@ -235,59 +236,10 @@ void CPlayScene::Draw()
 	//m_cSky.Draw();				//空描画
 	cGoal.Draw();					//ゴール描画
 
-	m_cDebug.PrintSpeed(32, 32, m_cPlayer.GetfSpd());
-	m_cDebug.PrintSpeed(100, 100, m_cPlayer.m_fMoveSpeed);
-	m_cDebug.PrintSpeed(100, 150, m_cPlayer.GetSpd().z);
-
-	m_cDebug.PrintPos(900, 32, m_cPlayer.GetPosition());
-
-	DrawFormatString(100, 500, GetColor(255, 0, 0), "%d", m_JoyState.X);
-	DrawFormatString(100, 530, GetColor(255, 0, 0), "%d", m_JoyState.Y);
-	DrawFormatString(100, 560, GetColor(255, 0, 0), "%f", m_cPlayer.Player);
-	DrawFormatString(100, 590, GetColor(255, 0, 0), "%f", m_cPlayer.Camera);
-	DrawFormatString(100, 620, GetColor(255, 0, 0), "%f,%f,%f", m_cPlayer.GerViwPoint().x, m_cPlayer.GerViwPoint().y, m_cPlayer.GerViwPoint().z);
+	//デバッグ
 	CDebugManager::GetInstance()->Draw();
 }
 
-void CPlayScene::SetBlock()
-{
-	//足場　箱
-	m_vFBoxPos[0] = { 0.0f, 0.0f, 0.0f };
-	m_vFBoxPos[1] = { 0.0f, 0.0f, 60.0f };
-	m_vFBoxPos[2] = { 30.0f, 0.0f, 120.0f };
-	m_vFBoxPos[3] = { 0.0f, 20.0f, 180.0f };
-	m_vFBoxPos[4] = { 0.0f, 0.0f, 240.0f };
-	m_vFBoxPos[5] = { 0.0f, 0.0f, 300.0f };
-	m_vFBoxPos[6] = { 0.0f, 0.0f, 360.0f };
-	m_vFBoxPos[7] = { 60.0f, 0.0f, 440.0f};
-	m_vFBoxPos[8] = { 30.0f, 30.0f, 480.0f };
-	m_vFBoxPos[9] = { 80.0f, 0.0f, 500.0f };
-	m_vFBoxPos[10] = { 0.0f, 0.0f, 510.0f };
-	m_vFBoxPos[11] = { 0.0f, 25.0f, 560.0f };
-	m_vFBoxPos[12] = { 0.0f, 40.0f, 600.0f };
-	m_vFBoxPos[13] = { 0.0f, 25.0f, 660.0f };
-	m_vFBoxPos[14] = { 0.0f, 0.0f, 700.0f };
-	m_vFBoxPos[15] = { 0.0f, 0.0f, 730.0f };
-
-	for (int i = 0; i < FBOX_MAX_NUM; i++)
-	{
-		cFBox[i].Init(m_vFBoxPos[i], m_vFBoxSize[i], m_vFBoxRot[i]);
-	}
-
-	//足場　石
-	m_vRockPos[0] = { 0.0f, 0.0f, 0.0f };
-	m_vRockPos[1] = { 0.0f, 0.0f, 100.0f };
-	m_vRockPos[2] = { 0.0f, 0.0f, 100.0f };
-	m_vRockPos[3] = { 0.0f, 0.0f, 100.0f };
-	m_vRockPos[4] = { 0.0f, 0.0f, 100.0f };
-	m_vRockPos[5] = { 0.0f, 0.0f, 100.0f };
-
-
-	for (int i = 0; i < cRock.size(); i++)
-	{
-		cRock[i].Init(m_vRockPos[i], m_vRockScale[i]);
-	}
-}
 
 void CPlayScene::TimeCnt()
 {

@@ -2,201 +2,6 @@
 #include <Windows.h>
 #include <string>
 
-//敵と弾の当たり判定
-void CCollisionManager::CheckHitShotToEnemy(CEnemyManager& cEnemyManager,
-											CShotManager& cShotManager)
-{
-	//for (int i = 0; i < PL_SHOT_NUM; i++) {
-	//	//弾情報を取得し、発射されていなければ次へ
-	//	CShot& cPlayerShot = cShotManager.GetPlayerShot(i);
-	//	if (!cPlayerShot.IsActiv()) { continue; }
-
-	//	for (int j = 0; j < ENEMY_NUM; j++)
-	//	{
-	//		//敵情報を取得し、生成されていなければ次へ
-	//		CEnemy& cEnemy = cEnemyManager.GetEnemy(j);
-	//		if (!cEnemy.IsActiv()) { continue; }
-
-	//		//座標と半径を取得
-	//		VECTOR vShotPos, vEnemyPos;
-	//		float fShotRadius, fEnemyRadius;
-	//		cPlayerShot.GetPotision(vShotPos);
-	//		cEnemy.GetPosition(vEnemyPos);
-	//		fShotRadius = cPlayerShot.GetRadius();
-	//		fEnemyRadius = cEnemy.GetRadius();
-
-	//		//敵のほうは当たり判定の中心を半径分浮かせる
-	//		vEnemyPos.y += fEnemyRadius;
-
-	//		//球と弾の当たり判定
-	//		if (CHit::IsHiSphere(vShotPos, fShotRadius, vEnemyPos, fEnemyRadius))
-	//		{
-	//			//ここまでくれば当たった
-	//			cPlayerShot.HitCalc();
-	//			cEnemy.HitCalc();
-	//		}
-	//	} 
-	//}
-}
-
-//Boxとプレイヤーの当たり判定
-void CCollisionManager::CheckHitBoxToPlayer(CPlayer& cPlayer,
-											CBox& cBox)
-{
-	//=========左右の当たり判定=========
-	for (int i = 0; i < 1; i++) {
-		//方向チェック用変数
-		bool DirArray[6];
-		memset(DirArray, false, sizeof(DirArray));
-
-		//座標と半径を入れる変数
-		VECTOR vPlayerPos, vBoxPos;					//座標
-		VECTOR vPlayerNextPos, vPlayerColliPos;		//移動後の座標、当たり判定をとる座標
-		VECTOR vPlayerSize, vBoxSize;				//サイズ
-
-		//座標と半径を取得
-		//プレイヤー
-		cPlayer.GetPosition(vPlayerPos);			//プレイヤー座標取得
-		cPlayer.GetNextPosVec(vPlayerNextPos);		//プレイヤーの移動後の座標
-		cPlayer.GetCenterPos(vPlayerColliPos);		//プレイヤーの原点座標
-		cPlayer.GetSize(vPlayerSize);				//プレイヤーサイズ取得
-		//箱
-		cBox.GetPotision(vBoxPos);					//箱座標取得
-		vBoxSize = cBox.GetSize();					//箱サイズ取得
-
-		//プレイヤーの進んでいる方向取得
-		cPlayer.GetMoveDir(DirArray);
-
-		//プレイヤーと箱の当たり判定のライン
-		PlayerToBoxLine(cPlayer, cBox);
-
-		//プレイヤーの移動後のX座標を入れる
-		vPlayerColliPos.x = vPlayerNextPos.x;
-
-		//の当たり判定
-		if (CHit::IsHitRect(vPlayerColliPos, vPlayerSize, vBoxPos, vBoxSize))
-		{
-			//右方向の当たり判定
-			if (DirArray[3]) {
-				//めりこみ量計算
-				float overlap = (vBoxPos.x + vBoxSize.x / 2) - (vPlayerColliPos.x - vPlayerSize.x / 2);
-				cPlayer.SetNextPosX(vPlayerNextPos.x + overlap);
-			}
-			//左方向の計算
-			if (DirArray[2]) {
-				//めりこみ量計算
-				float overlap = (vPlayerColliPos.x + vPlayerSize.x / 2) - (vBoxPos.x - vBoxSize.x / 2);
-				cPlayer.SetNextPosX(vPlayerNextPos.x - overlap);
-			}
-		}
-
-	}
-	//=========奥と手前の当たり判定=========
-	for (int i = 0; i < 1; i++) {
-		//方向チェック用変数
-		bool DirArray[6];
-		memset(DirArray, false, sizeof(DirArray));
-
-		//座標と半径を入れる変数
-		VECTOR vPlayerPos, vBoxPos;				//座標
-		VECTOR vPlayerNextPos, vPlayerColliPos;
-		VECTOR vPlayerSize, vBoxSize;			//サイズ
-
-		//座標と半径を取得
-		//プレイヤー
-		cPlayer.GetPosition(vPlayerPos);			//プレイヤー座標取得
-		cPlayer.GetNextPosVec(vPlayerNextPos);
-		cPlayer.GetCenterPos(vPlayerColliPos);		//プレイヤーの原点座標
-		cPlayer.GetSize(vPlayerSize);				//プレイヤーサイズ取得
-		//箱
-		cBox.GetPotision(vBoxPos);				//箱座標取得
-		vBoxSize = cBox.GetSize();				//箱サイズ取得
-
-		//プレイヤーの進んでいる方向取得
-		cPlayer.GetMoveDir(DirArray);
-
-		//プレイヤーと箱の当たり判定のライン
-		PlayerToBoxLine(cPlayer, cBox);
-
-		//プレイヤーの移動後のZ座標を入れる
-		vPlayerColliPos.z = vPlayerNextPos.z;
-
-		//当たり判定
-		if (CHit::IsHitRect(vPlayerColliPos, vPlayerSize, vBoxPos, vBoxSize))
-		{
-			//奥方向の計算
-			if (DirArray[4]) {
-				//めりこみ量計算
-				float overlap = (vBoxPos.z + vBoxSize.z / 2) - (vPlayerColliPos.z - vPlayerSize.z / 2);
-				cPlayer.SetNextPosZ(vPlayerNextPos.z + overlap);
-				cPlayer.SetIsHitSide(true);
-			}
-			//手前方向の計算
-			if (DirArray[5]) {
-				//めりこみ量計算
-				float overlap = (vPlayerColliPos.z + vPlayerSize.z / 2) - (vBoxPos.z - vBoxSize.z / 2);
-				cPlayer.SetNextPosZ(vPlayerNextPos.z - overlap);
-			}
-		}
-		else {
-			cPlayer.SetIsHitSide(false);
-		}
-	}
-
-	//=========上下の当たり判定=========
-	for (int i = 0; i < 1; i++) {
-		//方向チェック用変数
-		bool DirArray[6];
-		memset(DirArray, false, sizeof(DirArray));
-
-		//座標と半径を入れる変数
-		VECTOR vPlayerPos, vBoxPos;				//座標
-		VECTOR vPlayerNextPos, vPlayerColliPos;
-		VECTOR vPlayerSize, vBoxSize;			//サイズ
-
-		//座標と半径を取得
-		//プレイヤー
-		cPlayer.GetPosition(vPlayerPos);			//プレイヤー座標取得
-		cPlayer.GetNextPosVec(vPlayerNextPos);		//プレイヤーの移動後の座標
-		cPlayer.GetCenterPos(vPlayerColliPos);		//プレイヤーの原点座標
-		cPlayer.GetSize(vPlayerSize);				//プレイヤーサイズ取得
-		
-		//箱
-		cBox.GetPotision(vBoxPos);				//箱座標取得
-		vBoxSize = cBox.GetSize();				//箱サイズ取得
-
-		//プレイヤーの進んでいる方向取得
-		cPlayer.GetMoveDir(DirArray);
-
-		//プレイヤーと箱の当たり判定のライン
-		PlayerToBoxLine(cPlayer, cBox);
-
-		//プレイヤーの移動後のY座標を入れる(中心座標がほしいからプレイヤーの高さの半分を足す)
-		vPlayerColliPos.y = vPlayerNextPos.y + PLAYER_HALF_HEIGHT;
-
-		//の当たり判定
-		if (CHit::IsHitRect(vPlayerColliPos, vPlayerSize, vBoxPos, vBoxSize))
-		{
-			//下方向の計算
-			if (DirArray[1]) {
-				//めりこみ量計算
-				float overlap = (vBoxPos.y + vBoxSize.y / 2) - (vPlayerColliPos.y - vPlayerSize.y / 2);
-				cPlayer.SetNextPosY(vPlayerNextPos.y + overlap);
-				cPlayer.SetIsHitLength(true);
-			}
-			//上方向の計算
-			if (DirArray[0]) {
-				//めりこみ量計算
-				float overlap = (vPlayerColliPos.y + vPlayerSize.y / 2) - (vBoxPos.y - vBoxSize.y / 2);
-				cPlayer.SetNextPosY(vPlayerNextPos.y - overlap);
-				cPlayer.SetIsHitLength(true);
-			}
-		}
-		else {
-			cPlayer.SetIsHitLength(false);
-		}
-	}
-}
 
 void CCollisionManager::CheckHitFieldToPlayer(CPlayer& cPlayer,
 											  CField& cField)
@@ -208,153 +13,6 @@ void CCollisionManager::CheckHitFieldToPlayer(CPlayer& cPlayer,
 	fRadius = cPlayer.GetRadius();
 
 	cPlayer.ReflectCollision(cField.HitCheck(vPlCenter, fRadius));
-}
-
-void CCollisionManager::CheckHitPlayerToFootBox(CPlayer& cPlayer,
-												vector<CFootBox>& cFBox)
-{
-	//=========左右の当たり判定=========
-	for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
-		//方向チェック用変数
-		bool DirArray[6];
-		memset(DirArray, false, sizeof(DirArray));
-
-		//座標と半径を入れる変数
-		VECTOR vFBoxPos;							//座標
-		VECTOR vPlayerNextPos, vPlayerColliPos;		//移動後の座標、当たり判定をとる座標
-		VECTOR vPlayerSize, vFBoxSize;				//サイズ
-
-		//座標と半径を取得
-		//プレイヤー
-		cPlayer.GetNextPosVec(vPlayerNextPos);		//プレイヤーの移動後の座標
-		cPlayer.GetCenterPos(vPlayerColliPos);		//プレイヤーの原点座標
-		cPlayer.GetSize(vPlayerSize);				//プレイヤーサイズ取得
-		//箱
-		cFBox[FBoxIndex].GetCenterPos(vFBoxPos, 10.0f);				//箱座標取得
-		vFBoxSize = cFBox[FBoxIndex].GetSize();				//箱サイズ取得
-
-		//プレイヤーの進んでいる方向取得
-		cPlayer.GetMoveDir(DirArray);
-
-		//プレイヤーの移動後のX座標を入れる
-		vPlayerColliPos.x = vPlayerNextPos.x;
-
-		//の当たり判定
-		if (CHit::IsHitRect(vPlayerColliPos, vPlayerSize, vFBoxPos, vFBoxSize))
-		{
-			//右方向の当たり判定
-			if (DirArray[3]) {
-				//めりこみ量計算
-				float overlap = (vFBoxPos.x + vFBoxSize.x / 2) - (vPlayerColliPos.x - vPlayerSize.x / 2);
-				cPlayer.SetNextPosX(vPlayerNextPos.x + overlap);
-			}
-			//左方向の計算
-			if (DirArray[2]) {
-				//めりこみ量計算
-				float overlap = (vPlayerColliPos.x + vPlayerSize.x / 2) - (vFBoxPos.x - vFBoxSize.x / 2);
-				cPlayer.SetNextPosX(vPlayerNextPos.x - overlap);
-			}
-		}
-
-	}
-	//=========奥と手前の当たり判定=========
-	for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
-		//方向チェック用変数
-		bool DirArray[6];
-		memset(DirArray, false, sizeof(DirArray));
-
-		//座標と半径を入れる変数
-		VECTOR vFBoxPos;							//座標
-		VECTOR vPlayerNextPos, vPlayerColliPos;		//移動後の座標、当たり判定をとる座標
-		VECTOR vPlayerSize, vFBoxSize;				//サイズ
-
-		//座標と半径を取得
-		//プレイヤー
-		cPlayer.GetNextPosVec(vPlayerNextPos);		//
-		cPlayer.GetCenterPos(vPlayerColliPos);		//プレイヤーの原点座標
-		cPlayer.GetSize(vPlayerSize);				//プレイヤーサイズ取得
-		//箱
-		cFBox[FBoxIndex].GetCenterPos(vFBoxPos, 10.0f);		//箱座標取得
-		vFBoxSize = cFBox[FBoxIndex].GetSize();				//箱サイズ取得
-
-		//プレイヤーの進んでいる方向取得
-		cPlayer.GetMoveDir(DirArray);
-
-		//プレイヤーの移動後のZ座標を入れる
-		vPlayerColliPos.z = vPlayerNextPos.z;
-
-		//当たり判定
-		if (CHit::IsHitRect(vPlayerColliPos, vPlayerSize, vFBoxPos, vFBoxSize))
-		{
-			//奥方向の計算
-			if (DirArray[4]) {
-				//めりこみ量計算
-				float overlap = (vFBoxPos.z + vFBoxSize.z / 2) - (vPlayerColliPos.z - vPlayerSize.z / 2);
-				cPlayer.SetNextPosZ(vPlayerNextPos.z + overlap);
-				cPlayer.SetIsHitSide(true);
-			}
-			//手前方向の計算
-			if (DirArray[5]) {
-				//めりこみ量計算
-				float overlap = (vPlayerColliPos.z + vPlayerSize.z / 2) - (vFBoxPos.z - vFBoxSize.z / 2);
-				cPlayer.SetNextPosZ(vPlayerNextPos.z - overlap);
-			}
-		}
-		else {
-			cPlayer.SetIsHitSide(false);
-		}
-	}
-
-	//=========上下の当たり判定=========
-	for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
-		//方向チェック用変数
-		bool DirArray[6];
-		memset(DirArray, false, sizeof(DirArray));
-
-		//座標と半径を入れる変数
-		VECTOR vFBoxPos;							//座標
-		VECTOR vPlayerNextPos, vPlayerColliPos;		//移動後の座標、当たり判定をとる座標
-		VECTOR vPlayerSize, vFBoxSize;				//サイズ
-
-		//座標と半径を取得
-		//プレイヤー
-		cPlayer.GetNextPosVec(vPlayerNextPos);		//プレイヤーの移動後の座標
-		cPlayer.GetCenterPos(vPlayerColliPos);		//プレイヤーの原点座標
-		cPlayer.GetSize(vPlayerSize);				//プレイヤーサイズ取得
-
-		//箱
-		cFBox[FBoxIndex].GetCenterPos(vFBoxPos, 10.0f);			//箱座標取得
-		vFBoxSize = cFBox[FBoxIndex].GetSize();				//箱サイズ取得
-
-		//プレイヤーの進んでいる方向取得
-		cPlayer.GetMoveDir(DirArray);
-
-		//プレイヤーの移動後のY座標を入れる(中心座標がほしいからプレイヤーの高さの半分を足す)
-		vPlayerColliPos.y = vPlayerNextPos.y + PLAYER_HALF_HEIGHT;
-
-		//の当たり判定
-		if (CHit::IsHitRect(vPlayerColliPos, vPlayerSize, vFBoxPos, vFBoxSize))
-		{
-			//下方向の計算
-			if (DirArray[1]) {
-				//めりこみ量計算
-				float overlap = (vFBoxPos.y + vFBoxSize.y / 2) - (vPlayerColliPos.y - vPlayerSize.y / 2);
-				cPlayer.SetNextPosY(vPlayerNextPos.y + overlap);
-				cPlayer.SetIsHitLength(true);
-				cPlayer.SetIsJamp(false);
-			}
-			//上方向の計算
-			if (DirArray[0]) {
-				//めりこみ量計算
-				float overlap = (vPlayerColliPos.y + vPlayerSize.y / 2) - (vFBoxPos.y - vFBoxSize.y / 2);
-				cPlayer.SetNextPosY(vPlayerNextPos.y - overlap);
-				cPlayer.SetIsJamp(false);
-			}
-		}
-		else {
-			cPlayer.SetIsHitLength(false);
-		}
-	}
 }
 
 void CCollisionManager::CheckHitPlayerToRock(CPlayer& cPlayer,
@@ -595,29 +253,15 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 			fPlayerRad = cPlayer.GetRadius();
 			fCheckPointRad = CCheckPointManager::GetInstance()->GetRad(CheckPointIndex);
 			
-			//サイズが0以上だったら
-			if (CCheckPointManager::GetInstance()->GetPassedPlayerSize() > 0)
+			if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
 			{
-				//
+				//一つ前に通った場所とは当たる判定をとらない
 				if (CCheckPointManager::GetInstance()->GetPassedPlayerNum() == CheckPointIndex) {
 					continue;
-				}
-				//チェックポイントとプレイヤーの当たり判定
-				if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
-				{
-					//通った場所を保存
-					CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
-				}
-			}
-			else if(IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
-			{
-				if (CCheckPointManager::GetInstance()->GetPassedPlayerNum() == CheckPointIndex) {
-					continue;
-				}
-				//通った場所を保存
+				}	
+				//プレイヤーが通った場所を保存
 				CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
-			}
-		
+			}			
 		} 
 	}
 }
@@ -642,9 +286,10 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 			fCheckPointRad = CCheckPointManager::GetInstance()->GetRad(CheckPointIndex);
 
 			//敵が到着してないチェックポイントだけ当たり判定をとる
-			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos) && cEnemy->GetLastPassedCheckPoint() != CheckPointIndex)
+			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos) && CCheckPointManager::GetInstance()->GetLastPassedEnemyNum() != CheckPointIndex)
 			{
 				//通った場所を保存
+				CCheckPointManager::GetInstance()->SetLastPasseEnemyNum(CheckPointIndex);
 				cEnemy->SetLastPassedCheckPoint(CheckPointIndex);
 
 				//プレイヤーを見つけていないときだけこの中の処理を行う
@@ -691,6 +336,7 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemySearchRad)) {
 			//プレイヤーが通った最後の場所がすでに通った場所かどこも通ってない場合
 			if (CCheckPointManager::GetInstance()->GetPassedPlayerSize() == 0) {
+
 				//プレイヤーを直接追跡する
 				cEnemy->SetState(TrackingPlayer);
 			}
@@ -719,25 +365,6 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 
 	}
 }
-
-//void CCollisionManager::CheckHitBoxToCamera(CPlayerCamera& cPlayerCamera,
-//											CBox& cBox)
-//{
-//	VECTOR vPlayerCameraPos, vBoxPos;		//座標用変数
-//	VECTOR vPlayerCameraSize, vBoxSize;		//サイズ用変数
-//	bool DirArray[6];
-//
-//	//方向管理の変数の初期化
-//	memset(DirArray, false, sizeof(DirArray));
-//
-//	//座標
-//	vPlayerCameraPos = cPlayerCamera.GetPosVEC();		//プレイヤー
-//	cBox.GetPotision(vBoxPos);							//箱
-//
-//	//サイズ
-//	vPlayerCameraSize = CAMERA_SIZE;					//プレイヤー
-//	vBoxSize = cBox.GetHalfSize();						//箱
-//}
 
 void CCollisionManager::PlayerToBoxLine(CPlayer& cPlayer,
 										CBox& cBox)

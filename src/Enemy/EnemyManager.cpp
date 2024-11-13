@@ -92,16 +92,14 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 {
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
+		//通常処理
+		m_cEnemyList[EnemyIndex]->Step();
+
 		//プレイヤーの通ったチェックポイントに向かう
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingCheckPoint)
 		{
-			for (int NextCurrentIndex = 0; NextCurrentIndex < CHECKPOINT_NEXTCURRENT_NUM; NextCurrentIndex++) {
-				for (int PassedPlayerIndex = 0; PassedPlayerIndex < CCheckPointManager::GetInstance()->GetPassedPlayerSize(); PassedPlayerIndex++) {
-					if (CCheckPointManager::GetInstance()->GetNextCurrentNum(m_cEnemyList[EnemyIndex]->GetLastPassedCheckPoint(), NextCurrentIndex) == CCheckPointManager::GetInstance()->GetPassedPlayerNum()) {
-						m_cEnemyList[EnemyIndex]->TrackingCheckPoint(CCheckPointManager::GetInstance()->GetPassedPlayerNum(PassedPlayerIndex));
-					}
-				}
-			}
+			
+			m_cEnemyList[EnemyIndex]->TrackingCheckPoint(m_cEnemyList[EnemyIndex]->GetNextCheckPointNum());
 		}
 		//プレイヤーを追跡する
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingPlayer)

@@ -98,6 +98,15 @@ void CEnemy::Draw()
 
 void CEnemy::Step()
 {
+	CDebugManager::GetInstance()->AddFormatString(0,0,"敵の座標 = %f,%f,%f", m_vPos.x, m_vPos.y,m_vPos.z);
+	CDebugManager::GetInstance()->AddFormatString(0,20,"今の状態 = %d",m_eState);
+	CDebugManager::GetInstance()->AddFormatString(0,40,"1F前の状態 = %d",m_eOldState);
+	CDebugManager::GetInstance()->AddFormatString(0, 60, "次に向かうチェックポイントの番号 = %d", m_iNextCheckPointNum);
+	CDebugManager::GetInstance()->AddFormatString(0, 80, "最後に通ったチェックポイントの番号 = %d",m_iLastPassedCP);
+	CDebugManager::GetInstance()->AddFormatString(0, 100, "索敵範囲 = %f", m_fSearchRad);
+	CDebugManager::GetInstance()->AddFormatString(0, 120, "プレイヤー追跡範囲 = %f", m_fTrackingPlayerRad);
+
+
 }
 
 //プレイヤーを追跡する
@@ -139,14 +148,14 @@ void CEnemy::TrackingPlayer(VECTOR vPlayerPos)
 
 }
 
-void CEnemy::TrackingCheckPoint(int Index)
+void CEnemy::TrackingCheckPoint(int CheckPointIndex)
 {
 	//ホーミング処理
 	VECTOR CheckPosVec;
 	//敵からチェックポイント向かうベクトル
-	CheckPosVec.x = CCheckPointManager::GetInstance()->GetPosVec(Index).x - m_vPos.x;
+	CheckPosVec.x = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).x - m_vPos.x;
 	CheckPosVec.y = 0.0f;
-	CheckPosVec.z = CCheckPointManager::GetInstance()->GetPosVec(Index).z - m_vPos.z;
+	CheckPosVec.z = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex).z - m_vPos.z;
 
 	float fCrossZ = 0.0f;
 

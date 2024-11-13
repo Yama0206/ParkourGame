@@ -5,6 +5,7 @@
 #include "../Math/Math.h"
 #include "../CheckPoint/Manager/CheckPointManager.h"
 #include "../CheckPoint/Manager/CheckPointManager.h"
+#include "../Debug/DebugManager.h"
 
 //定義
 const float RADIUS = 5.0f;					//敵の半径				
@@ -71,7 +72,7 @@ public:
 	//プレイヤーを追跡
 	void TrackingPlayer(VECTOR vPlayerPos);
 	//チェックポイント
-	void TrackingCheckPoint(int Index);
+	void TrackingCheckPoint(int CheckPointIndex);
 
 public:
 	//座標取得

@@ -92,9 +92,6 @@ private:
 	//プレイヤーの死亡処理
 	void GameEnd();
 
-	//ブロックを設置
-	void SetBlock();
-
 	//プレイ時間をカウントする関数
 	void TimeCnt();
 
