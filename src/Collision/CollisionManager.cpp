@@ -362,7 +362,7 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		//範囲外の場合
 		//巡回モード
 			//切り替わるとき配列を削除
-			//CCheckPointManager::GetInstance()->ClearPassedPlayerNum();
+			CCheckPointManager::GetInstance()->ClearPassedPlayerNum();
 
 			//巡回モードに変更
 			cEnemy->SetState(Patrol);

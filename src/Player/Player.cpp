@@ -55,6 +55,9 @@ void CPlayer::InitValue()
 //毎フレーム呼ぶ処理
 void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 {
+	CDebugManager::GetInstance()->AddFormatString(900, 100, "プレイヤーの今の状態 = %d", m_eState);
+	CDebugManager::GetInstance()->AddFormatString(900, 120, "プレイヤーの今再生しているアニメID = %d", m_sAnimData.m_iID);
+
 	if (m_IsAllive) {
 		switch (m_sAnimData.m_iID)
 		{

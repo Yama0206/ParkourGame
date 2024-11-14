@@ -9,6 +9,7 @@
 #include "../Input/Pad/Pad.h"
 #include "../Camera/CameraManager.h"
 #include "../Debug/DebugManager.h"
+#include "../Debug/DebugManager.h"
 
 static const char PLAYER_MODEL_PATH[]	
 = { "data/char/Player.mv1" };								//ロードするファイル名
