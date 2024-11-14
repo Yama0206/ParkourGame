@@ -87,7 +87,6 @@ void CEnemy::Draw()
 	if (m_IsAllive)
 	{
 		MV1DrawModel(m_iHndl);
-		DrawFormatString(500, 32, GetColor(255, 0, 0), "%f,%f,%f", m_vPos.x, m_vPos.y, m_vPos.z);
 #ifdef MY_DEBUG
 		VECTOR vPos = m_vPos;
 		vPos.y += m_fRadius;

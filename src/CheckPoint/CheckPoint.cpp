@@ -12,9 +12,6 @@ CCheckPoint::CCheckPoint()
 	memset(m_NextCurrentNum, 0, sizeof(m_NextCurrentNum));
 
 	m_iCurrentNum = -1;
-	m_EnemyLastPassedNum = -1;
-	m_IsArrived = false;
-	m_IsPassedPlayer = false;
 	m_iArrayIndex = 0;
 	m_fRad = 0.0f;
 }

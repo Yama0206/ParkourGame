@@ -23,7 +23,7 @@ private:
 	CEnemyRead m_cEnemyRead;
 
 	//(仮)サイズを保存する変数
-	int EnemySize = 0;
+	int EnemyGoSize;
 
 public:
 	//コンストラクタ・デストラクタ

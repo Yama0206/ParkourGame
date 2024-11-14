@@ -8,7 +8,7 @@ constexpr int CHECKPOINT_NEXTCURRENT_NUM = 4;
 //コンストラクタ
 CEnemyManager::CEnemyManager()
 {
-
+	EnemyGoSize = -1;
 }
 
 //デストラクタ
@@ -28,6 +28,7 @@ CEnemyManager::~CEnemyManager()
 //初期化
 void CEnemyManager::Init()
 {
+	EnemyGoSize = -1;
 }
 
 //初期値設定
@@ -98,12 +99,37 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 		//プレイヤーの通ったチェックポイントに向かう
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingCheckPoint)
 		{
-			
+			if (m_cEnemyList[EnemyIndex]->GetOldState() != TrackingCheckPoint) {
+				EnemyGoSize = CCheckPointManager::GetInstance()->GetPassedPlayerNumSize();
+			}
+			//配列の添え字をセット
+			//敵が指定されたチェックポイントを通っていたら
+			if (CCheckPointManager::GetInstance()->GetLastPassedEnemyNum() == CCheckPointManager::GetInstance()->GetPassedPlayerNum(EnemyGoSize)) {
+				//通った配列の番号を初期化する
+				CCheckPointManager::GetInstance()->InitPassedPlayerNum(EnemyGoSize);
+				EnemyGoSize++;
+			}
+
+			//何も通ってなかったら
+			if (CCheckPointManager::GetInstance()->GetPassedPlayerNum(EnemyGoSize) == -1)
+			{
+				//プレイヤーを直接追いかける
+				m_cEnemyList[EnemyIndex]->SetState(TrackingPlayer);
+				continue;
+			}
+			//プレイヤーが通った場所の配列の何番目を参照するか決める
+			m_cEnemyList[EnemyIndex]->SetNextCheckPointNum(CCheckPointManager::GetInstance()->GetPassedPlayerNum(EnemyGoSize));
+
+			//チェックポイントに向かう処理
 			m_cEnemyList[EnemyIndex]->TrackingCheckPoint(m_cEnemyList[EnemyIndex]->GetNextCheckPointNum());
+			
 		}
 		//プレイヤーを追跡する
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingPlayer)
 		{
+			if (m_cEnemyList[EnemyIndex]->GetOldState() != TrackingPlayer) {
+				CCheckPointManager::GetInstance()->ClearPassedPlayerNum();
+			}
 			m_cEnemyList[EnemyIndex]->TrackingPlayer(vPlayerPos);
 		}
 		//敵が巡回モード

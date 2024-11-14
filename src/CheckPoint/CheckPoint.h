@@ -18,11 +18,6 @@ private:
 	int m_iCurrentNum;																	//チェックポイント番号
 	int m_NextCurrentNum[NEXT_CHECKPOINT_NUM];											//次に向かうチェックポイントの番号
 	int m_iArrayIndex;																	//チェックポイントの次に迎える場所の数
-	int m_EnemyLastPassedNum;															//敵が最後に通ったチェックポイントの番号
-	
-	//フラグ
-	bool m_IsPassedPlayer;																//プレイヤーが当たったかどうか
-	bool m_IsArrived;																	//到着した
 
 public:
 	CCheckPoint();																		//コンストラクタ
@@ -34,14 +29,13 @@ public:
 	//取得関数
 	VECTOR	GetPosVec()					{ return m_vPos; }											//座標
 	float	GetRad()					{ return m_fRad; }											//半径
-	bool	GetPassedPlayer()			{ return m_IsPassedPlayer; }								//プレイヤーが通ったかどうか
 	int		GetArrayIndex()				{ return m_iArrayIndex; }									//チェックポイントの次に迎える場所
+	int		GetCurrentNum()				{ return m_iCurrentNum; }									//チェックポイントの番号
 	int		GetNextCurrentNum(int iID)	{ return m_NextCurrentNum[iID]; }							//次に向かうチェックポイント
 
 	//設定関数
 	void SetPosVec			(VECTOR vPos)				{ m_vPos = vPos; }							//座標
 	void SetRad				(float fRad)				{ m_fRad = fRad; }							//半径
-	void SetPassedPlayer	(bool IsFrag)				{  m_IsPassedPlayer = IsFrag; }				//プレイヤーが通ったかどうか
 	void SetNextCurrentNum(int CurrentNum, int iID)		{ m_NextCurrentNum[iID] = CurrentNum; }		//次に向かうチェックポイントの番号
 
 	//チェックポイントの次に迎える場所の数を加算

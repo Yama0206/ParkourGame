@@ -255,13 +255,16 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 			
 			if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vCheckPointPos.x, vCheckPointPos.z, fCheckPointRad))
 			{
-				//一つ前に通った場所とは当たる判定をとらない
-				/*if () {
+				//一つ前に通った場所とは当たり判定をとらない
+				if (CCheckPointManager::GetInstance()->GetLastPassedPlayerNum() == CheckPointIndex) {
 					continue;
-				}	*/
+				}
+				CCheckPointManager::GetInstance()->SetLastPassedPlayerNum(CheckPointIndex);
 				//プレイヤーが通った場所を保存
-				
-			}			
+				CCheckPointManager::GetInstance()->SetPassedPlayerNum(CheckPointIndex);
+			}		
+			//デバッグ文字描画
+			CDebugManager::GetInstance()->AddFormatString(900, 0, "プレイヤーが最後通った場所 = %d", CCheckPointManager::GetInstance()->GetLastPassedPlayerNum());
 		} 
 	}
 }
@@ -289,7 +292,7 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos) && CCheckPointManager::GetInstance()->GetLastPassedEnemyNum() != CheckPointIndex)
 			{
 				//通った場所を保存
-				CCheckPointManager::GetInstance()->SetLastPasseEnemyNum(CheckPointIndex);
+				CCheckPointManager::GetInstance()->SetLastPassedEnemyNum(CheckPointIndex);
 				cEnemy->SetLastPassedCheckPoint(CheckPointIndex);
 
 				//プレイヤーを見つけていないときだけこの中の処理を行う
@@ -334,18 +337,18 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 
 		//索敵範囲のあたり判定
 		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemySearchRad)) {
-			//プレイヤーが通った最後の場所がすでに通った場所かどこも通ってない場合
-			if () {
-
-				//プレイヤーを直接追跡する
-				cEnemy->SetState(TrackingPlayer);
-			}
-			//プレイヤーが最後に通った場所にまだたどり着いてない場合
-			else {
+			//一つでも通った場所があれば
+			if (CCheckPointManager::GetInstance()->GetPassedPlayerNumSize() != -1){
 				//追跡モード(チェックポイント)
 				cEnemy->SetState(TrackingCheckPoint);
 			}
-		}
+			//プレイヤーが通った最後の場所がすでに通った場所かどこも通ってない場合
+			else {
+				//プレイヤーを直接追跡する
+				cEnemy->SetState(TrackingPlayer);
+			}
+		}		
+
 		//敵がプレイヤーを直接追いかける範囲
 		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyTrackingPlayerRad))
 		{
@@ -359,6 +362,7 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		//範囲外の場合
 		//巡回モード
 			//切り替わるとき配列を削除
+			//CCheckPointManager::GetInstance()->ClearPassedPlayerNum();
 
 			//巡回モードに変更
 			cEnemy->SetState(Patrol);
