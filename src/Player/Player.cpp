@@ -57,6 +57,9 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 {
 	CDebugManager::GetInstance()->AddFormatString(900, 100, "プレイヤーの今の状態 = %d", m_eState);
 	CDebugManager::GetInstance()->AddFormatString(900, 120, "プレイヤーの今再生しているアニメID = %d", m_sAnimData.m_iID);
+	CDebugManager::GetInstance()->AddFormatString(900, 140, "アニメーション全再生時間 = %f", m_sAnimData.m_fEndFrm);
+	CDebugManager::GetInstance()->AddFormatString(900, 160, "アニメーション再生時間 = %f", m_sAnimData.m_fFrm);
+	CDebugManager::GetInstance()->AddFormatString(900, 160, "アニメーション再生時間 = %d", m_sAnimData.m_iState);
 
 	if (m_IsAllive) {
 		switch (m_sAnimData.m_iID)
@@ -269,10 +272,10 @@ void CPlayer::StateChange_Pad()
 		//待機モーションに変更
 		m_eState = PLAYER_STATE_NORMAL;
 	}
-	/*else {
-		待機モーションに変更
+	else {
+		//待機モーションに変更
 		m_eState = PLAYER_STATE_NORMAL;
-	}*/
+	}
 }
 
 void CPlayer::StateStep(VECTOR vRot)
@@ -465,12 +468,11 @@ void CPlayer::ExecDefault()
 	//待機
 	if (m_eState == PLAYER_STATE_NORMAL)
 	{
-		RequestLoop(ANIMID_DEFAULT, 10.0f);
+		RequestLoop(ANIMID_DEFAULT, 1.0f);
 	}
 	//歩いている状態の時
 	else if (m_eState == PLAYER_STATE_WALK)
 	{
-		OutputDebugString("前");
 		RequestLoop(ANIMID_WALK, 1.0f);
 	}
 	//走っている状態の時
