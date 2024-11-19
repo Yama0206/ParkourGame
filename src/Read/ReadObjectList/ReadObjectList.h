@@ -13,7 +13,7 @@ struct SObject
 	VECTOR m_vSize;		//Šgk—¦
 	VECTOR m_vRot;		//‰ñ“]’l
 
-	Type m_eType;		//í—Ş
+	ReadType m_eType;		//í—Ş
 };
 
 class CObjectRead : public CRead

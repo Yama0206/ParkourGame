@@ -32,6 +32,6 @@ public:
 
 public:
 	//î•ñ‚ğ“ü‚ê‚é
-	void SetInfo(VECTOR vPos, VECTOR vSize, VECTOR vRot);
+	/*virtual void SetInfo() = 0;*/
 
 };

@@ -17,7 +17,7 @@ struct SEnemy
 	VECTOR m_vScale;		//Šgk—¦
 	bool m_IsActive;		//¶‘¶ƒtƒ‰ƒO
 
-	Type m_eType;			//í—Ş
+	ReadType m_eType;			//í—Ş
 };
 
 class CEnemyRead : public CRead

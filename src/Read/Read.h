@@ -10,7 +10,7 @@ const int TYPE_NUM = 256;					//テストタイプの配列の数
 const int PATH_NUM = 256;					//テストパスの配列の数
 
 
-enum Type
+enum ReadType
 {
 	a = 1,
 	b, 
@@ -33,7 +33,7 @@ class CRead
 {
 private:
 	s_List m_Test;
-	Type eType;
+	ReadType eType;
 
 public:
 	//初期化

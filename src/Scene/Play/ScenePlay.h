@@ -23,6 +23,9 @@
 #include "../../Debug/DebugManager.h"
 #include "../../Input/Pad/Pad.h"
 
+
+#include "../../HideObject/Locker/Locker.h"
+
 using namespace std;
 
 class CPlayScene
@@ -62,6 +65,9 @@ private:
 	vector<VECTOR> m_vRockPos;			//足場の石の座標
 	vector<VECTOR> m_vRockScale;		//足場の石の大きさ
 	vector<VECTOR> m_vRockRot;			//足場の石の角度
+
+
+	CLocker m_cLocker;
 
 	//プレイ時間をカウントする用の変数
 	int m_TimeCnt;

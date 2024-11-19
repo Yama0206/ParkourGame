@@ -47,11 +47,3 @@ void CObject::Update()
 	MV1SetScale(m_iHndl, m_vScale);
 	MV1SetPosition(m_iHndl, m_vPos);
 }
-
-//èÓïÒÇÃê›íË
-void CObject::SetInfo(VECTOR vPos, VECTOR vScale, VECTOR vRot)
-{
-	m_vPos = vPos;
-	m_vRot = vRot;
-	m_vScale = vScale;
-}

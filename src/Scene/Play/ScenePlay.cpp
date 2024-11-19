@@ -87,7 +87,7 @@ void CPlayScene::Init()
 	//ƒS[ƒ‹‰Šú‰»
 	cGoal.Init();
 
-	//SetBlock();
+	m_cLocker.Init();
 
 	//ƒTƒEƒ“ƒhŠÖ˜A
 	CSoundManager::Init();
@@ -137,6 +137,8 @@ void CPlayScene::Load()
 	}
 	//ƒS[ƒ‹“Ç‚Ýž‚Ý
 	cGoal.Load();
+
+	m_cLocker.Load();
 }
 
 //–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
@@ -182,6 +184,8 @@ void CPlayScene::Step()
 		cGoal.Update();			
 		//ƒAƒCƒeƒ€
 		m_cItemManager.Update();
+
+		m_cLocker.Update();
 	}
 
 	//ƒJƒƒ‰Ø‚è‘Ö‚¦ˆ—
@@ -235,6 +239,8 @@ void CPlayScene::Draw()
 	m_cField.Draw();				//”wŒi•`‰æ
 	//m_cSky.Draw();				//‹ó•`‰æ
 	cGoal.Draw();					//ƒS[ƒ‹•`‰æ
+
+	m_cLocker.Draw();
 
 	//ƒfƒoƒbƒO
 	CDebugManager::GetInstance()->Draw();

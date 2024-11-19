@@ -38,9 +38,9 @@ void CObjectManager::Load()
 		switch (m_cObjectRead.objectInfoList[ObjectIndex].m_eType) {
 		case a:
 			//aÉ^ÉCÉvÇÃìGÇ…èÓïÒÇê›íË
-			m_cObject[ObjectIndex].SetInfo(m_cObjectRead.objectInfoList[ObjectIndex].m_vPos,
+			/*m_cObject[ObjectIndex].SetInfo(m_cObjectRead.objectInfoList[ObjectIndex].m_vPos,
 				m_cObjectRead.objectInfoList[ObjectIndex].m_vSize,
-				m_cObjectRead.objectInfoList[ObjectIndex].m_vRot);
+				m_cObjectRead.objectInfoList[ObjectIndex].m_vRot);*/
 
 
 			break;
