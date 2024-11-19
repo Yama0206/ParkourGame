@@ -14,7 +14,7 @@ void CLocker::Init()
 	memset(&m_vScale, 0.0f, sizeof(m_vScale));
 	m_fRad = LOCKER_RADIUS;
 	m_iHndl = -1;
-	m_vScale = VGet(1.0f, 1.0f, 1.0f);
+	m_vScale = VGet(0.5f, 0.5f, 0.5f);
 	m_vPos.y = 50.0f;
 }
 

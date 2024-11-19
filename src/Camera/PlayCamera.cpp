@@ -99,11 +99,11 @@ void CPlayerCamera::ViewControl()
 	//キャラクターのカメラの回転
 	// パッド
 	//右スティックの感度
-	RightStickSensitivity(m_JoyState);
+	//RightStickSensitivity(m_JoyState);
 
 
 	// キーボード
-	/*if (CInput::IsKeyKeep(KEY_INPUT_RIGHT))
+	if (CInput::IsKeyKeep(KEY_INPUT_RIGHT))
 	{
 		m_vRot.y += VIEWPOINT_SPEED;
 	}
@@ -123,7 +123,7 @@ void CPlayerCamera::ViewControl()
 	if (fabs(m_vRot.x) >= MaxRotX)
 	{
 		m_vRot = m_vOldRot;
-	}*/
+	}
 
 }
 
