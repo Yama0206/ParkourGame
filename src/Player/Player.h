@@ -9,45 +9,34 @@
 #include "../Input/Pad/Pad.h"
 #include "../Camera/CameraManager.h"
 #include "../Debug/DebugManager.h"
-#include "../Debug/DebugManager.h"
 
 static const char PLAYER_MODEL_PATH[]	
 = { "data/char/Player.mv1" };								//ロードするファイル名
 static const float PLAYER_RADIUS = 2.5f;					//プレイヤーの半径
 
-static const float PLAYER_WIDTH = 10.0f;					//プレイヤーの横サイズ
-static const float PLAYER_HEIGHT = 18.0f;					//プレイヤーの縦サイズ
-static const float PLAYER_DEPTH = 10.0f;					//プレイヤーの奥行き
-static const float PLAYER_HALF_HEIGHT = 9.0f;				//プレイヤーの高さの半分の大きさ
-static const float PLAYER_HALF_WIDHT = 5.0f;				//プレイヤーの横幅の半分の大きさ
-static const int   PLAYER_DIR_NUM = 6;						//プレイヤーの向きの数
+static constexpr float PLAYER_WIDTH = 10.0f;					//プレイヤーの横サイズ
+static constexpr float PLAYER_HEIGHT = 18.0f;					//プレイヤーの縦サイズ
+static constexpr float PLAYER_DEPTH = 10.0f;					//プレイヤーの奥行き
+static constexpr float PLAYER_HALF_HEIGHT = 9.0f;				//プレイヤーの高さの半分の大きさ
+static constexpr float PLAYER_HALF_WIDHT = 5.0f;				//プレイヤーの横幅の半分の大きさ
+static constexpr int   PLAYER_DIR_NUM = 6;						//プレイヤーの向きの数
 
 class CPlayer : public CModel
 {
 private:
-	//プレイヤーの状態
-	enum tagPlayerState {
-		PLAYER_STATE_NORMAL,		//待機
-		PLAYER_STATE_WALK,			//歩き中
-		PLAYER_STATE_DASH,			//走り中
-		PLAYER_STATE_JUMP,			//ジャンプ中
-		
-
-		PLAYER_STATE_NUM
-	};
-
 	//アニメーション一覧
 	enum tagAnim {
-		ANIMID_DEFAULT,			//デフォルトモーション
-		ANIMID_WALK,			//歩きモーション
-		ANIMID_RUN,				//走りモーション
+		ANIMID_WAIT,			//ぶらぶら
+		ANIMID_RUN,				//小走りモーション
+		ANIMID_FAST_RUN,		//走りモーション
+		ANIMID_RUNNINGJUMP,		//走りジャンプモーション
 		ANIMID_JUMP,			//ジャンプモーション
 		ANIMID_TPOSE,			//Ｔポーズ
-		ANIMID_WAIT,			//ぶらぶら
 		ANIMID_UPDOWN,			//くねくね上下
 		ANIMID_SHAKE,			//手を振る
 		ANIMID_PIANO,			//ピアノを引いて要るっぽい
 		ANIMID_DANCE,			//踊ってる
+		ANIMID_DEFAULT,			//デフォルトモーション
 
 		ANIMID_NUM				//全アニメーション数
 	};
@@ -63,32 +52,29 @@ private:
 	
 	};
 
-	tagPlayerState m_eState;		//プレイヤーの状態
-	tagPlayerState m_eOldState;		//プレイヤーの1フレーム前の状態
 	tagDir m_eDir;					//プレイヤーの方向
-	
 	VECTOR m_ViewRot;				//プレイヤーの見ている向き
 
 	int m_PadXBuf;					//パッドレバーの左右の入力状態を格納する変数
 	int m_PadYBuf;					//パッドレバーの上下の入力状態を格納する変数
 	
 	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
-	float fRot;						//回転値
+	float m_fRot;						//回転値
 	float m_fGravity;				//プレイヤーの重力
 
 	//フラグ
-	bool m_IsHit;					//プレイヤーが物体に当たっているかどうか
-	bool m_IsHitSide;				//プレイヤーが物体と横方向で当たった時
-	bool m_IsHitLength;				//プレイヤーが物体と縦方向で当たった時
-	bool m_IsJump;					//プレイヤーがジャンプしたかどうか
-	bool m_IsKeyHit;				//キーを押したかどうか
+	bool m_IsHit;			//プレイヤーが物体に当たっているかどうか
+	bool m_IsHitSide;		//プレイヤーが物体と横方向で当たった時
+	bool m_IsHitLength;		//プレイヤーが物体と縦方向で当たった時
+	bool m_IsGround;		//プレイヤーが地面についたかどうか
+	bool m_IsKeyHit;		//キーを押したかどうか
 
 public:
 	//コンストラクタ
 	CPlayer();
 	~CPlayer();
-
 	float m_fMoveSpeed;				//プレイヤーのスピード
+
 public:
 
 	//初期値設定
@@ -105,8 +91,6 @@ public:
 	void Jamp(VECTOR vRot);
 	//重力計算
 	void Gravity();
-	//弾の発射処理
-	void Shot(CShotManager& cShotManager);
 	//データ関連の破棄
 	void Delete();
 	//終了処理
@@ -114,15 +98,53 @@ public:
 
 public:
 	//Pad操作で状態を変更する
-	void StateChange_Pad();
+	//デフォルト状態の時
+	void StateChange_Default_Pad();
 	//キーボード操作
 	void Control_KeyBord(VECTOR vRot);
 	//状態ごとの処理
-	void StateStep(VECTOR vRot);
+	void StateStep();
 	//当たった分戻す
 	void ReflectCollision(VECTOR vAddVec);
+	//左スティックの角度にあわせてプレイヤーを回転させる
+	void PadRotation(VECTOR vCameraRot);
+	//移動ベクトル
+	void CalcMoveVec(VECTOR vCameraRot);
+	//座標に移動量を加算
+	void AddMove();
+
 
 	float Camera, Player;
+public:
+	//状態ごとの処理
+	//待機
+	void WaitCalc();
+	//小走り
+	void RunCalc();
+	//ダッシュ
+	void FastRunCalc();
+	//ジャンプ
+	void JumpCalc();
+	//ダッシュジャンプ
+	void RuningJumpCalc();
+public:
+	//コントローラー操作//
+	//すべての状態で使える操作
+	void PadControl_AllState();
+	//小走り操作
+	void PadControl_Run();
+	//ダッシュ操作
+	void PadControl_FastRun();
+	//ジャンプ操作
+	void PadControl_Jump();
+	//ダッシュジャンプ操作
+
+
+	////キーボード操作
+	//void KeyBordControl_Default();
+	//void KeyBordControl_Run();
+	//void KeyBordControl_FastRun();
+	//void KeyBordControl_Jump();
 
 public:
 
@@ -157,14 +179,13 @@ public:
 	//半径取得
 	inline float GetRadius() { return PLAYER_RADIUS; }
 
-	tagPlayerState	GetPlayerState()					{ return m_eState; }			//プレイヤーの状態を取得
-	void			GetHalfSize(VECTOR& vHalfSize);										//半分のサイズを取得
-	VECTOR			GetSpd()							{ return m_vSpd; }				//プレイヤーの速さを取得
-	float			GetfSpd()							{ return m_fMoveSpeed; }		//スピードを取得(float)
-	void			GetSize(VECTOR& vSize);												//縦、横、奥行きのサイズ取得
-	void			GetCenterPos(VECTOR& vPos);											//プレイヤーの中心座標を設定
-	VECTOR			GetForcsPos();														//プレイヤーカメラに渡す注視点座標
-
+	void			GetHalfSize(VECTOR& vHalfSize)		{ vHalfSize = DivVec(m_vSize, 2.0f); }								//半分のサイズを取得
+	VECTOR			GetSpd()							{ return m_vSpd; }													//プレイヤーの速さを取得
+	float			GetfSpd()							{ return m_fMoveSpeed; }											//スピードを取得(float)
+	void			GetSize(VECTOR& vSize)				{ vSize = m_vSize; }												//縦、横、奥行きのサイズ取得
+	void			GetCenterPos(VECTOR& vPos)			{ vPos = VAdd(m_vPos, VGet(0.0f, PLAYER_HALF_HEIGHT, 0.0f)); }		//プレイヤーの中心座標を設定
+	VECTOR			GetForcsPos();																							//プレイヤーカメラに渡す注視点座標
+		
 	//物体にあっているかどうか
 	bool SetIsHit(bool flag)		{ return m_IsHit = flag; }	
 	bool SetIsHitSide(bool flag)	{ return m_IsHitSide = flag; }
@@ -175,18 +196,22 @@ public:
 	bool GetIsAllive()			{ return m_IsAllive; }			//生存フラグの取得
 
 	//ジャンプフラグ取得・設定
-	void SetIsJamp(bool flag)			{ m_IsJump = flag; }				//ジャンプフラグ設定
-	bool GetIsJamp()					{ return m_IsJump; }				//ジャンプフラグ取得
+	void SetIsJamp(bool flag)	{ m_IsGround = flag; }			//ジャンプフラグ設定
+	bool GetIsJamp()			{ return m_IsGround; }			//ジャンプフラグ取得
 
 private:
-	//何もしていないときの処理
+	//デフォルトの処理
 	void ExecDefault();
+	//何もしていない時
+	void ExecWait();
 	//歩き中
-	void ExecWalk();
-	//走り中
 	void ExecRun();
+	//走り中
+	void ExecFastRun();
 	//ジャンプ
 	void ExecJump();
+	//ダッシュジャンプ
+	void ExecRunningJump();
 	////くねくね中
 	//void ExecUpDown();
 	////手を振る

@@ -36,7 +36,7 @@ protected:
 	VECTOR m_vScale;				//拡大縮小率
 	VECTOR m_vSize;					//縦、横、奥行き
 	ANIM_DATA m_sAnimData;			//アニメ再生関連データ
-	OLD_ANIM_DATA m_sOldAnimData;	//更新前のアニメ再生関連データ
+	ANIM_DATA m_sOldAnimData;	//更新前のアニメ再生関連データ
 
 	int	  m_iHndl;					//モデルハンドル
 
