@@ -4,7 +4,7 @@ constexpr char LOCKER_PATH[] = { "data/Locker/Locker.x" };
 constexpr int LOCKER_X_SIZE = 50;
 constexpr int LOCKER_Y_SIZE = 50;
 constexpr int LOCKER_Z_SIZE = 50;
-constexpr float LOCKER_RADIUS = 30.0f;
+constexpr float LOCKER_RADIUS = 50.0f;
 
 void CLocker::Init()
 {

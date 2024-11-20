@@ -116,12 +116,6 @@ void CCheckPointManager::SetPassedPlayerNum(int iNum)
 
 }
 
-void CCheckPointManager::ClearPassedPlayerNum()
-{
-	//‘S—v‘f‚ğ‰Šú‰»
-	memset(m_iPassedPlayerNum, -1, sizeof(m_iPassedPlayerNum));
-}
-
 CCheckPointManager* CCheckPointManager::GetInstance()
 {
 	//‚Ü‚¾¶¬‚³‚ê‚Ä‚¢‚È‚¢‚È‚ç

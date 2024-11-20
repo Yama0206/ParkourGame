@@ -7,7 +7,7 @@ static constexpr float ADD_SPEED = 0.2f;						//プレイヤーのスピードを加算する
 static constexpr float SAB_SPEED = 0.1f; 						//プレイヤーのスピードを減算する
 static constexpr float DASH_SPEED = 2.0f;						//プレイヤーが走った時の移動速度
 static constexpr float GRAVITY = 0.2f;							//プレイヤーの重力
-static constexpr float MAX_GRAVITY = 3.0f;						//プレイヤーの重力の限界
+static constexpr float MAX_GRAVITY = 2.0f;						//プレイヤーの重力の限界
 static constexpr float MIN_GRAVITY = 0.1f;						//プレイヤーの重力の最低
 static constexpr float YSPEED = 4.5f;							//プレイヤーのY方向のスピード
 static constexpr float ROTATE_SPEED = 0.1f;						//回転スピード
@@ -51,7 +51,7 @@ void CPlayer::InitValue()
 	m_IsHide = false;
 	m_IsHitHideObject = false;
 
-	m_vPos.y = 1.0f;
+	m_vPos.y = 1000.0f;
 }
 
 //毎フレーム呼ぶ処理
@@ -121,6 +121,10 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			ExecDance();
 			break;
 		*/
+		}
+		if (CInput::IsKeyPush(KEY_INPUT_SPACE))
+		{
+			m_vNextPos.y += 10;
 		}
 
 		//左スティック傾きでプレイヤーを回転させる
@@ -521,7 +525,7 @@ void CPlayer::ExecWait()
 		RequestLoop(ANIMID_FAST_RUN, 1.0f);
 	}
 	//ハイドモード
-	if (CPad::IsPadPush(INPUT_B))
+	if (CPad::IsPadPush(INPUT_B) && m_IsHitHideObject)
 	{
 		m_sAnimData.m_iID = ANIMID_HIDE;
 	}
@@ -558,7 +562,7 @@ void CPlayer::ExecRun()
 	}
 
 	//隠れる操作　
-	if (CPad::IsPadPush(INPUT_B))
+	if (CPad::IsPadPush(INPUT_B) && m_IsHitHideObject)
 	{
 		m_sAnimData.m_iID = ANIMID_WAIT;
 		m_IsHide = false;
@@ -594,7 +598,7 @@ void CPlayer::ExecFastRun()
 		JumpCalc();
 	}
 	//隠れる操作
-	if (CPad::IsPadPush(INPUT_B))
+	if (CPad::IsPadPush(INPUT_B) &&  m_IsHitHideObject)
 	{
 		m_sAnimData.m_iID = ANIMID_WAIT;
 		m_IsHide = false;
@@ -669,7 +673,7 @@ void CPlayer::ExecHide()
 	memset(&m_vSpd, 0.0f, sizeof(m_vSpd));
 	m_fMoveSpeed = 0.0f;
 
-	if (CPad::IsPadPush(INPUT_B))
+	if (CPad::IsPadPush(INPUT_B) && m_IsHitHideObject)
 	{
 		m_sAnimData.m_iID = ANIMID_WAIT;
 		m_IsHide = false;

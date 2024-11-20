@@ -94,6 +94,8 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 {
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
+		/*m_cEnemyList[EnemyIndex]->SetOldState(m_cEnemyList[EnemyIndex]->GetState());*/
+
 		//’Êíˆ—
 		m_cEnemyList[EnemyIndex]->Step();
 
@@ -101,11 +103,11 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 		{
 			m_cEnemyList[EnemyIndex]->SetState(Patrol);
 
-			if (m_cEnemyList[EnemyIndex]->GetNextCheckPointNum() != -1)
+			if (m_cEnemyList[EnemyIndex]->GetNextCheckPointNum() != -1 /*&& m_cEnemyList[EnemyIndex]->GetOldState() != Patrol*/)
 			{
+				CCheckPointManager::GetInstance()->ClearLastPasedEnemyNum();
 				m_cEnemyList[EnemyIndex]->ClearLastPassedCheckPoint();
 				m_cEnemyList[EnemyIndex]->NearCheckPointFind();
-			
 			}
 		}
 

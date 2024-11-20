@@ -122,8 +122,6 @@ public:
 	void StateChange_Default_Pad();
 	//キーボード操作
 	void Control_KeyBord(VECTOR vRot);
-	//状態ごとの処理
-	void StateStep();
 	//当たった分戻す
 	void ReflectCollision(VECTOR vAddVec);
 	//左スティックの角度にあわせてプレイヤーを回転させる
@@ -176,6 +174,7 @@ public:
 
 	//座標取得
 	inline VECTOR	GetPosition()					{ return m_vPos; }			//プレイヤーの座標
+	inline VECTOR	GetNextPosVec()					{ return m_vNextPos; }		//プレイヤーの移動後の座標
 	inline void		GetPosition(VECTOR &vPos)		{  vPos = m_vPos; }			//プレイヤーの座標
 	inline void		GetNextPosVec(VECTOR& vPos)		{ vPos = m_vNextPos; }		//プレイヤーの移動後の座標
 

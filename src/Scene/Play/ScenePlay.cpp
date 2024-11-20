@@ -177,16 +177,17 @@ void CPlayScene::Step()
 		
 
 		//当たり判定処理
-		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
+
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
-		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
+		//CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
 		for (int i = 0; i < 3; i++) {
 			CCollisionManager::CheckHitPlayerToHideObject(m_cPlayer, m_cLocker[i]);
 		}
 		CCollisionManager::CheckHitEnemyToPoint(m_cEnemyManager);
 		CCollisionManager::CheckHitPlayerToEnemy(m_cPlayer, m_cEnemyManager);
 		CCollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cEnemyManager);
+		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
 		
 		//更新処理--------------------------------------------------------------//
 		//プレイヤー

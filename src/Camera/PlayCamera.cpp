@@ -130,16 +130,16 @@ void CPlayerCamera::ViewControl()
 void CPlayerCamera::RightStickSensitivity(DINPUT_JOYSTATE JoyState)
 {
 	//JoyPad
-	//左右
-	m_vRot.y += VIEWPOINT_SPEED * (JoyState.Rx / 1000.0f);
-	//上下
-	m_vRot.x += VIEWPOINT_SPEED * (JoyState.Ry / 1000.0f);	
+	////左右
+	//m_vRot.y += VIEWPOINT_SPEED * (JoyState.Rx / 1000.0f);
+	////上下
+	//m_vRot.x += VIEWPOINT_SPEED * (JoyState.Ry / 1000.0f);	
 
 	//DUALSHOCK4
-	////左右
-	//m_vRot.y += VIEWPOINT_SPEED * (JoyState.Z / 1000.0f);
-	////上下
-	//m_vRot.x += VIEWPOINT_SPEED * (JoyState.Rz / 1000.0f);
+	//左右
+	m_vRot.y += VIEWPOINT_SPEED * (JoyState.Z / 1000.0f);
+	//上下
+	m_vRot.x += VIEWPOINT_SPEED * (JoyState.Rz / 1000.0f);
 
 }
 

@@ -291,8 +291,10 @@ void CCollisionManager::CheckHitPlayerToHideObject(CPlayer& cPlayer, CLocker& cL
 		{
 			//プレイヤーの座標をハイドオブジェクトの場所に固定
 			cPlayer.SetNextPosVec(vLockertPos);
+			CDebugManager::GetInstance()->DrawLogFormatString("%f,%f,%f", cPlayer.GetNextPosVec().x, cPlayer.GetNextPosVec().y, cPlayer.GetNextPosVec().z);
 		}
 	}
+	
 }
 
 void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
@@ -314,12 +316,14 @@ void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 			vCheckPointPos = CCheckPointManager::GetInstance()->GetPosVec(CheckPointIndex);
 			fCheckPointRad = CCheckPointManager::GetInstance()->GetRad(CheckPointIndex);
 
+			CDebugManager::GetInstance()->AddFormatString(600, 200, "%d", CCheckPointManager::GetInstance()->GetLastPassedEnemyNum());
+
 			//敵が到着してないチェックポイントだけ当たり判定をとる
 			if (SphereCollision(fEnemyRad, vEnemyPos, fCheckPointRad, vCheckPointPos) && CCheckPointManager::GetInstance()->GetLastPassedEnemyNum() != CheckPointIndex)
 			{
 				//通った場所を保存
-				CCheckPointManager::GetInstance()->SetLastPassedEnemyNum(CheckPointIndex);
-				cEnemy->SetLastPassedCheckPoint(CheckPointIndex);
+				CCheckPointManager::GetInstance()->SetLastPassedEnemyNum(CheckPointIndex);		//チェックポイントクラス
+				cEnemy->SetLastPassedCheckPoint(CheckPointIndex);								//敵クラス
 
 				//プレイヤーを見つけていないときだけこの中の処理を行う
 				if (cEnemy->GetState() == Patrol) {
