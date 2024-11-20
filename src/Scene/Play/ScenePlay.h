@@ -67,7 +67,7 @@ private:
 	vector<VECTOR> m_vRockRot;			//足場の石の角度
 
 
-	CLocker m_cLocker;
+	CLocker m_cLocker[3];
 
 	//プレイ時間をカウントする用の変数
 	int m_TimeCnt;

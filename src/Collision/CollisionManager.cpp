@@ -269,6 +269,32 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 	}
 }
 
+void CCollisionManager::CheckHitPlayerToHideObject(CPlayer& cPlayer, CLocker& cLocker)
+{
+	VECTOR vPlayerPos, vLockertPos;		//座標
+	float fPlayerRad, fLockerRad;		//半径
+
+	//プレイヤーとチェックポイント情報取得
+	cPlayer.GetPosition(vPlayerPos);
+	vLockertPos = cLocker.GetPos();
+	fPlayerRad = cPlayer.GetRadius();
+	fLockerRad = cLocker.GetRad();
+
+	//プレイヤーとハイドオブジェクトの当たり判定
+	if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vLockertPos.x, vLockertPos.z, fLockerRad))
+	{
+		//当たったかどうかをプレイヤーに返す
+		cPlayer.SetIsHitHideObject(true);
+
+		//プレイヤーがハイドモードだったら
+		if (cPlayer.GetIsHide())
+		{
+			//プレイヤーの座標をハイドオブジェクトの場所に固定
+			cPlayer.SetNextPosVec(vLockertPos);
+		}
+	}
+}
+
 void CCollisionManager::CheckHitEnemyToPoint(CEnemyManager& cEnemyManager)
 {
 	for (int EnemyIndex = 0; EnemyIndex < cEnemyManager.GetEnemySize(); EnemyIndex++) {
@@ -336,7 +362,7 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		fEnemyTrackingPlayerRad = cEnemy->GetTrackingPlayerRad();
 
 		//索敵範囲のあたり判定
-		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemySearchRad)) {
+		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemySearchRad) && !cEnemyManager.GetIsPlayerHideMode()) {
 			//一つでも通った場所があれば
 			if (CCheckPointManager::GetInstance()->GetPassedPlayerNumSize() != -1){
 				//追跡モード(チェックポイント)
@@ -350,14 +376,14 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 		}		
 
 		//敵がプレイヤーを直接追いかける範囲
-		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyTrackingPlayerRad))
+		if (IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyTrackingPlayerRad) && !cEnemyManager.GetIsPlayerHideMode())
 		{
 			//プレイヤーを直接追いかける
 			cEnemy->SetState(TrackingPlayer);
 		}
 		//追跡範囲の当たり判定
 		//この範囲より外にプレイヤーが出た場合巡回モードに戻す
-		else if (!IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyTrackingRad)){
+		if (!IsHitCircle(vPlayerPos.x, vPlayerPos.z, fPlayerRad, vEnemyPos.x, vEnemyPos.z, fEnemyTrackingRad)){
 		
 		//範囲外の場合
 		//巡回モード

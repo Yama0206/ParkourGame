@@ -37,6 +37,7 @@ private:
 		ANIMID_PIANO,			//ピアノを引いて要るっぽい
 		ANIMID_DANCE,			//踊ってる
 		ANIMID_DEFAULT,			//デフォルトモーション
+		ANIMID_HIDE,			//隠れてる
 
 		ANIMID_NUM				//全アニメーション数
 	};
@@ -68,6 +69,8 @@ private:
 	bool m_IsHitLength;		//プレイヤーが物体と縦方向で当たった時
 	bool m_IsGround;		//プレイヤーが地面についたかどうか
 	bool m_IsKeyHit;		//キーを押したかどうか
+	bool m_IsHitHideObject;	//隠れるようのオブジェクトとあたったかどうか
+	bool m_IsHide;			//ハイドモードかどうかを返す
 
 public:
 	//コンストラクタ
@@ -95,6 +98,23 @@ public:
 	void Delete();
 	//終了処理
 	void Fin();
+
+	//フラグ
+public:
+	//生存フラグの設定・取得
+	void SetIsAllive(bool bflag) { m_IsAllive = bflag; }						//生存フラグの設定
+	bool GetIsAllive() { return m_IsAllive; }									//生存フラグの取得
+
+	//ジャンプフラグ取得・設定
+	void SetIsJamp(bool bflag) { m_IsGround = bflag; }							//ジャンプフラグ設定
+	bool GetIsJamp() { return m_IsGround; }										//ジャンプフラグ取得
+
+	//隠れるようオブジェクトと当たったかどうか
+	void SetIsHitHideObject(bool bflag) { m_IsHitHideObject = bflag; }			//隠れるようのオブジェクトとあたったかどうかフラグ設定
+	bool GetIsHitHideObject()			{ return m_IsHitHideObject; }			//隠れるようのオブジェクトとあたったかどうかフラグ取得
+
+	//ハイドモードかどうか
+	bool GetIsHide()					{ return m_IsHide; }					//ハイドモード取得
 
 public:
 	//Pad操作で状態を変更する
@@ -127,6 +147,7 @@ public:
 	void JumpCalc();
 	//ダッシュジャンプ
 	void RuningJumpCalc();
+
 public:
 	//コントローラー操作//
 	//すべての状態で使える操作
@@ -147,20 +168,7 @@ public:
 	//void KeyBordControl_Jump();
 
 public:
-
-	//座標設定
-	void   SetPosVec(VECTOR vPos) { m_vPos = vPos; }
-	void   SetPosX(float vPosX);								//X座標
-	void   SetPosY(float vPosY);								//Y座標
-	void   SetPosZ(float vPosZ);								//Z座標
-	void   SetNextPosVec(VECTOR vPos) { m_vNextPos = vPos; }	//移動後の座標
-	void   SetNextPosX(float vNextPosX);						//移動後のX座標
-	void   SetNextPosY(float vNextPosY);						//移動後のY座標
-	void   SetNextPosZ(float vNextosZ);							//移動後のZ座標
-	//サイズ設定
-	VECTOR SetSize();
-
-	//取得・設定関連
+	//取得
 	//進んでいる方向チェック
 	void GetMoveDir(bool* _DirArray);	
 	//方向を変える
@@ -185,21 +193,29 @@ public:
 	void			GetSize(VECTOR& vSize)				{ vSize = m_vSize; }												//縦、横、奥行きのサイズ取得
 	void			GetCenterPos(VECTOR& vPos)			{ vPos = VAdd(m_vPos, VGet(0.0f, PLAYER_HALF_HEIGHT, 0.0f)); }		//プレイヤーの中心座標を設定
 	VECTOR			GetForcsPos();																							//プレイヤーカメラに渡す注視点座標
+
+	//設定
+public:
+	//座標設定
+	void   SetPosVec(VECTOR vPos) { m_vPos = vPos; }
+	void   SetPosX(float vPosX);								//X座標
+	void   SetPosY(float vPosY);								//Y座標
+	void   SetPosZ(float vPosZ);								//Z座標
+	void   SetNextPosVec(VECTOR vPos) { m_vNextPos = vPos; }	//移動後の座標
+	void   SetNextPosX(float vNextPosX);						//移動後のX座標
+	void   SetNextPosY(float vNextPosY);						//移動後のY座標
+	void   SetNextPosZ(float vNextosZ);							//移動後のZ座標
+	//サイズ設定
+	VECTOR SetSize();
 		
 	//物体にあっているかどうか
-	bool SetIsHit(bool flag)		{ return m_IsHit = flag; }	
-	bool SetIsHitSide(bool flag)	{ return m_IsHitSide = flag; }
-	bool SetIsHitLength(bool flag)	{ return m_IsHitLength = flag; }
-
-	//生存フラグの設定・取得
-	void SetIsAllive(bool flag) { m_IsAllive = flag; }			//生存フラグの設定
-	bool GetIsAllive()			{ return m_IsAllive; }			//生存フラグの取得
-
-	//ジャンプフラグ取得・設定
-	void SetIsJamp(bool flag)	{ m_IsGround = flag; }			//ジャンプフラグ設定
-	bool GetIsJamp()			{ return m_IsGround; }			//ジャンプフラグ取得
+	void SetIsHit(bool flag)		{  m_IsHit = flag; }	
+	void SetIsHitSide(bool flag)	{  m_IsHitSide = flag; }
+	void SetIsHitLength(bool flag)	{  m_IsHitLength = flag; }
+	
 
 private:
+	//状態ごとの処理
 	//デフォルトの処理
 	void ExecDefault();
 	//何もしていない時
@@ -212,6 +228,8 @@ private:
 	void ExecJump();
 	//ダッシュジャンプ
 	void ExecRunningJump();
+	//ハイドモード
+	void ExecHide();
 	////くねくね中
 	//void ExecUpDown();
 	////手を振る

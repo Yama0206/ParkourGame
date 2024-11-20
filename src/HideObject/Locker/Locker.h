@@ -19,10 +19,10 @@ public:
 	//“Ç‚İ‚İ
 	void Load();
 	void Draw();
-	void Fin();
 	void Update();
 
 public:
-
-	
+	VECTOR GetPos() { return m_vPos; }				//À•Wæ“¾
+	void   SetPos(VECTOR vPos) { m_vPos = vPos; }	//À•Wİ’è
+	float  GetRad() { return m_fRad; }				//”¼Œa
 };

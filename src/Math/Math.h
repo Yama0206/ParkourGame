@@ -31,6 +31,9 @@ float VecCross2D(VECTOR vec1, VECTOR vec2);
 //角度変換
 float TransAngleToRadian(float Angle);
 
+//ベクターの絶対値を返す
+VECTOR Vabs(VECTOR vNum);
+
 //2点間の距離と正規化
 //2D
 //第1引数, 1つ目のX座標  第2引数, 1つ目のY座標

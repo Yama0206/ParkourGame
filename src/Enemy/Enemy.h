@@ -124,6 +124,12 @@ public:
 
 	//当たり判定後の処理
 	void HitCalc();
+
+	void ClearLastPassedCheckPoint() { m_iLastPassedCP = -1; }
+	void ClearNextPassedCheckPoint() { m_iNextCheckPointNum = -1; }
+
+	//一番近くのチェックポイントを探す
+	void NearCheckPointFind();
 };
 
 

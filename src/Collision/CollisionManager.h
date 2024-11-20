@@ -12,38 +12,41 @@
 #include "../Item/Manager/ItemManager.h"
 #include "../CheckPoint/Manager/CheckPointManager.h"
 #include "../Debug/DebugManager.h"
+#include "../HideObject/Locker/Locker.h"
 #include <vector>
 
 using namespace std;
 
 class CCollisionManager
 {
+	//フィールド
 public:
 	//	フィールドとプレイヤーの当たり判定
 	static void CheckHitFieldToPlayer(CPlayer& cPlayer,
 									 CField& cBackGround);
 
+	//プレイヤー関連
+public:
 	//プレイヤーと石の当たり判定
-	static void CheckHitPlayerToRock(CPlayer& cPlayer,
-		vector<CRock>& cRock);
-
+	static void CheckHitPlayerToRock(CPlayer& cPlayer, vector<CRock>& cRock);
 	//プレイヤーとゴールの当たり判定
-	static void CHeckHitPlayerToGoal(CPlayer& cPlayer,
-									 CGoal& cGoal);
-
+	static void CHeckHitPlayerToGoal(CPlayer& cPlayer, CGoal& cGoal);
 	//プレイヤーとアイテムのあたり判定
-	static void CheckHitPlayerToItem(CPlayer& cPlayer,
-									 CItemManager& cItemManager);
-
+	static void CheckHitPlayerToItem(CPlayer& cPlayer, CItemManager& cItemManager);
 	//プレイヤーとチェックポイントの当たり判定
 	static void CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& cEnemyManager);
+	//プレイヤーと敵の当たり判定
+	static void CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& cEnemyManager);
+	//プレイヤーと隠れる用オブジェクトとの当たり判定
+	static void CheckHitPlayerToHideObject(CPlayer& cPlayer, CLocker& cLocker);
 
+	//敵関連
+public:
 	//敵とチェックポイントの当たり判定
 	static void CheckHitEnemyToPoint(CEnemyManager& cEnemyManager);
 
-	//プレイヤーと敵の当たり判定
-	static void CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& cEnemyManager);
-
+	//デバッグ
+public:
 	//プレイヤーとボックスの当たり判定のライン表示
 	static void PlayerToBoxLine(CPlayer& cPlayer,
 								CBox& cBox);

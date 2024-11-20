@@ -44,26 +44,29 @@ void CPlayer::InitValue()
 	m_fGravity = GRAVITY;											
 
 	//フラグ
-	memset(&m_IsHit, false, sizeof(bool));						
-	memset(&m_IsHitLength, false, sizeof(bool));
-	memset(&m_IsKeyHit, false, sizeof(bool));				
-	memset(&m_IsGround, false, sizeof(bool));
+	m_IsHit = false;
+	m_IsHitLength = false;
+	m_IsKeyHit = false;
+	m_IsGround = false;
+	m_IsHide = false;
+	m_IsHitHideObject = false;
 
-	m_vPos.y = 100.0f;
+	m_vPos.y = 1.0f;
 }
 
 //毎フレーム呼ぶ処理
 void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 {
-	CDebugManager::GetInstance()->AddFormatString(0, 0, "%d",m_sAnimData.m_iID);
-	CDebugManager::GetInstance()->AddFormatString(0, 20, "%f",m_sAnimData.m_fEndFrm);
-	CDebugManager::GetInstance()->AddFormatString(0, 40, "%f", m_sAnimData.m_fFrm);
-	CDebugManager::GetInstance()->AddFormatString(0, 60, "%f", m_sAnimData.m_fSpd);
-	CDebugManager::GetInstance()->AddFormatString(0, 80, "%d", m_sAnimData.m_iState);
-	CDebugManager::GetInstance()->AddFormatString(0, 100, "プレイヤーの着地フラグ = %d", m_IsGround);
-	CDebugManager::GetInstance()->AddFormatString(0, 80, "プレイヤーのスピード X = %f,Y = %f,Z = %f", m_vSpd.x,m_vSpd.y,m_vSpd.z);
-	CDebugManager::GetInstance()->AddFormatString(0, 200, "Y = %f", m_vNextPos.y);
-	CDebugManager::GetInstance()->AddFormatString(0, 120, "グラビティー = %f", m_fGravity);
+	CDebugManager::GetInstance()->AddFormatString(700, 120, "プレイヤー座標　X = %f, Y = %f, Z = %f", m_vPos.x, m_vPos.y, m_vPos.z);
+	CDebugManager::GetInstance()->AddFormatString(700, 140, "%d",m_sAnimData.m_iID);
+	CDebugManager::GetInstance()->AddFormatString(700, 160, "%f",m_sAnimData.m_fEndFrm);
+	CDebugManager::GetInstance()->AddFormatString(700, 180, "%f", m_sAnimData.m_fFrm);
+	CDebugManager::GetInstance()->AddFormatString(700, 200, "%f", m_sAnimData.m_fSpd);
+	CDebugManager::GetInstance()->AddFormatString(700, 220, "%d", m_sAnimData.m_iState);
+	CDebugManager::GetInstance()->AddFormatString(700, 240, "プレイヤーの着地フラグ = %d", m_IsGround);
+	CDebugManager::GetInstance()->AddFormatString(700, 260, "プレイヤーのスピード X = %f,Y = %f,Z = %f", m_vSpd.x,m_vSpd.y,m_vSpd.z);
+	CDebugManager::GetInstance()->AddFormatString(700, 280, "Y = %f", m_vNextPos.y);
+	CDebugManager::GetInstance()->AddFormatString(700, 300, "グラビティー = %f", m_fGravity);
 
 	if (m_IsAllive) {
 		//プレイヤーのアニメーション情報を保存しておく
@@ -101,6 +104,10 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			ExecRunningJump();
 			break;
 
+		case ANIMID_HIDE:
+			ExecHide();
+			break;
+			
 		/*case ANIMID_UPDOWN:
 			ExecUpDown();
 			break;
@@ -115,8 +122,6 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			break;
 		*/
 		}
-		//操作関数
-		//Control(cCameraManager.GetPlayCamRot());
 
 		//左スティック傾きでプレイヤーを回転させる
 		PadRotation(cCameraManager.GetPlayCamRot());
@@ -142,7 +147,7 @@ void CPlayer::Update()
 
 void CPlayer::Draw()
 {
-	if (m_IsAllive) {
+	if (m_IsAllive && !m_IsHide) {
 		MV1DrawModel(m_iHndl);
 	}
 }
@@ -515,6 +520,11 @@ void CPlayer::ExecWait()
 	{
 		RequestLoop(ANIMID_FAST_RUN, 1.0f);
 	}
+	//ハイドモード
+	if (CPad::IsPadPush(INPUT_B))
+	{
+		m_sAnimData.m_iID = ANIMID_HIDE;
+	}
 
 	//重力処理
 	Gravity();
@@ -546,6 +556,14 @@ void CPlayer::ExecRun()
 		//ジャンプ計算処理
 		JumpCalc();
 	}
+
+	//隠れる操作　
+	if (CPad::IsPadPush(INPUT_B))
+	{
+		m_sAnimData.m_iID = ANIMID_WAIT;
+		m_IsHide = false;
+	}
+
 	//重力処理
 	Gravity();
 }
@@ -575,6 +593,13 @@ void CPlayer::ExecFastRun()
 		Request(ANIMID_RUNNINGJUMP, 1.0f);
 		JumpCalc();
 	}
+	//隠れる操作
+	if (CPad::IsPadPush(INPUT_B))
+	{
+		m_sAnimData.m_iID = ANIMID_WAIT;
+		m_IsHide = false;
+	}
+
 	//重力処理
 	Gravity();
 }
@@ -634,6 +659,23 @@ void CPlayer::ExecRunningJump()
 
 	//重力処理
 	Gravity();
+}
+
+void CPlayer::ExecHide()
+{
+	//ハイドモード
+	m_IsHide = true;
+
+	memset(&m_vSpd, 0.0f, sizeof(m_vSpd));
+	m_fMoveSpeed = 0.0f;
+
+	if (CPad::IsPadPush(INPUT_B))
+	{
+		m_sAnimData.m_iID = ANIMID_WAIT;
+		m_IsHide = false;
+	}
+
+	CDebugManager::GetInstance()->AddFormatString(700, 450, "ハイドモード");
 }
 
 void CPlayer::PadRotation(VECTOR vCameraRot)

@@ -9,6 +9,7 @@ constexpr int CHECKPOINT_NEXTCURRENT_NUM = 4;
 CEnemyManager::CEnemyManager()
 {
 	EnemyGoSize = -1;
+	m_IsPlayerIsHideMode = false;
 }
 
 //デストラクタ
@@ -95,6 +96,18 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 	{
 		//通常処理
 		m_cEnemyList[EnemyIndex]->Step();
+
+		if (m_IsPlayerIsHideMode)
+		{
+			m_cEnemyList[EnemyIndex]->SetState(Patrol);
+
+			if (m_cEnemyList[EnemyIndex]->GetNextCheckPointNum() != -1)
+			{
+				m_cEnemyList[EnemyIndex]->ClearLastPassedCheckPoint();
+				m_cEnemyList[EnemyIndex]->NearCheckPointFind();
+			
+			}
+		}
 
 		//プレイヤーの通ったチェックポイントに向かう
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingCheckPoint)

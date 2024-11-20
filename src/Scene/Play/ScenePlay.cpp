@@ -87,7 +87,13 @@ void CPlayScene::Init()
 	//ゴール初期化
 	cGoal.Init();
 
-	m_cLocker.Init();
+	for (int i = 0; i < 3; i++) {
+		m_cLocker[i].Init();
+	}
+
+	m_cLocker[0].SetPos(VGet(-231.1, -1.0, -135.0));
+	m_cLocker[1].SetPos(VGet(-429.0, -1.0, -467.0));
+	m_cLocker[2].SetPos(VGet(-556.0, -1.0, -671.0));
 
 	//サウンド関連
 	CSoundManager::Init();
@@ -138,7 +144,9 @@ void CPlayScene::Load()
 	//ゴール読み込み
 	cGoal.Load();
 
-	m_cLocker.Load();
+	for (int i = 0; i < 3; i++) {
+		m_cLocker[i].Load();
+	}
 }
 
 //毎フレーム呼ぶ処理
@@ -159,7 +167,13 @@ void CPlayScene::Step()
 
 		CCheckPointManager::GetInstance()->Step();
 
-		GetJoypadDirectInputState(DX_INPUT_PAD1, &m_JoyState);
+		if (m_cPlayer.GetIsHide())
+		{
+			m_cEnemyManager.SetIsPlayerHideMode(true);
+		}
+		else {
+			m_cEnemyManager.SetIsPlayerHideMode(false);
+		}
 		
 
 		//当たり判定処理
@@ -167,6 +181,9 @@ void CPlayScene::Step()
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
+		for (int i = 0; i < 3; i++) {
+			CCollisionManager::CheckHitPlayerToHideObject(m_cPlayer, m_cLocker[i]);
+		}
 		CCollisionManager::CheckHitEnemyToPoint(m_cEnemyManager);
 		CCollisionManager::CheckHitPlayerToEnemy(m_cPlayer, m_cEnemyManager);
 		CCollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cEnemyManager);
@@ -185,7 +202,9 @@ void CPlayScene::Step()
 		//アイテム
 		m_cItemManager.Update();
 
-		m_cLocker.Update();
+		for (int i = 0; i < 3; i++) {
+			m_cLocker[i].Update();
+		}
 	}
 
 	//カメラ切り替え処理
@@ -240,7 +259,9 @@ void CPlayScene::Draw()
 	//m_cSky.Draw();				//空描画
 	cGoal.Draw();					//ゴール描画
 
-	m_cLocker.Draw();
+	for (int i = 0; i < 3; i++) {
+		m_cLocker[i].Draw();
+	}
 
 	//デバッグ
 	CDebugManager::GetInstance()->Draw();

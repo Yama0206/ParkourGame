@@ -184,6 +184,24 @@ void CEnemy::TrackingCheckPoint(int CheckPointIndex)
 	m_vPos.z += cosf(m_vRot.y) * - m_vSpeed.z;
 }
 
+void CEnemy::NearCheckPointFind()
+{
+	VECTOR vPos, vComparePos;
+
+	memset(&vPos, 0.0f, sizeof(vPos));
+	memset(&vComparePos, 0.0f, sizeof(vComparePos));
+
+	for (int i = 0; i < CCheckPointManager::GetInstance()->GetSize(); i++) {
+
+		vComparePos = CCheckPointManager::GetInstance()->GetPosVec(i);
+		vPos = CCheckPointManager::GetInstance()->GetPosVec(i);
+
+		if (vPos.x < vComparePos.x || vPos.z < vComparePos.z)
+		{
+			m_iNextCheckPointNum = i;
+		}
+	}
+}
 
 //リクエスト
 bool CEnemy::RequestEnemy(const VECTOR& vPos, const VECTOR& vSpeed)

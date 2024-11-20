@@ -99,7 +99,7 @@ void CPlayerCamera::ViewControl()
 	//キャラクターのカメラの回転
 	// パッド
 	//右スティックの感度
-	//RightStickSensitivity(m_JoyState);
+	RightStickSensitivity(m_JoyState);
 
 
 	// キーボード

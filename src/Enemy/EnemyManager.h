@@ -22,8 +22,11 @@ private:
 	//敵情報を読み込むためのクラス
 	CEnemyRead m_cEnemyRead;
 
-	//(仮)サイズを保存する変数
+	//サイズを保存する変数
 	int EnemyGoSize;
+
+	//プレイヤーがハイドモードか確認
+	bool m_IsPlayerIsHideMode;
 
 public:
 	//コンストラクタ・デストラクタ
@@ -53,6 +56,10 @@ public:
 
 	//敵リクエスト
 	void RequestEnemy();
+
+public:
+	void SetIsPlayerHideMode(bool bflag) { m_IsPlayerIsHideMode = bflag; }
+	bool GetIsPlayerHideMode() { return m_IsPlayerIsHideMode; }
 
 };
 

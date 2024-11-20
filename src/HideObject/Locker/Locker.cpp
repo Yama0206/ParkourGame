@@ -4,7 +4,7 @@ constexpr char LOCKER_PATH[] = { "data/Locker/Locker.x" };
 constexpr int LOCKER_X_SIZE = 50;
 constexpr int LOCKER_Y_SIZE = 50;
 constexpr int LOCKER_Z_SIZE = 50;
-constexpr float LOCKER_RADIUS = 50.0f;
+constexpr float LOCKER_RADIUS = 30.0f;
 
 void CLocker::Init()
 {
@@ -14,8 +14,8 @@ void CLocker::Init()
 	memset(&m_vScale, 0.0f, sizeof(m_vScale));
 	m_fRad = LOCKER_RADIUS;
 	m_iHndl = -1;
-	m_vScale = VGet(0.5f, 0.5f, 0.5f);
-	m_vPos.y = 50.0f;
+	m_vScale = VGet(0.05f, 0.05f, 0.05f);
+	m_vPos.y = -1.0f;
 }
 
 void CLocker::Load()

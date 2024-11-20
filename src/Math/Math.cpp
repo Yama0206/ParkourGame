@@ -163,4 +163,14 @@ float TransAngleToRadian(float Angle)
 	return Radian;
 }
 
+VECTOR Vabs(VECTOR vNum)
+{
+	VECTOR vAbsNum;
+
+	vAbsNum.x = fabsf(vNum.x);
+	vAbsNum.y = fabsf(vNum.y);
+	vAbsNum.z = fabsf(vNum.z);
+
+	return vAbsNum;
+}
 
