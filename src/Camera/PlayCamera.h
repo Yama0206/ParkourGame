@@ -6,7 +6,7 @@
 #include "../Debug/DebugManager.h"
 
 const float CAMERA_LENGTH = 40.0f;								//カメラの距離
-const float CAMERA_OFFSET_Y = 50.0f;							//カメラの視点の高さ
+const float CAMERA_OFFSET_Y = 40.0f;							//カメラの視点の高さ
 const float FORCUS_OFFSET_Y = 30.0f;							//カメラの注視点の高さ
 static const VECTOR CAMERA_SIZE = VGet(5.0f, 5.0f, 5.0f);		//カメラのサイズ
 

@@ -110,7 +110,7 @@ public:
 	void SetPosVec_Z(float fPos)	{ m_vPos.z = fPos; }			//Z座標
 
 	void SetRotVec_X(float fRot)	{ m_vRot.x = fRot; }			//X回転値
-	void SetRotVec_Y(float fRot)	 { m_vRot.y = fRot; }			//Y回転値
+	void SetRotVec_Y(float fRot)	{ m_vRot.y = fRot; }			//Y回転値
 	void SetRotVec_Z(float fRot)	{ m_vPos.z = fRot; }			//Z回転値
 
 	//最後に通ったチェックポイントの番号

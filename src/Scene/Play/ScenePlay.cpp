@@ -180,7 +180,6 @@ void CPlayScene::Step()
 
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
-		//CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
 		for (int i = 0; i < 3; i++) {
 			CCollisionManager::CheckHitPlayerToHideObject(m_cPlayer, m_cLocker[i]);
 		}
