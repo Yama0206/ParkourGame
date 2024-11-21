@@ -28,6 +28,7 @@ public:
 
 	//取得関数
 	VECTOR	GetPosVec()					{ return m_vPos; }											//座標
+	VECTOR  GetSizeVec()				{ return m_vSize; }											//サイズ
 	float	GetRad()					{ return m_fRad; }											//半径
 	int		GetArrayIndex()				{ return m_iArrayIndex; }									//チェックポイントの次に迎える場所
 	int		GetCurrentNum()				{ return m_iCurrentNum; }									//チェックポイントの番号

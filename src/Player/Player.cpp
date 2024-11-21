@@ -51,7 +51,7 @@ void CPlayer::InitValue()
 	m_IsHide = false;
 	m_IsHitHideObject = false;
 
-	m_vPos.y = 1000.0f;
+	m_vPos.y = 10.0f;
 }
 
 //–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—

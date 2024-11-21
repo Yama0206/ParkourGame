@@ -5,6 +5,8 @@ static constexpr char ENEMY_MODEL_PATH[] = { "Data/enemy/enemy.pmx" };
 static constexpr int WAIT_TIME = 60;
 constexpr int CHECKPOINT_NEXTCURRENT_NUM = 4;
 
+constexpr VECTOR ENEMY_SIZE = { 50,50,50 };
+
 //コンストラクタ
 CEnemyManager::CEnemyManager()
 {
@@ -61,6 +63,9 @@ void CEnemyManager::Load()
 								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_vRot,
 								 m_cEnemyRead.enemyInfoList[EnemyIndex].m_IsActive);
 
+			//サイズ
+			cNormalBoss->SetSizeVec(ENEMY_SIZE);
+
 			//読み込み
 			cNormalBoss->Load(iHndl);
 
@@ -103,12 +108,12 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 		{
 			m_cEnemyList[EnemyIndex]->SetState(Patrol);
 
-			if (m_cEnemyList[EnemyIndex]->GetNextCheckPointNum() != -1 /*&& m_cEnemyList[EnemyIndex]->GetOldState() != Patrol*/)
-			{
-				CCheckPointManager::GetInstance()->ClearLastPasedEnemyNum();
-				m_cEnemyList[EnemyIndex]->ClearLastPassedCheckPoint();
-				m_cEnemyList[EnemyIndex]->NearCheckPointFind();
-			}
+			//if (m_cEnemyList[EnemyIndex]->GetNextCheckPointNum() != -1 /*&& m_cEnemyList[EnemyIndex]->GetOldState() != Patrol*/)
+			//{
+			//	CCheckPointManager::GetInstance()->ClearLastPasedEnemyNum();
+			//	m_cEnemyList[EnemyIndex]->ClearLastPassedCheckPoint();
+			//	m_cEnemyList[EnemyIndex]->NearCheckPointFind();
+			//}
 		}
 
 		//プレイヤーの通ったチェックポイントに向かう

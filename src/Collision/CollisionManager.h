@@ -42,6 +42,8 @@ public:
 
 	//敵関連
 public:
+	//敵とモデルの当たり判定
+	static void CheckHitEnemyToField(CEnemyManager& cEnemyManager, CField& cField);
 	//敵とチェックポイントの当たり判定
 	static void CheckHitEnemyToPoint(CEnemyManager& cEnemyManager);
 

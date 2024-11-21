@@ -48,6 +48,7 @@ public:
 	//取得関数
 	//　iID : チェックポイントの番号
 	VECTOR	GetPosVec				(int iID)					{ return m_cCheckPointList[iID]->GetPosVec(); }								//座標
+	VECTOR  GetSizeVec				(int iID)					{ return m_cCheckPointList[iID]->GetSizeVec(); }							//サイズ
 	float	GetRad					(int iID)					{ return m_cCheckPointList[iID]->GetRad(); }								//半径
 	int		GetArrayIndex			(int iID)					{ return m_cCheckPointList[iID]->GetArrayIndex(); }							//チェックポイントの次の場所の数
 	int		GetNextCurrentNum		(int iID, int CurrentIndex)	{ return m_cCheckPointList[iID]->GetNextCurrentNum(CurrentIndex); }			//次に向かうチェックポイントの番号

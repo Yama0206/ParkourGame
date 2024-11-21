@@ -1,15 +1,16 @@
 #include "CheckPoint.h"
 
 //’è‹`
-static const float CHECKPOINT_X_SIZE = 100;
-static const float CHECKPOINT_Y_SIZE = 100;
-static const float CHECKPOINT_Z_SIZE = 100;
+static const float CHECKPOINT_X_SIZE = 50;
+static const float CHECKPOINT_Y_SIZE = 50;
+static const float CHECKPOINT_Z_SIZE = 50;
 
 CCheckPoint::CCheckPoint()
 {
 	memset(&m_vPos, 0.0f, sizeof(VECTOR));
-	memset(&m_vSize, 0.0f, sizeof(VECTOR));
 	memset(m_NextCurrentNum, 0, sizeof(m_NextCurrentNum));
+
+	m_vSize = VGet(CHECKPOINT_X_SIZE, CHECKPOINT_Y_SIZE, CHECKPOINT_Z_SIZE);
 
 	m_iCurrentNum = -1;
 	m_iArrayIndex = 0;
