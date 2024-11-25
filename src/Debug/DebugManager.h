@@ -36,8 +36,9 @@ struct  TextInfo
 
 struct  BoxInfo
 {
-	VECTOR m_vPos;
-	VECTOR m_vSize;
+	VECTOR m_vPos;				// 座標
+	VECTOR m_vSize;				// サイズ
+	unsigned int Color;			// 文字色
 };
 
 class CDebugManager
@@ -57,6 +58,7 @@ private:
 	};
 
 	vector <DebugShere>	 m_DebugSphere;					//デバッグ球
+	vector <BoxInfo>	 m_DebugBox;					//デバッグボックス
 
 	int Num;
 	int Num_2;
@@ -83,6 +85,7 @@ public:
 	void DrawLogFormatString(const char* format, ...);
 	//球
 	void AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum = DEFALUT_DIV_NUM, unsigned int Color = DEFALUT_SPHERE_COLOR);
+
 
 public:
 	//描画(球)

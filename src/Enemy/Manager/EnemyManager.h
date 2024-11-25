@@ -1,9 +1,9 @@
 #pragma once
 #include "DxLib.h"
-#include "Enemy.h"
-#include "Boss/NormalBoss.h"
-#include "../CheckPoint/Manager/CheckPointManager.h"
-#include "../Read/ReadEnemyList/ReadEnemyList.h"
+#include "../Enemy.h"
+#include "../Boss/NormalBoss.h"
+#include "../../CheckPoint/Manager/CheckPointManager.h"
+#include "../../Read/ReadEnemyList/ReadEnemyList.h"
 #include <iostream>
 #include <vector>
 
