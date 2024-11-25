@@ -22,8 +22,9 @@ class CCollisionManager
 	//フィールド
 public:
 	//	フィールドとプレイヤーの当たり判定
-	static void CheckHitFieldToPlayer(CPlayer& cPlayer,
-									 CField& cBackGround);
+	static void CheckHitFieldToPlayer(CPlayer& cPlayer, CField& cBackGround);
+	//フィールドと敵の当たり判定
+	static void CheckHitEnemyToField(CEnemyManager& cEnemyManager, CField& cField);
 
 	//プレイヤー関連
 public:
@@ -42,8 +43,6 @@ public:
 
 	//敵関連
 public:
-	//敵とモデルの当たり判定
-	static void CheckHitEnemyToField(CEnemyManager& cEnemyManager, CField& cField);
 	//敵とチェックポイントの当たり判定
 	static void CheckHitEnemyToPoint(CEnemyManager& cEnemyManager);
 

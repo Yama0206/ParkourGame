@@ -107,18 +107,12 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 		if (m_IsPlayerIsHideMode)
 		{
 			m_cEnemyList[EnemyIndex]->SetState(Patrol);
-
-			//if (m_cEnemyList[EnemyIndex]->GetNextCheckPointNum() != -1 /*&& m_cEnemyList[EnemyIndex]->GetOldState() != Patrol*/)
-			//{
-			//	CCheckPointManager::GetInstance()->ClearLastPasedEnemyNum();
-			//	m_cEnemyList[EnemyIndex]->ClearLastPassedCheckPoint();
-			//	m_cEnemyList[EnemyIndex]->NearCheckPointFind();
-			//}
 		}
 
 		//プレイヤーの通ったチェックポイントに向かう
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingCheckPoint)
 		{
+			//1F前の敵の状態がチェックポイントに向かう以外だったら
 			if (m_cEnemyList[EnemyIndex]->GetOldState() != TrackingCheckPoint) {
 				EnemyGoSize = CCheckPointManager::GetInstance()->GetPassedPlayerNumSize();
 			}
@@ -147,14 +141,30 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 		//プレイヤーを追跡する
 		if (m_cEnemyList[EnemyIndex]->GetState() == TrackingPlayer)
 		{
+			//次に向かう場所を初期化
+			m_cEnemyList[EnemyIndex]->ClearNextPassedCheckPoint();
+
+			//1F前がプレイヤーを追いかける以外の状態だったら
 			if (m_cEnemyList[EnemyIndex]->GetOldState() != TrackingPlayer) {
+				//プレイヤーが通った場所を初期化する
 				CCheckPointManager::GetInstance()->ClearPassedPlayerNum();
 			}
+			//プレイヤーを追いかける
 			m_cEnemyList[EnemyIndex]->TrackingPlayer(vPlayerPos);
 		}
 		//敵が巡回モード
 		if (m_cEnemyList[EnemyIndex]->GetState() == Patrol) {
-			//次に向かうチェックポイントの場所に移動
+			//次に向かうチェックポイント番号が初期化されていたら
+			if (m_cEnemyList[EnemyIndex]->GetNextCheckPointNum() == -1)
+			{
+				//最後に通った場所初期化
+				m_cEnemyList[EnemyIndex]->ClearLastPassedCheckPoint();
+				CCheckPointManager::GetInstance()->ClearLastPassedEnemyNum();
+				//一番近くのチェックポイントを探す
+				m_cEnemyList[EnemyIndex]->NearCheckPointFind();
+				CDebugManager::GetInstance()->AddFormatString(700, 700, "%d", m_cEnemyList[EnemyIndex]->GetNextCheckPointNum());
+			}
+			//次に向かうチェックポイントに向かわせる
 			m_cEnemyList[EnemyIndex]->TrackingCheckPoint(m_cEnemyList[EnemyIndex]->GetNextCheckPointNum());
 		}
 	}

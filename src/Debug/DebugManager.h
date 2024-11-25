@@ -34,6 +34,12 @@ struct  TextInfo
 	bool IsUse;					// 使用フラグ
 };
 
+struct  BoxInfo
+{
+	VECTOR m_vPos;
+	VECTOR m_vSize;
+};
+
 class CDebugManager
 {
 private:

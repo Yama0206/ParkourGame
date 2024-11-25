@@ -67,7 +67,7 @@ public:
 	void	SetLastPassedPlayerNum	(int iNum)					{ m_iLastPassedPlayerNum = iNum; }											//プレイヤーが最後に通った番号
 	void	SetLastPassedEnemyNum	(int iNum)					{ m_iLastPassedEnemyNum = iNum; }											//敵が最後に通った番号
 
-	//プレイヤーが通った場所の配列を削除	
+	//チェックポイント配列を削除	
 	void	ClearPassedPlayerNum()								{ memset(m_iPassedPlayerNum, -1, sizeof(m_iPassedPlayerNum));}				//プレイヤーが通った番号
-	void	ClearLastPasedEnemyNum()							{ memset(&m_iLastPassedEnemyNum, -1, sizeof(m_iLastPassedEnemyNum)); };		//敵が最後に通った番号
+	void	ClearLastPassedEnemyNum()							{ memset(&m_iLastPassedEnemyNum, -1, sizeof(m_iLastPassedEnemyNum)); };		//敵が最後に通った番号
 };

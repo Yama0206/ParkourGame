@@ -122,10 +122,13 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			break;
 		*/
 		}
-		if (CInput::IsKeyPush(KEY_INPUT_SPACE))
+		if (CInput::IsKeyKeep(KEY_INPUT_SPACE))
 		{
 			m_vNextPos.y += 10;
 		}
+
+		//キーボード操作
+		//Control_KeyBord(cCameraManager.GetPlayCamRot());
 
 		//左スティック傾きでプレイヤーを回転させる
 		PadRotation(cCameraManager.GetPlayCamRot());

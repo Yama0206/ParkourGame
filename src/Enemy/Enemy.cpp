@@ -186,18 +186,31 @@ void CEnemy::TrackingCheckPoint(int CheckPointIndex)
 
 void CEnemy::NearCheckPointFind()
 {
-	VECTOR vPos, vComparePos;
+	float fTwoPoint_1, fTwoPoint_2;
 
-	memset(&vPos, 0.0f, sizeof(vPos));
-	memset(&vComparePos, 0.0f, sizeof(vComparePos));
+	fTwoPoint_1 = -1.0f;
+	fTwoPoint_2 = -1.0f;
 
 	for (int i = 0; i < CCheckPointManager::GetInstance()->GetSize(); i++) {
 
-		vComparePos = CCheckPointManager::GetInstance()->GetPosVec(i);
-		vPos = CCheckPointManager::GetInstance()->GetPosVec(i);
-
-		if (vPos.x < vComparePos.x || vPos.z < vComparePos.z)
+		//値が何も入ってなかったら
+		if (fTwoPoint_1 == -1.0f)
 		{
+			//敵座標とチェックポイント座標を引いた絶対値を変数に格納
+			fTwoPoint_1 = fabsf(VecTwoPoint3D(m_vPos, CCheckPointManager::GetInstance()->GetPosVec(i)));
+			m_iNextCheckPointNum = i;
+			continue;
+		}
+
+
+		//敵座標とチェックポイント座標を引いた絶対値を変数に格納
+		fTwoPoint_2 = fabsf(VecTwoPoint3D(m_vPos, CCheckPointManager::GetInstance()->GetPosVec(i)));
+
+
+		//2つ目の変数のほうが小さかったら
+		if (fTwoPoint_1 > fTwoPoint_2)
+		{
+			fTwoPoint_1 = fTwoPoint_2;
 			m_iNextCheckPointNum = i;
 		}
 	}
@@ -241,4 +254,16 @@ void CEnemy::SetInfo(VECTOR vPos, VECTOR vSpeed, VECTOR vScale, VECTOR vRot, boo
 	m_vSpeed = vSpeed;
 	m_vScale = vScale;
 	m_IsAllive = IsFrag;
+}
+
+void CEnemy::ReflectCollision(VECTOR vAddVec)
+{
+	//オールゼロなら何もしない
+	if (vAddVec.x == 0.0f && vAddVec.y == 0.0f && vAddVec.z == 0.0f) return;
+
+	m_vPos = VAdd(vAddVec, m_vPos);
+
+	MV1SetPosition(m_iHndl, m_vPos);
+
+	//当たった時は重力処理をしない
 }

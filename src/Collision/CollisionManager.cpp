@@ -15,6 +15,24 @@ void CCollisionManager::CheckHitFieldToPlayer(CPlayer& cPlayer,
 	cPlayer.ReflectCollision(cField.HitCheck(vPlCenter, fRadius));
 }
 
+
+void CCollisionManager::CheckHitEnemyToField(CEnemyManager& cEnemyManager, CField& cField)
+{
+	VECTOR vEnemyCenter;
+	float fRadius;
+
+	for (int EnemyIndex = 0; EnemyIndex < cEnemyManager.GetEnemySize(); EnemyIndex++)
+	{
+		//エネミークラス取得
+		CEnemy* cEnemy = cEnemyManager.GetEnemy(EnemyIndex);
+
+		cEnemy->GetCenterPos(vEnemyCenter);
+		fRadius = cEnemy->GetRadius();
+
+		cEnemy->ReflectCollision(cField.HitCheck(vEnemyCenter, fRadius));
+	}
+}
+
 void CCollisionManager::CheckHitPlayerToRock(CPlayer& cPlayer,
 											 vector<CRock>& cRock)
 {
@@ -405,19 +423,6 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 	}
 }
 
-void CCollisionManager::CheckHitEnemyToField(CEnemyManager& cEnemyManager, CField& cField)
-{
-	VECTOR vEnemyCenter;
-	float fRadius;
-
-	for (int EnemyIndex = 0; EnemyIndex < cEnemyManager.GetEnemySize(); EnemyIndex++)
-	{
-		//エネミークラス取得
-		CEnemy* cEnemy = cEnemyManager.GetEnemy(EnemyIndex);
-
-		
-	}
-}
 
 void CCollisionManager::PlayerToBoxLine(CPlayer& cPlayer,
 										CBox& cBox)
