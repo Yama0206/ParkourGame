@@ -1,5 +1,5 @@
 #pragma once
-#include "../Enemy/EnemyManager.h"
+#include "../Enemy/Manager/EnemyManager.h"
 #include "../shot/ShotManager.h"
 #include "../Box/Box.h"
 #include "../Player/Player.h"

@@ -41,4 +41,6 @@ public:
 
 	//チェックポイントの次に迎える場所の数を加算
 	void AddArayIndex() { m_iArrayIndex++; }
+
+public:
 };		

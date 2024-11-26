@@ -1,9 +1,9 @@
 #include "CheckPoint.h"
 
 //’è‹`
-static const float CHECKPOINT_X_SIZE = 50;
-static const float CHECKPOINT_Y_SIZE = 50;
-static const float CHECKPOINT_Z_SIZE = 50;
+static const float CHECKPOINT_X_SIZE = 75;
+static const float CHECKPOINT_Y_SIZE = 1;
+static const float CHECKPOINT_Z_SIZE = 75;
 
 CCheckPoint::CCheckPoint()
 {

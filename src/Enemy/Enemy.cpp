@@ -104,9 +104,17 @@ void CEnemy::Step()
 	CDebugManager::GetInstance()->AddFormatString(0, 80, "最後に通ったチェックポイントの番号 = %d",m_iLastPassedCP);
 	CDebugManager::GetInstance()->AddFormatString(0, 100, "索敵範囲 = %f", m_fSearchRad);
 	CDebugManager::GetInstance()->AddFormatString(0, 120, "プレイヤー追跡範囲 = %f", m_fTrackingPlayerRad);
+	
+	//箱
+	//敵のサイズ
+	CDebugManager::GetInstance()->AddBox(GetCenterPos(), m_vSize);
+	//右側
+	
+	//左側
 
-
+	//前
 }
+
 
 //プレイヤーを追跡する
 void CEnemy::TrackingPlayer(VECTOR vPlayerPos)

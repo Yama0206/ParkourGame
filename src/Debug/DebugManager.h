@@ -12,17 +12,23 @@ using namespace std;
 constexpr bool IsDeBug = true;
 
 //デバッグ文言の色
-#define DEFALUT_COLOR  GetColor(255,255,255)
-const unsigned int DEFAULT_DEBUG_COLOR = GetColor(255, 0, 0);
-const unsigned int DEFALUT_SPHERE_COLOR = GetColor(171, 225, 250);
+#define DEFAULT_COLOR			 GetColor(255,255,255)
+#define DEFAULT_DEBUG_COLOR		 GetColor(255, 0, 0)
+#define DEFAULT_SPHERE_COLOR	 GetColor(171, 225, 250)
+#define DEFAULT_UP_BOX_COLOR	 GetColor(255,0,0)
+#define DEFAULT_DOWN_BOX_COLOR	 GetColor(0,0,255)
+#define DEFAULT_SIDE_BOX_COLOR	 GetColor(0,255,0)
 
-constexpr int DEFALUT_DIV_NUM = 16;
+constexpr int DEFAULT_DIV_NUM = 16;
 
 //デバッグ文言表示リストのサイズ
 constexpr int TEXTINFO_LIST_SIZE = 50;
 
 //表示文字列のサイズ
 constexpr int CHAR_SIZE = 512;
+
+//デバッグボックスのサイズ
+constexpr int BOX_LIST_SIZE = 50;
 
 //デバッグ文言表示用構造体
 struct  TextInfo
@@ -38,7 +44,10 @@ struct  BoxInfo
 {
 	VECTOR m_vPos;				// 座標
 	VECTOR m_vSize;				// サイズ
-	unsigned int Color;			// 文字色
+	unsigned int ColorUp;		// 色
+	unsigned int ColorDown;		// 色
+	unsigned int ColorSide;		// 色
+	bool IsUse;					// 使用フラグ
 };
 
 class CDebugManager
@@ -58,10 +67,7 @@ private:
 	};
 
 	vector <DebugShere>	 m_DebugSphere;					//デバッグ球
-	vector <BoxInfo>	 m_DebugBox;					//デバッグボックス
-
-	int Num;
-	int Num_2;
+	vector <BoxInfo>	 m_DebugBoxList;					//デバッグボックス
 
 public:
 	//シングルトンのクラス取得と削除--------------
@@ -84,9 +90,10 @@ public:
 	void DrawLogString(string _string);
 	void DrawLogFormatString(const char* format, ...);
 	//球
-	void AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum = DEFALUT_DIV_NUM, unsigned int Color = DEFALUT_SPHERE_COLOR);
-
-
+	void AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum = DEFAULT_DIV_NUM, unsigned int Color = DEFAULT_SPHERE_COLOR);
+	//箱
+	void AddBox(VECTOR vPos, VECTOR vSize, unsigned int ColorUp = DEFAULT_UP_BOX_COLOR, unsigned int ColorDown = DEFAULT_DOWN_BOX_COLOR, unsigned int ColorSide = DEFAULT_SIDE_BOX_COLOR);
+	void DrawBox3D(VECTOR Pos, VECTOR Size, unsigned int ColorUp, unsigned int ColorDown, unsigned int ColorSide);
 public:
 	//描画(球)
 	void DrawSphere();
@@ -99,4 +106,7 @@ private:
 
 	//listにデータを追加
 	void AddTextInfo(TextInfo _textInfo);
+
+	//ボックスをデータ追加
+	void AddBoxInfo(BoxInfo _boxInfo);
 };

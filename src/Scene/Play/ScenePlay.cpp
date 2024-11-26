@@ -128,6 +128,7 @@ int CPlayScene::Fin()
 //読み込み
 void CPlayScene::Load()
 {
+
 	m_cPlayer.LoadModel(PLAYER_MODEL_PATH);						//プレイヤー
 	m_cEnemyManager.Load();										//敵
 	m_cObjectManager.Load();									//オブジェクト
@@ -137,10 +138,6 @@ void CPlayScene::Load()
 	m_cSky.Load();												//空
 	CCheckPointManager::GetInstance()->Load();					//チェックポイント
 
-
-	for (int i = 0; i < CCheckPointManager::GetInstance()->GetSize(); i++) {
-		CDebugManager::GetInstance()->AddDebugSphereInfo(CCheckPointManager::GetInstance()->GetPosVec(i), CCheckPointManager::GetInstance()->GetRad(i));
-	}
 	//ゴール読み込み
 	cGoal.Load();
 
@@ -152,6 +149,7 @@ void CPlayScene::Load()
 //毎フレーム呼ぶ処理
 void CPlayScene::Step()
 {
+
 	//プレイヤー更新処理
 	if (m_cCameraManager.GetCameraID() == CCameraManager::CAMERA_ID_PLAY)
 	{

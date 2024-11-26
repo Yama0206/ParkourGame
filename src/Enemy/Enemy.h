@@ -85,6 +85,7 @@ public:
 	//取得関数
 	VECTOR		GetPosVec()					{ return m_vPos; }													//座標
 	void		GetCenterPos(VECTOR& vPos)	{ vPos = VAdd(m_vPos, VGet(0.0f, ENEMY_HALF_HEIGHT, 0.0f)); }		//中心座標
+	VECTOR		GetCenterPos()				{ return VAdd(m_vPos, VGet(0.0f, ENEMY_HALF_HEIGHT, 0.0f)); }		//中心座標
 	VECTOR		GetSizeVec()				{ return m_vSize; }													//大きさ
 	VECTOR		GetSpeedVec()				{ return m_vSpeed; }												//速さ
 	VECTOR		GetRotVec()					{ return m_vRot; }													//回転値

@@ -53,6 +53,11 @@ void CCheckPointManager::Load()
 
 void CCheckPointManager::Step()
 {
+	for (int i = 0; i < m_cCheckPointList.size(); i++)
+	{
+		CDebugManager::GetInstance()->AddBox(m_cCheckPointList[i]->GetPosVec(), m_cCheckPointList[i]->GetSizeVec());
+	}
+
 	CDebugManager::GetInstance()->AddFormatString(400, 0, "敵が最後に通った場所 = %d", m_iLastPassedEnemyNum);
 	CDebugManager::GetInstance()->AddFormatString(0, 200, "プレイヤーが通った場所を格納しているリストサイズ = %d", PLAYER_PASSED_LIST_SIZE);
 	for (int i = 0; i < PLAYER_PASSED_LIST_SIZE; i++) {

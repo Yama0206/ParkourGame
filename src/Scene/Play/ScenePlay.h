@@ -7,7 +7,7 @@
 #include "../../Player/Player.h"
 #include "../../Field/Field.h"
 #include "../../shot/ShotManager.h"
-#include "../../Enemy/EnemyManager.h"
+#include "../../Enemy/Manager/EnemyManager.h"
 #include "../../Object/ObjectManager.h"
 #include "../../Collision/CollisionManager.h"
 #include "../../System/Sound/SoundManager.h"
