@@ -149,6 +149,10 @@ void CPlayScene::Load()
 //毎フレーム呼ぶ処理
 void CPlayScene::Step()
 {
+	//基準となるデバッグ関連を表示させておく
+	CDebugManager::GetInstance()->AddBox(VGet(0, 10, 0), VGet(1, 1, 1));
+
+	CDebugManager::GetInstance()->AddSphere(VGet(30, 10, 0), 1);
 
 	//プレイヤー更新処理
 	if (m_cCameraManager.GetCameraID() == CCameraManager::CAMERA_ID_PLAY)

@@ -5,11 +5,16 @@ constexpr float ADDRIGHT = 10.0f;
 
 void CAroundCollision::Init()
 {
-	memset(&m_vPos, 0.0f, sizeof(m_vPos));
-	memset(&m_fRad, 0.0f, sizeof(m_fRad));
+	memset(&m_sSphere->m_vPos, 0.0f, sizeof(SSphere));
+	memset(&m_sSphere->m_fRad, 0.0f, sizeof(SSphere));
 }
 
-void CAroundCollision::Load()
+void CAroundCollision::Update()
+{
+
+}
+
+void CAroundCollision::ReflectCollision()
 {
 
 }

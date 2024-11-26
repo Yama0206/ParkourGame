@@ -109,10 +109,11 @@ void CEnemy::Step()
 	//敵のサイズ
 	CDebugManager::GetInstance()->AddBox(GetCenterPos(), m_vSize);
 	//右側
-	
+	CDebugManager::GetInstance()->AddSphere(VAdd(m_vPos, VGet(10, 0, 0)), 5);
 	//左側
-
+	CDebugManager::GetInstance()->AddSphere(VAdd(m_vPos, VGet(-10, 0, 0)), 5);
 	//前
+	CDebugManager::GetInstance()->AddSphere(VAdd(m_vPos, VGet(0, 0, -10)), 5);
 }
 
 

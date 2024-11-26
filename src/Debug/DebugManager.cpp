@@ -44,6 +44,12 @@ CDebugManager::CDebugManager()
 	{
 		value.IsUse = false;
 	}
+
+	m_DebugSphereList.resize(SPHERE_LIST_SIZE);
+	for (SphereInfo& value : m_DebugSphereList)
+	{
+		value.IsUse = false;
+	}
 }
 
 //デストラクタ
@@ -52,15 +58,11 @@ CDebugManager::~CDebugManager()
 
 }
 
-void CDebugManager::AddDebugSphereInfo(VECTOR vPos, float fRad, int DivNum, unsigned int Color)
+void CDebugManager::AddSphere(VECTOR vPos, float fRad, int DivNum, unsigned int Color)
 {
-	DebugShere debug;
-	debug.m_vPos = vPos;
-	debug.m_fRad = fRad;
-	debug.m_DivNum = DivNum;
-	debug.m_Color = Color;
+	SphereInfo value = { vPos, fRad, DivNum, Color, true};
 
-	m_DebugSphere.push_back(debug);
+	AddSphereInfo(value);
 }
 
 void CDebugManager::AddString(int _x, int _y, string _string)
@@ -125,6 +127,7 @@ void CDebugManager::Draw()
 {
 	if (!IsDeBug) { return; }
 
+	//デバッグ文言
 	for (TextInfo& value : m_TextInfoList)
 	{
 		if (value.IsUse) {
@@ -134,8 +137,7 @@ void CDebugManager::Draw()
 		}
 	}
 
-
-
+	//デバッグボックス
 	for (BoxInfo& value : m_DebugBoxList)
 	{
 		if (value.IsUse) {
@@ -145,15 +147,14 @@ void CDebugManager::Draw()
 		}
 	}
 
-	//球描画
-	DrawSphere();
-}
-
-void CDebugManager::DrawSphere()
-{
-	for (int i = 0; i < m_DebugSphere.size(); ++i)
+	//デバッグ球
+	for (SphereInfo& value : m_DebugSphereList)
 	{
-		DrawSphere3D(m_DebugSphere[i].m_vPos, m_DebugSphere[i].m_fRad, m_DebugSphere[i].m_DivNum, m_DebugSphere[i].m_Color, m_DebugSphere[i].m_Color, false);
+		if (value.IsUse) {
+			DrawSphere3D(value.m_vPos, value.m_fRad, value.m_DivNum, value.m_Color, value.m_Color, false);
+			//表示したら未使用にする
+			value.IsUse = false;
+		}
 	}
 }
 
@@ -213,6 +214,19 @@ void CDebugManager::AddBoxInfo(BoxInfo _BoxInfo)
 		if (!value.IsUse) {
 			//データを追加
 			value = _BoxInfo;
+			return;
+		}
+	}
+}
+
+void CDebugManager::AddSphereInfo(SphereInfo _sphereInfo)
+{
+	for (SphereInfo& value : m_DebugSphereList)
+	{
+		if (!value.IsUse)
+		{
+			//データ追加
+			value = _sphereInfo;
 			return;
 		}
 	}
