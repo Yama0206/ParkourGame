@@ -50,6 +50,7 @@ void CPlayer::InitValue()
 	m_IsGround = false;
 	m_IsHide = false;
 	m_IsHitHideObject = false;
+	m_IsParkourObject = false;
 
 	m_vPos.y = 10.0f;
 }
@@ -102,6 +103,10 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 
 		case ANIMID_RUNNINGJUMP:
 			ExecRunningJump();
+			break;
+		
+		case ANIMID_DIVINGJUMP:
+			ExecDivingJump();
 			break;
 
 		case ANIMID_HIDE:
@@ -319,6 +324,7 @@ void CPlayer::PadControl_AllState()
 		//ジャンプ
 		m_sAnimData.m_iID = ANIMID_JUMP;
 		m_IsGround = false;
+		
 	}
 	//何もしていない時
 	else {
@@ -329,9 +335,12 @@ void CPlayer::PadControl_AllState()
 
 void CPlayer::PadControl_Run()
 {
+	//Pad操作
 	PadControl_AllState();
-
-	if (CPad::IsPadPush(INPUT_A)) {
+	if (CPad::IsPadPush(INPUT_A) && m_IsParkourObject) {
+		m_sAnimData.m_iID = ANIMID_DIVINGJUMP;
+	}
+	else if (CPad::IsPadPush(INPUT_A)) {
 		m_sAnimData.m_iID = ANIMID_RUNNINGJUMP;
 		m_IsGround = false;
 	}
@@ -563,6 +572,10 @@ void CPlayer::ExecRun()
 		//ジャンプ計算処理
 		JumpCalc();
 	}
+	//ダイビングジャンプ
+	if (m_sAnimData.m_iID == ANIMID_DIVINGJUMP) {
+		Request(ANIMID_DIVINGJUMP, 1.0f);
+	}
 
 	//隠れる操作　
 	if (CPad::IsPadPush(INPUT_B) && m_IsHitHideObject)
@@ -599,6 +612,10 @@ void CPlayer::ExecFastRun()
 	{
 		Request(ANIMID_RUNNINGJUMP, 1.0f);
 		JumpCalc();
+	}
+	//ダイビングジャンプ
+	if (m_sAnimData.m_iID == ANIMID_DIVINGJUMP) {
+		Request(ANIMID_DIVINGJUMP, 1.0f);
 	}
 	//隠れる操作
 	if (CPad::IsPadPush(INPUT_B) &&  m_IsHitHideObject)
@@ -666,6 +683,27 @@ void CPlayer::ExecRunningJump()
 
 	//重力処理
 	Gravity();
+}
+
+void CPlayer::ExecDivingJump()
+{
+	if (m_sAnimData.m_fFrm == m_sAnimData.m_fEndFrm){
+		//padの操作
+		PadControl_AllState();
+	}
+
+	//通常だったら
+	if (m_sAnimData.m_iID == ANIMID_WAIT) {
+		RequestLoop(ANIMID_WAIT, 1.0f);
+	}
+	//小ダッシュ
+	if (m_sAnimData.m_iID == ANIMID_RUN) {
+		RequestLoop(ANIMID_RUN, 1.0f);
+	}
+	//ダッシュ
+	if (m_sAnimData.m_iID == ANIMID_FAST_RUN) {
+		RequestLoop(ANIMID_FAST_RUN, 1.0f);
+	}
 }
 
 void CPlayer::ExecHide()

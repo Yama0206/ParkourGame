@@ -178,6 +178,40 @@ void CCollisionManager::CheckHitPlayerToRock(CPlayer& cPlayer,
 	}
 }
 
+void CCollisionManager::CheckHitPlayerToParkourObject(CPlayer& cPlayer, CBox& cBox)
+{
+	VECTOR vPlayerCollisionPos, vBoxCollisionPos[4];
+	VECTOR vPlayerSize, vBoxSize;
+
+	cPlayer.GetCenterPos(vPlayerCollisionPos);
+	cPlayer.GetSize(vPlayerSize);
+	
+	cBox.GetPotision(vBoxCollisionPos[0]);
+	cBox.GetPotision(vBoxCollisionPos[1]);
+	cBox.GetPotision(vBoxCollisionPos[2]);
+	cBox.GetPotision(vBoxCollisionPos[3]);
+	
+	vBoxCollisionPos[0] = VAdd(vBoxCollisionPos[0], VGet(18.0f, 0.0f, 0.0f));
+	vBoxCollisionPos[1] = VAdd(vBoxCollisionPos[1], VGet(-18.0f, 0.0f, 0.0f));
+	vBoxCollisionPos[2] = VAdd(vBoxCollisionPos[2], VGet(0.0f, 0.0f, 18.0f));
+	vBoxCollisionPos[3] = VAdd(vBoxCollisionPos[3], VGet(0.0f, 0.0f, -18.0f));
+
+	vBoxSize = cBox.GetSize();
+
+	for (int i = 0; i < 4; i++) {
+		if (IsHitRect(vPlayerCollisionPos, vPlayerSize, vBoxCollisionPos[i], vBoxSize))
+		{
+			CDebugManager::GetInstance()->AddBox(vBoxCollisionPos[i], vBoxSize);
+			cPlayer.SetIsHitParkourObject(true);
+			break;
+		}
+		else {
+			cPlayer.SetIsHitParkourObject(false);
+		}
+	}
+
+}
+
 void CCollisionManager::CHeckHitPlayerToGoal(CPlayer& cPlayer, CGoal& cGoal)
 {
 	//方向チェック用変数

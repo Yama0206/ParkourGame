@@ -31,6 +31,7 @@ private:
 		ANIMID_FAST_RUN,		//走りモーション
 		ANIMID_RUNNINGJUMP,		//走りジャンプモーション
 		ANIMID_JUMP,			//ジャンプモーション
+		ANIMID_DIVINGJUMP,		//ダイビングジャンプモーション
 		ANIMID_TPOSE,			//Ｔポーズ
 		ANIMID_UPDOWN,			//くねくね上下
 		ANIMID_SHAKE,			//手を振る
@@ -64,13 +65,14 @@ private:
 	float m_fGravity;				//プレイヤーの重力
 
 	//フラグ
-	bool m_IsHit;			//プレイヤーが物体に当たっているかどうか
-	bool m_IsHitSide;		//プレイヤーが物体と横方向で当たった時
-	bool m_IsHitLength;		//プレイヤーが物体と縦方向で当たった時
-	bool m_IsGround;		//プレイヤーが地面についたかどうか
-	bool m_IsKeyHit;		//キーを押したかどうか
-	bool m_IsHitHideObject;	//隠れるようのオブジェクトとあたったかどうか
-	bool m_IsHide;			//ハイドモードかどうかを返す
+	bool m_IsHit;					//プレイヤーが物体に当たっているかどうか
+	bool m_IsHitSide;				//プレイヤーが物体と横方向で当たった時
+	bool m_IsHitLength;				//プレイヤーが物体と縦方向で当たった時
+	bool m_IsGround;				//プレイヤーが地面についたかどうか
+	bool m_IsKeyHit;				//キーを押したかどうか
+	bool m_IsHitHideObject;			//隠れるようのオブジェクトとあたったかどうか
+	bool m_IsHide;					//ハイドモードかどうかを返す
+	bool m_IsParkourObject;			//パルクールオブジェクトにあたったかどうか
 
 public:
 	//コンストラクタ
@@ -145,6 +147,8 @@ public:
 	void JumpCalc();
 	//ダッシュジャンプ
 	void RuningJumpCalc();
+	//ダイビングジャンプ
+	void DivingJumpCalc();
 
 public:
 	//コントローラー操作//
@@ -152,8 +156,6 @@ public:
 	void PadControl_AllState();
 	//小走り操作
 	void PadControl_Run();
-	//ダッシュ操作
-	void PadControl_FastRun();
 	//ジャンプ操作
 	void PadControl_Jump();
 	//ダッシュジャンプ操作
@@ -208,9 +210,10 @@ public:
 	VECTOR SetSize();
 		
 	//物体にあっているかどうか
-	void SetIsHit(bool flag)		{  m_IsHit = flag; }	
-	void SetIsHitSide(bool flag)	{  m_IsHitSide = flag; }
-	void SetIsHitLength(bool flag)	{  m_IsHitLength = flag; }
+	void SetIsHit(bool flag)					{  m_IsHit = flag; }	
+	void SetIsHitSide(bool flag)				{  m_IsHitSide = flag; }
+	void SetIsHitLength(bool flag)				{  m_IsHitLength = flag; }
+	void SetIsHitParkourObject(bool flag)		{ m_IsParkourObject = flag; }
 	
 
 private:
@@ -227,6 +230,8 @@ private:
 	void ExecJump();
 	//ダッシュジャンプ
 	void ExecRunningJump();
+	//ダイビングジャンプ
+	void ExecDivingJump();
 	//ハイドモード
 	void ExecHide();
 	////くねくね中

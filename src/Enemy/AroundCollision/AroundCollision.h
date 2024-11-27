@@ -26,8 +26,8 @@ private:
 public:
 	// ‰Šú‰»
 	void Init();
-	// XVˆ—
-	void Update();
+	// “–‚½‚è”»’è‚ğ‚³‚¹‚éˆÊ’u‚ğİ’è
+	void SetAroundCollisionInfo(VECTOR vCenterPos);
 
 public:
 	//“–‚½‚è”»’èŒã‚Ì–ß‚µˆ—

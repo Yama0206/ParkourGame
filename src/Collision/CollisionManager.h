@@ -30,6 +30,8 @@ public:
 public:
 	//プレイヤーと石の当たり判定
 	static void CheckHitPlayerToRock(CPlayer& cPlayer, vector<CRock>& cRock);
+	//プレイヤーとパルクールオブジェクトの当たり判定
+	static void CheckHitPlayerToParkourObject(CPlayer& cPlayer, CBox& cBox);
 	//プレイヤーとゴールの当たり判定
 	static void CHeckHitPlayerToGoal(CPlayer& cPlayer, CGoal& cGoal);
 	//プレイヤーとアイテムのあたり判定

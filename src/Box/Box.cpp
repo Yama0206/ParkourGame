@@ -6,7 +6,7 @@ const float BOX_SIZE = 16.0f;
 
 void CBox::Init()
 {
-	m_vPos = { 20.0f, 36.0f, 0.0f };
+	m_vPos = { 20.0f, 18.0f, 0.0f };
 	m_vScale = { 8.0f, 8.0f ,8.0f };
 	m_vSize = { 16.0f, 16.0f, 16.0f };
 	m_iHndl = -1;

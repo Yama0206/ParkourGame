@@ -72,18 +72,6 @@ void CPlayScene::Init()
 	m_cSky.Init();					//初期化
 	m_cSky.UpDate();				//更新処理
 
-	cFBox.resize(FBOX_MAX_NUM);
-	cRock.resize(FBOX_MAX_NUM);
-
-	for (int FBoxIndex = 0; FBoxIndex < cFBox.size(); FBoxIndex++) {
-		cFBox[FBoxIndex].Init();		//足場の箱
-	}
-	for (int RockIndex = 0; RockIndex < cRock.size(); RockIndex++)
-	{
-		cRock[RockIndex].Init();
-	}
-
-
 	//ゴール初期化
 	cGoal.Init();
 
@@ -98,6 +86,8 @@ void CPlayScene::Init()
 	//サウンド関連
 	CSoundManager::Init();
 	//CSoundManager::LoadAllData();
+
+	cBox.Init();
 }
 
 //終了処理
@@ -144,6 +134,8 @@ void CPlayScene::Load()
 	for (int i = 0; i < 3; i++) {
 		m_cLocker[i].Load();
 	}
+
+	cBox.Load();
 }
 
 //毎フレーム呼ぶ処理
@@ -177,6 +169,7 @@ void CPlayScene::Step()
 			m_cEnemyManager.SetIsPlayerHideMode(false);
 		}
 		
+		cBox.Step();
 
 		//当たり判定処理
 
@@ -190,6 +183,7 @@ void CPlayScene::Step()
 		CCollisionManager::CheckHitPlayerToPoint(m_cPlayer, m_cEnemyManager);
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
 		CCollisionManager::CheckHitEnemyToField(m_cEnemyManager, m_cField);
+		CCollisionManager::CheckHitPlayerToParkourObject(m_cPlayer, cBox);
 		
 		//更新処理--------------------------------------------------------------//
 		//プレイヤー
@@ -208,6 +202,8 @@ void CPlayScene::Step()
 		for (int i = 0; i < 3; i++) {
 			m_cLocker[i].Update();
 		}
+
+		cBox.Update();
 	}
 
 	//カメラ切り替え処理
@@ -261,6 +257,8 @@ void CPlayScene::Draw()
 	m_cField.Draw();				//背景描画
 	//m_cSky.Draw();				//空描画
 	cGoal.Draw();					//ゴール描画
+
+	cBox.Draw();
 
 	for (int i = 0; i < 3; i++) {
 		m_cLocker[i].Draw();

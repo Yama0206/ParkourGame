@@ -20,15 +20,6 @@ protected:
 		int m_iState;				//アニメの状態
 	};
 
-	struct OLD_ANIM_DATA {
-		float m_fEndFrm;			//アニメの全再生時間
-		float m_fFrm;				//アニメの再生時間
-		float m_fSpd;				//アニメの再生速度
-		int m_iHndl;				//アニメハンドル
-		int m_iID;					//再生中のアニメ
-		int m_iState;				//アニメの状態
-	};
-
 	VECTOR m_vPos;					//座標
 	VECTOR m_vNextPos;				//更新後の座標
 	VECTOR m_vSpd;					//移動速度
