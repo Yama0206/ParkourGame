@@ -11,7 +11,7 @@ void CAroundCollision::Init()
 
 void CAroundCollision::SetAroundCollisionInfo(VECTOR vCenterPos)
 {
-	/*m_sSphere[RIGHT].m_vPos =	VAdd()*/
+	//m_sSphere[RIGHT].m_vPos =	VAdd()
 }
 
 void CAroundCollision::ReflectCollision()

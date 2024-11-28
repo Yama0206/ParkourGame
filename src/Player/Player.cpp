@@ -497,6 +497,17 @@ void CPlayer::RuningJumpCalc()
 	m_vSpd.y = YSPEED;
 }
 
+void CPlayer::DivingJumpCalc()
+{
+	//少しずつ足していく
+	m_fMoveSpeed -= ADD_SPEED;
+
+	//プレイヤーのダッシュスピードの上限
+	if (m_fMoveSpeed < -DASH_SPEED) {
+		m_fMoveSpeed = -DASH_SPEED;
+	}
+}
+
 //何もしていないとき
 void CPlayer::ExecDefault()
 {
@@ -687,7 +698,11 @@ void CPlayer::ExecRunningJump()
 
 void CPlayer::ExecDivingJump()
 {
-	if (m_sAnimData.m_fFrm == m_sAnimData.m_fEndFrm){
+	//アニメーションが終わるまでの間
+	if (m_sAnimData.m_fFrm <= m_sAnimData.m_fEndFrm){
+		DivingJumpCalc();
+	}
+	else {
 		//padの操作
 		PadControl_AllState();
 	}
