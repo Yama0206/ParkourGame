@@ -68,6 +68,9 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 	CDebugManager::GetInstance()->AddFormatString(700, 260, "プレイヤーのスピード X = %f,Y = %f,Z = %f", m_vSpd.x,m_vSpd.y,m_vSpd.z);
 	CDebugManager::GetInstance()->AddFormatString(700, 280, "Y = %f", m_vNextPos.y);
 	CDebugManager::GetInstance()->AddFormatString(700, 300, "グラビティー = %f", m_fGravity);
+	CDebugManager::GetInstance()->AddFormatString(700, 320, "アニメーションID = %d", m_sAnimData.m_iID);
+	CDebugManager::GetInstance()->AddFormatString(700, 340, "アニメーション再生フレーム = %f", m_sAnimData.m_fFrm);
+	CDebugManager::GetInstance()->AddFormatString(700, 360, "アニメーション最終フレーム = %f", m_sAnimData.m_fEndFrm);
 
 	if (m_IsAllive) {
 		//プレイヤーのアニメーション情報を保存しておく
@@ -499,13 +502,7 @@ void CPlayer::RuningJumpCalc()
 
 void CPlayer::DivingJumpCalc()
 {
-	//少しずつ足していく
-	m_fMoveSpeed -= ADD_SPEED;
 
-	//プレイヤーのダッシュスピードの上限
-	if (m_fMoveSpeed < -DASH_SPEED) {
-		m_fMoveSpeed = -DASH_SPEED;
-	}
 }
 
 //何もしていないとき
@@ -585,7 +582,7 @@ void CPlayer::ExecRun()
 	}
 	//ダイビングジャンプ
 	if (m_sAnimData.m_iID == ANIMID_DIVINGJUMP) {
-		Request(ANIMID_DIVINGJUMP, 1.0f);
+		Request(ANIMID_DIVINGJUMP, 1.6f);
 	}
 
 	//隠れる操作　
@@ -626,7 +623,7 @@ void CPlayer::ExecFastRun()
 	}
 	//ダイビングジャンプ
 	if (m_sAnimData.m_iID == ANIMID_DIVINGJUMP) {
-		Request(ANIMID_DIVINGJUMP, 1.0f);
+		Request(ANIMID_DIVINGJUMP, 1.6f);
 	}
 	//隠れる操作
 	if (CPad::IsPadPush(INPUT_B) &&  m_IsHitHideObject)
@@ -699,10 +696,10 @@ void CPlayer::ExecRunningJump()
 void CPlayer::ExecDivingJump()
 {
 	//アニメーションが終わるまでの間
-	if (m_sAnimData.m_fFrm <= m_sAnimData.m_fEndFrm){
+	if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm){
 		DivingJumpCalc();
 	}
-	else {
+	else{
 		//padの操作
 		PadControl_AllState();
 	}

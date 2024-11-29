@@ -59,11 +59,11 @@ void CCheckPointManager::Step()
 	}
 
 	CDebugManager::GetInstance()->AddFormatString(400, 0, "敵が最後に通った場所 = %d", m_iLastPassedEnemyNum);
-	CDebugManager::GetInstance()->AddFormatString(0, 200, "プレイヤーが通った場所を格納しているリストサイズ = %d", PLAYER_PASSED_LIST_SIZE);
+	CDebugManager::GetInstance()->AddFormatString(0, 280, "プレイヤーが通った場所を格納しているリストサイズ = %d", PLAYER_PASSED_LIST_SIZE);
 	for (int i = 0; i < PLAYER_PASSED_LIST_SIZE; i++) {
-		CDebugManager::GetInstance()->AddFormatString(0, 220+(i*20), "プレイヤーが通った場所%d番目 = %d", i,m_iPassedPlayerNum[i]);
+		CDebugManager::GetInstance()->AddFormatString(0, 300+(i*20), "プレイヤーが通った場所%d番目 = %d", i,m_iPassedPlayerNum[i]);
 	}
-	CDebugManager::GetInstance()->AddFormatString(500, 600, "プレイヤーが通った場所を格納しているリストの今のサイズ = %d", CCheckPointManager::GetInstance()->GetPassedPlayerNumSize());
+	CDebugManager::GetInstance()->AddFormatString(500, 700, "プレイヤーが通った場所を格納しているリストの今のサイズ = %d", CCheckPointManager::GetInstance()->GetPassedPlayerNumSize());
 }
 
 int CCheckPointManager::GetPassedPlayerNum()
