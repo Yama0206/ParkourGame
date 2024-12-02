@@ -49,8 +49,8 @@ private:
 		DOWN,		//下方向
 		LEFT,		//左方向
 		RIGHT,		//右方向
-		FRONT,		//前方向
-		BACK,		//後ろ方向
+		FRONT,		//前方
+		BACK,		//後方
 	
 	};
 
@@ -74,6 +74,9 @@ private:
 	bool m_IsHide;					//ハイドモードかどうかを返す
 	bool m_IsParkourObject;			//パルクールオブジェクトにあたったかどうか
 
+	//パルクールオブジェクト4方向フラグ
+	
+
 public:
 	//コンストラクタ
 	CPlayer();
@@ -81,7 +84,6 @@ public:
 	float m_fMoveSpeed;				//プレイヤーのスピード
 
 public:
-
 	//初期値設定
 	void InitValue();
 	//通常処理
@@ -101,8 +103,8 @@ public:
 	//終了処理
 	void Fin();
 
-	//フラグ
 public:
+	//フラグ
 	//生存フラグの設定・取得
 	void SetIsAllive(bool bflag) { m_IsAllive = bflag; }						//生存フラグの設定
 	bool GetIsAllive() { return m_IsAllive; }									//生存フラグの取得

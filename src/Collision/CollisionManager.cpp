@@ -114,7 +114,6 @@ void CCollisionManager::CheckHitPlayerToRock(CPlayer& cPlayer,
 				//めりこみ量計算
 				float overlap = (vRockPos.z + vRockSize.z / 2) - (vPlayerColliPos.z - vPlayerSize.z / 2);
 				cPlayer.SetNextPosZ(vPlayerNextPos.z + overlap);
-				cPlayer.SetIsHitSide(true);
 			}
 			//手前方向の計算
 			if (DirArray[5]) {
@@ -122,9 +121,6 @@ void CCollisionManager::CheckHitPlayerToRock(CPlayer& cPlayer,
 				float overlap = (vPlayerColliPos.z + vPlayerSize.z / 2) - (vRockPos.z - vRockSize.z / 2);
 				cPlayer.SetNextPosZ(vPlayerNextPos.z - overlap);
 			}
-		}
-		else {
-			cPlayer.SetIsHitSide(false);
 		}
 	}
 
@@ -163,7 +159,6 @@ void CCollisionManager::CheckHitPlayerToRock(CPlayer& cPlayer,
 				//めりこみ量計算
 				float overlap = (vRockPos.y + vRockSize.y / 2) - (vPlayerColliPos.y - vPlayerSize.y / 2);
 				cPlayer.SetNextPosY(vPlayerNextPos.y + overlap);
-				cPlayer.SetIsHitLength(true);
 			}
 			//上方向の計算
 			if (DirArray[0]) {
@@ -172,14 +167,12 @@ void CCollisionManager::CheckHitPlayerToRock(CPlayer& cPlayer,
 				cPlayer.SetNextPosY(vPlayerNextPos.y - overlap);
 			}
 		}
-		else {
-			cPlayer.SetIsHitLength(false);
-		}
 	}
 }
 
 void CCollisionManager::CheckHitPlayerToParkourObject(CPlayer& cPlayer, CBox& cBox)
 {
+
 	VECTOR vPlayerCollisionPos, vBoxCollisionPos[4];
 	VECTOR vPlayerSize, vBoxSize;
 
@@ -198,6 +191,10 @@ void CCollisionManager::CheckHitPlayerToParkourObject(CPlayer& cPlayer, CBox& cB
 
 	vBoxSize = cBox.GetSize();
 
+	//0 : 左
+	//1 : 右
+	//2 : 奥
+	//3 : 手前
 	for (int i = 0; i < 4; i++) {
 		if (IsHitRect(vPlayerCollisionPos, vPlayerSize, vBoxCollisionPos[i], vBoxSize))
 		{
