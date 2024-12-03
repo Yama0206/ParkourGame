@@ -14,8 +14,8 @@ void CObject::Init()
 	memset(&m_vRot, 0.0f, sizeof(VECTOR));			//回転値
 	memset(&m_vScale, 0.0f, sizeof(VECTOR));		//拡縮率
 	memset(&m_vSize, 0.0f, sizeof(VECTOR));			//縦　横　奥行きのサイズ
-	memset(&m_iHndl, -1, sizeof(int));				//画像ハンドル
-	memset(&m_IsAllive, true, sizeof(bool));		//生存フラグ
+	m_iHndl = -1;									//画像ハンドル
+	m_IsAllive = -1;								//生存フラグ
 }
 
 void CObject::Load(int iMdHndl)

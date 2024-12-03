@@ -7,9 +7,14 @@ using namespace std;
 class ParkourObjectManager
 {
 private:
-	enum {
-
+	enum Dir {
+		FRONT,			//‘O
+		BACK,			//Œã‚ë
+		LEFT,			//¶
+		RIGHT,			//‰E
 	};
+
+
 
 public:
 	// ‰Šú‰»
