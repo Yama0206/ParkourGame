@@ -26,6 +26,7 @@ public:
 	VECTOR GetSizeVec()		{ return m_vSize; }			//‘å‚«‚³
 
 
+
 	void Update();
 
 };

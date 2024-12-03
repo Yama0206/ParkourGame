@@ -547,6 +547,8 @@ void CPlayer::ExecWait()
 	//ハイドモード
 	if (CPad::IsPadPush(INPUT_B) && m_IsHitHideObject)
 	{
+		//ハイドモード
+		m_IsHide = true;
 		m_sAnimData.m_iID = ANIMID_HIDE;
 	}
 
@@ -720,9 +722,6 @@ void CPlayer::ExecDivingJump()
 
 void CPlayer::ExecHide()
 {
-	//ハイドモード
-	m_IsHide = true;
-
 	memset(&m_vSpd, 0.0f, sizeof(m_vSpd));
 	m_fMoveSpeed = 0.0f;
 
