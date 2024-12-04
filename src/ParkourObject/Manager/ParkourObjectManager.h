@@ -12,6 +12,8 @@ private:
 	//インスタンス
 	static CParkourObjectManager* m_Instance;
 
+	int m_
+
 private:
 	enum Dir {
 		FRONT,			//前

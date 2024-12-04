@@ -1,6 +1,11 @@
 #include "ParkourObjectManager.h"
 
+//インスタンス
 CParkourObjectManager* CParkourObjectManager::m_Instance = NULL;
+
+//定義
+const char FENCE_PATH[] = { "data/ParkourObject/" };			//フェンスのモデルパス
+
 
 CParkourObjectManager* CParkourObjectManager::GetInstance()
 {
@@ -46,6 +51,7 @@ void CParkourObjectManager::Load()
 {
 	m_cFileDataList.ReadFile();
 
+
 	//モデルを複製
 	for (int ParkourObjectIndex = 0; ParkourObjectIndex < m_cFileDataList.sparkourObjectInfoList.size(); ParkourObjectIndex++) {
 		switch (m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_eType) {
@@ -59,6 +65,7 @@ void CParkourObjectManager::Load()
 				m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_IsAllive);
 
 			//フェンスモデルの読み込み
+
 
 			//アイテムのリストにpush_backする
 			m_cParkourObjectList.push_back(cFence);
