@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParkourObject.h"
 #include "../../Read/ReadParkourObjectList/ReadParkourObjectList.h"
+#include "../Fence/Fence.h"
 #include <vector>
 
 using namespace std;

@@ -10,11 +10,15 @@ void CParkourObject::Load(int iModelHndl)
 	m_iHndl = MV1DuplicateModel(iModelHndl);
 }
 
-void CParkourObject::SetInfo(VECTOR vPos, VECTOR vScale, bool IsFrag)
+void CParkourObject::SetInfo(VECTOR vObjectPos, VECTOR vFrontPos, VECTOR vBackPos, VECTOR vRightPos, VECTOR vLeftPos, bool bIsAllive)
 {
-	m_vPos = vPos;
-	m_vScale = vScale;
-	m_IsAllive = IsFrag;
+	m_vPos = vObjectPos;
+	m_vFrontPos = vFrontPos;
+	m_vBackPos  = vBackPos;
+	m_vRightPos = vRightPos;
+	m_vLeftPos  = vLeftPos;
+
+	m_IsAllive = bIsAllive;
 }
 
 void CParkourObject::Update()

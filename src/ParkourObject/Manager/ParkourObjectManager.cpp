@@ -47,14 +47,21 @@ void CParkourObjectManager::Load()
 	m_cFileDataList.ReadFile();
 
 	//モデルを複製
-	for (int ItemIndex = 0; ItemIndex < m_cFileDataList.sparkourObjectInfoList.size(); ItemIndex++) {
-		switch (m_cFileDataList.sparkourObjectInfoList[ItemIndex].m_eType) {
-		case TYPE_1:
+	for (int ParkourObjectIndex = 0; ParkourObjectIndex < m_cFileDataList.sparkourObjectInfoList.size(); ParkourObjectIndex++) {
+		switch (m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_eType) {
+		case FENCE:
 			//情報を入れるクラスのポインタ変数を作成
-
+			CFence* cFence = new CFence();
 			//上で作ったクラスに情報を入力
+			cFence->SetInfo(m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_vObjectPos, 
+				m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_vFrontPos, m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_vBackPos, 
+				m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_vRightPos, m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_vLeftPos,
+				m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_IsAllive);
+
+			//フェンスモデルの読み込み
 
 			//アイテムのリストにpush_backする
+			m_cParkourObjectList.push_back(cFence);
 
 		break;
 
