@@ -12,7 +12,7 @@ private:
 	//インスタンス
 	static CParkourObjectManager* m_Instance;
 
-	int m_
+	int m_iFenceHndl;
 
 private:
 	enum Dir {

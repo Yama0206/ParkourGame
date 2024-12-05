@@ -31,7 +31,7 @@ void CParkourObjectManager::DeleteInstance()
 
 CParkourObjectManager::CParkourObjectManager()
 {
-
+	m_iFenceHndl = -1;
 }
 
 CParkourObjectManager::~CParkourObjectManager()
@@ -51,6 +51,9 @@ void CParkourObjectManager::Load()
 {
 	m_cFileDataList.ReadFile();
 
+	//全てのモデルを読み込んでおく(DuplicateModel用)
+	m_iFenceHndl = MV1LoadModel(FENCE_PATH);				//フェンス
+	
 
 	//モデルを複製
 	for (int ParkourObjectIndex = 0; ParkourObjectIndex < m_cFileDataList.sparkourObjectInfoList.size(); ParkourObjectIndex++) {
