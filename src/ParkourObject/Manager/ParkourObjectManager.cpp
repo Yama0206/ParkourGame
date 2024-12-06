@@ -4,7 +4,7 @@
 CParkourObjectManager* CParkourObjectManager::m_Instance = NULL;
 
 //定義
-const char FENCE_PATH[] = { "data/ParkourObject/" };			//フェンスのモデルパス
+const char FENCE_PATH[] = { "data/ParkourObject/ParkourObject.mv1" };			//フェンスのモデルパス
 
 
 CParkourObjectManager* CParkourObjectManager::GetInstance()
@@ -68,20 +68,20 @@ void CParkourObjectManager::Load()
 				m_cFileDataList.sparkourObjectInfoList[ParkourObjectIndex].m_IsAllive);
 
 			//フェンスモデルの読み込み
-
+			cFence->Load(m_iFenceHndl);
 
 			//アイテムのリストにpush_backする
 			m_cParkourObjectList.push_back(cFence);
 
 		break;
 
-		case 1:
+	/*	case 1:
 
 		break;
 
 		case 2:
 
-		break;
+		break;*/
 		}
 	}
 }
@@ -98,6 +98,6 @@ void CParkourObjectManager::Draw()
 {
 	for (int ParkourObjectIndex = 0; ParkourObjectIndex < m_cParkourObjectList.size(); ParkourObjectIndex++)
 	{
-		m_cParkourObjectList[ParkourObjectIndex]->Update();
+		m_cParkourObjectList[ParkourObjectIndex]->Draw();
 	}
 }

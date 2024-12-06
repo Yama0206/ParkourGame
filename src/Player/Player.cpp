@@ -89,23 +89,23 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			break;
 
 		case ANIMID_WAIT:
-			ExecWait();
+			ExecWait(cCameraManager.GetPlayCamRot());
 			break;
 
 		case ANIMID_RUN:
-			ExecRun();
+			ExecRun(cCameraManager.GetPlayCamRot());
 			break;
 
 		case ANIMID_FAST_RUN:
-			ExecFastRun();
+			ExecFastRun(cCameraManager.GetPlayCamRot());
 			break;
 
 		case ANIMID_JUMP:
-			ExecJump();
+			ExecJump(cCameraManager.GetPlayCamRot());
 			break;
 
 		case ANIMID_RUNNINGJUMP:
-			ExecRunningJump();
+			ExecRunningJump(cCameraManager.GetPlayCamRot());
 			break;
 		
 		case ANIMID_DIVINGJUMP:
@@ -137,12 +137,6 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 
 		//キーボード操作
 		//Control_KeyBord(cCameraManager.GetPlayCamRot());
-
-		//左スティック傾きでプレイヤーを回転させる
-		PadRotation(cCameraManager.GetPlayCamRot());
-
-		//移動ベクトルを計算
-		CalcMoveVec(cCameraManager.GetPlayCamRot());
 
 		//移動量加算
 		AddMove();
@@ -233,10 +227,6 @@ void CPlayer::ChangeDir(int FreamCnt)
 //操作関数
 void CPlayer::Control(VECTOR vRot)
 {
-	//Pad
-	//状態変更
-	StateChange_Default_Pad();
-
 	//キーボード操作
 	Control_KeyBord(vRot);
 
@@ -282,28 +272,7 @@ void CPlayer::Gravity()
 	CDebugManager::GetInstance()->AddFormatString(700, 20, "プレイヤーの重力かかったあとのY = %f", m_vNextPos.y);
 }
 
-void CPlayer::StateChange_Default_Pad()
-{
-	//パッドの左スティック入力が始まったら
-	if (m_PadXBuf != 0 || m_PadYBuf != 0)
-	{
-		//ダッシュ以外の場合
-		if (m_sAnimData.m_iID != ANIMID_RUN && m_sAnimData.m_iID != ANIMID_JUMP) {
-			//歩いている
-			m_sAnimData.m_iID = ANIMID_RUN;
-		}
-	}
-	//Rボタンが押されてかつプレイヤーが歩いていたら
-	if (CPad::IsPadKeep(INPUT_R) && m_sAnimData.m_iID == ANIMID_RUN) {
-		//状態をダッシュに変更
-		m_sAnimData.m_iID = ANIMID_FAST_RUN;
-	}
-	//すでにダッシュだった場合
-	else if (CPad::IsPadRelease(INPUT_R) && m_sAnimData.m_iID == ANIMID_FAST_RUN) {
-		//歩きに戻す
-		m_sAnimData.m_iID = ANIMID_RUN;
-	}
-}
+
 
 void CPlayer::PadControl_AllState()
 {
@@ -495,14 +464,10 @@ void CPlayer::JumpCalc()
 
 }
 
-void CPlayer::RuningJumpCalc()
-{
-	m_vSpd.y = YSPEED;
-}
 
 void CPlayer::DivingJumpCalc()
 {
-
+	m_vSpd.x = MOVE_SPEED;
 }
 
 //何もしていないとき
@@ -519,7 +484,7 @@ void CPlayer::ExecDefault()
 	}
 }
 
-void CPlayer::ExecWait()
+void CPlayer::ExecWait(VECTOR vRot)
 {
 	//padの操作
 	PadControl_AllState();
@@ -552,12 +517,18 @@ void CPlayer::ExecWait()
 		m_sAnimData.m_iID = ANIMID_HIDE;
 	}
 
+	//左スティック傾きでプレイヤーを回転させる
+	PadRotation(vRot);
+
+	//移動ベクトルを計算
+	CalcMoveVec(vRot);
+
 	//重力処理
 	Gravity();
 }
 
 //歩いているとき
-void CPlayer::ExecRun()
+void CPlayer::ExecRun(VECTOR vRot)
 {
 	//padの操作
 	PadControl_Run();
@@ -585,6 +556,10 @@ void CPlayer::ExecRun()
 	//ダイビングジャンプ
 	if (m_sAnimData.m_iID == ANIMID_DIVINGJUMP) {
 		Request(ANIMID_DIVINGJUMP, 1.6f);
+		//初期化
+		RessetSpeed();
+		//ジャンプ処理
+		JumpCalc();
 	}
 
 	//隠れる操作　
@@ -594,12 +569,18 @@ void CPlayer::ExecRun()
 		m_IsHide = false;
 	}
 
+	//左スティック傾きでプレイヤーを回転させる
+	PadRotation(vRot);
+
+	//移動ベクトルを計算
+	CalcMoveVec(vRot);
+
 	//重力処理
 	Gravity();
 }
 
 //走っているとき
-void CPlayer::ExecFastRun()
+void CPlayer::ExecFastRun(VECTOR vRot)
 {	
 	//padの操作
 	PadControl_Run();
@@ -634,11 +615,17 @@ void CPlayer::ExecFastRun()
 		m_IsHide = false;
 	}
 
+	//左スティック傾きでプレイヤーを回転させる
+	PadRotation(vRot);
+
+	//移動ベクトルを計算
+	CalcMoveVec(vRot);
+
 	//重力処理
 	Gravity();
 }
 
-void CPlayer::ExecJump()
+void CPlayer::ExecJump(VECTOR vRot)
 {
 	if (m_IsGround)
 	{
@@ -656,11 +643,17 @@ void CPlayer::ExecJump()
 		}
 	}
 
+	//左スティック傾きでプレイヤーを回転させる
+	PadRotation(vRot);
+
+	//移動ベクトルを計算
+	CalcMoveVec(vRot);
+
 	//重力処理
 	Gravity();
 }
 
-void CPlayer::ExecRunningJump()
+void CPlayer::ExecRunningJump(VECTOR vRot)
 {
 	if (m_IsGround)
 	{
@@ -690,6 +683,12 @@ void CPlayer::ExecRunningJump()
 			RequestLoop(ANIMID_FAST_RUN, 1.0f);
 		}
 	}
+
+	//左スティック傾きでプレイヤーを回転させる
+	PadRotation(vRot);
+
+	//移動ベクトルを計算
+	CalcMoveVec(vRot);
 
 	//重力処理
 	Gravity();
@@ -757,6 +756,12 @@ void CPlayer::AddMove()
 	//移動速度を現在の座標に加算する
 	m_vNextPos.x += m_vSpd.x;
 	m_vNextPos.z += m_vSpd.z;
+}
+
+void CPlayer::RessetSpeed()
+{
+	m_fMoveSpeed = 0.0f;
+	memset(&m_vSpd, 0.0f, sizeof(m_vSpd));
 }
 
 //サイズ設定

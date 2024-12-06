@@ -16,7 +16,7 @@ void ReadParkourObjectList::ReadFile()
 			m_sParkourData.m_vBackPos.x, m_sParkourData.m_vBackPos.y, m_sParkourData.m_vBackPos.z,
 			m_sParkourData.m_vRightPos.x, m_sParkourData.m_vRightPos.y, m_sParkourData.m_vRightPos.z,
 			m_sParkourData.m_vLeftPos.x, m_sParkourData.m_vLeftPos.y, m_sParkourData.m_vLeftPos.z,
-			m_sParkourData.IsAllive
+			m_sParkourData.m_IsAllive
 		) != EOF) {
 			//ƒŠƒXƒg‚É’Ç‰Á
 			sparkourObjectInfoList.push_back(m_sParkourData);

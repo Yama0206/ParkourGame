@@ -12,7 +12,7 @@ using namespace std;
 constexpr bool IsDeBug = true;
 
 //デバッグ文言の色
-#define DEFAULT_COLOR			 GetColor(255,255,255)
+#define DEFAULT_COLOR			 GetColor(255,0,0)
 #define DEFAULT_DEBUG_COLOR		 GetColor(255, 0, 0)
 #define DEFAULT_SPHERE_COLOR	 GetColor(171, 225, 250)
 #define DEFAULT_UP_BOX_COLOR	 GetColor(255,0,0)

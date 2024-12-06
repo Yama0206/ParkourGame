@@ -121,9 +121,6 @@ public:
 	bool GetIsHide()					{ return m_IsHide; }					//ハイドモード取得
 
 public:
-	//Pad操作で状態を変更する
-	//デフォルト状態の時
-	void StateChange_Default_Pad();
 	//キーボード操作
 	void Control_KeyBord(VECTOR vRot);
 	//当たった分戻す
@@ -147,8 +144,6 @@ public:
 	void FastRunCalc();
 	//ジャンプ
 	void JumpCalc();
-	//ダッシュジャンプ
-	void RuningJumpCalc();
 	//ダイビングジャンプ
 	void DivingJumpCalc();
 
@@ -158,8 +153,6 @@ public:
 	void PadControl_AllState();
 	//小走り操作
 	void PadControl_Run();
-	//ジャンプ操作
-	void PadControl_Jump();
 	//ダッシュジャンプ操作
 
 
@@ -184,11 +177,11 @@ public:
 
 
 	//Y軸角度取得
-	inline VECTOR GetRotate() { return m_vRot; }
-	inline VECTOR GerViwPoint() { return m_ViewRot; }
+	inline VECTOR	GetRotate() { return m_vRot; }
+	inline VECTOR	GerViwPoint() { return m_ViewRot; }
 
 	//半径取得
-	inline float GetRadius() { return PLAYER_RADIUS; }
+	inline float	GetRadius() { return PLAYER_RADIUS; }
 
 	void			GetHalfSize(VECTOR& vHalfSize)		{ vHalfSize = DivVec(m_vSize, 2.0f); }								//半分のサイズを取得
 	VECTOR			GetSpd()							{ return m_vSpd; }													//プレイヤーの速さを取得
@@ -200,14 +193,14 @@ public:
 	//設定
 public:
 	//座標設定
-	void   SetPosVec(VECTOR vPos) { m_vPos = vPos; }
-	void   SetPosX(float vPosX);								//X座標
-	void   SetPosY(float vPosY);								//Y座標
-	void   SetPosZ(float vPosZ);								//Z座標
-	void   SetNextPosVec(VECTOR vPos) { m_vNextPos = vPos; }	//移動後の座標
-	void   SetNextPosX(float vNextPosX);						//移動後のX座標
-	void   SetNextPosY(float vNextPosY);						//移動後のY座標
-	void   SetNextPosZ(float vNextosZ);							//移動後のZ座標
+	void SetPosVec(VECTOR vPos) { m_vPos = vPos; }
+	void SetPosX(float vPosX);								//X座標
+	void SetPosY(float vPosY);								//Y座標
+	void SetPosZ(float vPosZ);								//Z座標
+	void SetNextPosVec(VECTOR vPos) { m_vNextPos = vPos; }	//移動後の座標
+	void SetNextPosX(float vNextPosX);						//移動後のX座標
+	void SetNextPosY(float vNextPosY);						//移動後のY座標
+	void SetNextPosZ(float vNextosZ);						//移動後のZ座標
 	//サイズ設定
 	VECTOR SetSize();
 		
@@ -217,21 +210,23 @@ public:
 	void SetIsHitLength(bool flag)				{  m_IsHitLength = flag; }
 	void SetIsHitParkourObject(bool flag)		{ m_IsParkourObject = flag; }
 	
+	//速さ初期化
+	void RessetSpeed();
 
 private:
 	//状態ごとの処理
 	//デフォルトの処理
 	void ExecDefault();
 	//何もしていない時
-	void ExecWait();
+	void ExecWait(VECTOR vRot);
 	//歩き中
-	void ExecRun();
+	void ExecRun(VECTOR vRot);
 	//走り中
-	void ExecFastRun();
+	void ExecFastRun(VECTOR vRot);
 	//ジャンプ
-	void ExecJump();
+	void ExecJump(VECTOR vRot);
 	//ダッシュジャンプ
-	void ExecRunningJump();
+	void ExecRunningJump(VECTOR vRot);
 	//ダイビングジャンプ
 	void ExecDivingJump();
 	//ハイドモード

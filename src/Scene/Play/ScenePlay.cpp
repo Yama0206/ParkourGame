@@ -66,11 +66,15 @@ void CPlayScene::Init()
 	//弾の初期化
 	m_cShotManager.Init();			//初期化
 	//背景
-	m_cField.Init();			//初期化
-	m_cField.UpDate();			//更新処理
+	m_cField.Init();				//初期化
+	m_cField.UpDate();				//更新処理
 	//空
 	m_cSky.Init();					//初期化
 	m_cSky.UpDate();				//更新処理
+
+	//パルクールオブジェクト
+	CParkourObjectManager::GetInstance()->Init();			//初期化
+	CParkourObjectManager::GetInstance()->Update();			//更新処理
 
 	//ゴール初期化
 	cGoal.Init();

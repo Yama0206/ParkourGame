@@ -22,7 +22,7 @@
 #include "../../CheckPoint/Manager/CheckPointManager.h"
 #include "../../Debug/DebugManager.h"
 #include "../../Input/Pad/Pad.h"
-
+#include "../../ParkourObject/Manager/ParkourObjectManager.h"
 
 #include "../../HideObject/Locker/Locker.h"
 
