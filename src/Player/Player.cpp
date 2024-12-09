@@ -694,6 +694,58 @@ void CPlayer::RessetSpeed()
 	memset(&m_vSpd, 0.0f, sizeof(m_vSpd));
 }
 
+void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
+{
+
+}
+
+void CPlayer::ParkourBegin(VECTOR vStartPos)
+{
+	//ホーミング処理
+	VECTOR StartPosVec;
+	//敵からプレイヤーに向かうベクトル
+	StartPosVec.x = vStartPos.x - m_vPos.x;
+	StartPosVec.y = 0.0f;
+	StartPosVec.z = vStartPos.z - m_vPos.z;
+
+	float fCrossZ = 0.0f;
+
+	//現在の進行方向のベクトル
+	VECTOR  MoveVec;
+
+	memset(&MoveVec, 0.0f, sizeof(MoveVec));
+
+	MoveVec.x = sinf(m_vRot.y) * -1.0f;
+	MoveVec.y = 0.0f;
+	MoveVec.z = cosf(m_vRot.y) * -1.0f;
+
+	//2つのベクトルの外積を計算
+	fCrossZ = StartPosVec.x * MoveVec.z - MoveVec.x * StartPosVec.z;
+
+	//fCrossZの計算結果で左右の判定を行う
+	if (fCrossZ > 0)
+	{
+		m_vRot.y += 0.1;
+	}
+	else if (fCrossZ < 0)
+	{
+		m_vRot.y -= 0.1;
+	}
+
+	m_vPos.x += sinf(m_vRot.y) * -m_vSpd.x;
+	m_vPos.z += cosf(m_vRot.y) * -m_vSpd.z;
+}
+
+void CPlayer::ParkourMiddle()
+{
+
+}
+
+void CPlayer::ParkourFin()
+{
+
+}
+
 //サイズ設定
 VECTOR CPlayer::SetSize()
 {

@@ -151,6 +151,17 @@ public:
 	void ParkourGravity();
 
 public:
+	//パルクール
+	void ParkourMotion(VECTOR vPos,float Gravity);
+
+	//パルクール始め
+	void ParkourBegin(VECTOR vStartPos);
+	//パルクール途中
+	void ParkourMiddle();
+	//パルクール終了
+	void ParkourFin();
+
+public:
 	//コントローラー操作//
 	//すべての状態で使える操作
 	void PadControl_AllState();
