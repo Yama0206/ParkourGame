@@ -96,8 +96,6 @@ public:
 	void Control(VECTOR vRot);
 	//ジャンプ処理
 	void Jamp(VECTOR vRot);
-	//重力計算
-	void Gravity();
 	//データ関連の破棄
 	void Delete();
 	//終了処理
@@ -146,6 +144,11 @@ public:
 	void JumpCalc();
 	//ダイビングジャンプ
 	void DivingJumpCalc();
+
+	//重力計算
+	void Gravity();
+	//パルクール重力
+	void ParkourGravity();
 
 public:
 	//コントローラー操作//
