@@ -65,6 +65,14 @@ struct SphereInfo
 	bool			IsUse;		// 使用フラグ
 };
 
+struct LineInfo
+{
+	VECTOR			m_vPos_1;		//一つ目の座標
+	VECTOR			m_vPos_2;		//二つ目の座標
+	unsigned int	m_Color;		//色
+	bool			IsUse;
+};
+
 class CDebugManager
 {
 private:
@@ -79,6 +87,8 @@ private:
 	vector <SphereInfo>	m_DebugSphereList;
 	//デバッグボックス表示リスト
 	vector <BoxInfo>	m_DebugBoxList;
+
+	vector<LineInfo>	m_DebugLineList;
 
 public:
 	//シングルトンのクラス取得と削除--------------
@@ -100,6 +110,8 @@ public:
 	void AddBox(VECTOR vPos, VECTOR vSize, unsigned int ColorUp = DEFAULT_UP_BOX_COLOR, unsigned int ColorDown = DEFAULT_DOWN_BOX_COLOR, unsigned int ColorSide = DEFAULT_SIDE_BOX_COLOR);
 	//球
 	void AddSphere(VECTOR vPos, float fRad, int DivNum = DEFAULT_DIV_NUM, unsigned int Color = DEFAULT_SPHERE_COLOR);
+	//線
+	void AddLine(VECTOR vPos_1, VECTOR vPos_2, unsigned int Color_1 = DEFAULT_COLOR);
 
 	//出力ログに表示
 	void DrawLogString(string _string);
@@ -122,4 +134,7 @@ private:
 
 	//球のデータを追加
 	void AddSphereInfo(SphereInfo _sphereInfo);
+
+	//線のデータを追加
+	void AddLineInfo(LineInfo _lineInfo);
 };

@@ -61,7 +61,7 @@ private:
 	int m_PadYBuf;					//パッドレバーの上下の入力状態を格納する変数
 	
 	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
-	float m_fRot;						//回転値
+	float m_fRot;					//回転値
 	float m_fGravity;				//プレイヤーの重力
 
 	//フラグ
@@ -155,7 +155,7 @@ public:
 	void ParkourMotion(VECTOR vPos,float Gravity);
 
 	//パルクール始め
-	void ParkourBegin(VECTOR vStartPos);
+	void ParkourBegin(VECTOR vStartPos, VECTOR vSpd);
 	//パルクール途中
 	void ParkourMiddle();
 	//パルクール終了

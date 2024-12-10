@@ -65,14 +65,18 @@ void CPlayer::InitValue()
 void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 {
 	CDebugManager::GetInstance()->AddFormatString(700, 120, "プレイヤー座標　X = %f, Y = %f, Z = %f", m_vPos.x, m_vPos.y, m_vPos.z);
-	CDebugManager::GetInstance()->AddFormatString(700, 140, "プレイヤーの着地フラグ = %d", m_IsGround);
-	CDebugManager::GetInstance()->AddFormatString(700, 160, "プレイヤーのスピード X = %f,Y = %f,Z = %f", m_vSpd.x,m_vSpd.y,m_vSpd.z);
-	CDebugManager::GetInstance()->AddFormatString(700, 180, "Pos_Y = %f", m_vNextPos.y);
-	CDebugManager::GetInstance()->AddFormatString(700, 200, "グラビティー = %f", m_fGravity);
+	CDebugManager::GetInstance()->AddFormatString(700, 140, "プレイヤー回転値　X = %f, Y = %f, Z = %f", m_vRot.x, m_vRot.y, m_vRot.z);
+	CDebugManager::GetInstance()->AddFormatString(700, 160, "プレイヤーモデル回転値　X = %f, Y = %f, Z = %f", m_ViewRot.x, m_ViewRot.y, m_ViewRot.z);
+	CDebugManager::GetInstance()->AddFormatString(700, 180, "プレイヤーの着地フラグ = %d", m_IsGround);
+	CDebugManager::GetInstance()->AddFormatString(700, 200, "プレイヤーのスピード X = %f,Y = %f,Z = %f", m_vSpd.x,m_vSpd.y,m_vSpd.z);
+	CDebugManager::GetInstance()->AddFormatString(700, 220, "Pos_Y = %f", m_vNextPos.y);
+	CDebugManager::GetInstance()->AddFormatString(700, 240, "グラビティー = %f", m_fGravity);
 	CDebugManager::GetInstance()->AddFormatString(700, 320, "アニメーションID = %d", m_sAnimData.m_iID);
 	CDebugManager::GetInstance()->AddFormatString(700, 340, "アニメーション再生フレーム = %f", m_sAnimData.m_fFrm);
 	CDebugManager::GetInstance()->AddFormatString(700, 360, "アニメーション最終フレーム = %f", m_sAnimData.m_fEndFrm);
 	CDebugManager::GetInstance()->AddFormatString(700, 380, "アニメーション再生状態 = %d", m_sAnimData.m_iState);
+
+	CDebugManager::GetInstance()->AddLine(m_vPos, VGet(100.0f, 10.0f, 100.0f));
 
 	if (m_IsAllive) {
 		//プレイヤーのアニメーション情報を保存しておく
@@ -137,12 +141,16 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			m_vNextPos.y += 10;
 		}
 
+		ParkourBegin(VGet(100.0f, 10.0f, 100.0f), VGet(-1.0f, 0.0f, -1.0f));
+
 		//キーボード操作
 		//Control_KeyBord(cCameraManager.GetPlayCamRot());
 
 		//移動量加算
 		AddMove();
 	}
+
+	CDebugManager::GetInstance()->AddLine(m_vPos, VAdd(m_vSpd, m_vPos), GetColor(0, 0, 255));
 
 }
 
@@ -618,7 +626,8 @@ void CPlayer::ExecDivingJump()
 {
 	//アニメーションが終わるまでの間
 	if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm){
-		m_vSpd.x = PARKOUR_MOVE_SPEED;
+		
+		//m_vSpd.x = PARKOUR_MOVE_SPEED;
 	}
 	else{
 		//padの操作
@@ -699,14 +708,15 @@ void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 
 }
 
-void CPlayer::ParkourBegin(VECTOR vStartPos)
+void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 {
+	//パルクールが始まったらスタートする座標に向かわせる
 	//ホーミング処理
 	VECTOR StartPosVec;
 	//敵からプレイヤーに向かうベクトル
-	StartPosVec.x = vStartPos.x - m_vPos.x;
+	StartPosVec.x = vStartPos.x - m_vNextPos.x;
 	StartPosVec.y = 0.0f;
-	StartPosVec.z = vStartPos.z - m_vPos.z;
+	StartPosVec.z = vStartPos.z - m_vNextPos.z;
 
 	float fCrossZ = 0.0f;
 
@@ -726,14 +736,21 @@ void CPlayer::ParkourBegin(VECTOR vStartPos)
 	if (fCrossZ > 0)
 	{
 		m_vRot.y += 0.1;
+		CDebugManager::GetInstance()->AddFormatString(700, 520, "プレイヤーは左");
 	}
 	else if (fCrossZ < 0)
 	{
 		m_vRot.y -= 0.1;
+		CDebugManager::GetInstance()->AddFormatString(700, 500, "プレイヤーは右");
 	}
 
-	m_vPos.x += sinf(m_vRot.y) * -m_vSpd.x;
-	m_vPos.z += cosf(m_vRot.y) * -m_vSpd.z;
+	CDebugManager::GetInstance()->AddLine(m_vPos, StartPosVec, GetColor(0,255,0));
+
+
+	
+
+	m_vNextPos.x += sinf(m_vRot.y) * -m_vSpd.x;
+	m_vNextPos.z += cosf(m_vRot.y) * -m_vSpd.z;
 }
 
 void CPlayer::ParkourMiddle()

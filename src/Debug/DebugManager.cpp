@@ -6,6 +6,7 @@ CDebugManager* CDebugManager::m_Instance = NULL;
 constexpr int DEFAULT_X_SIZE = 10;
 constexpr int DEFAULT_Y_SIZE = 20;
 constexpr int DEFAULT_LINENUM = 0;
+constexpr int DEBUG_LINE_SIZE = 255;
 
 using namespace std;
 
@@ -47,6 +48,11 @@ CDebugManager::CDebugManager()
 
 	m_DebugSphereList.resize(SPHERE_LIST_SIZE);
 	for (SphereInfo& value : m_DebugSphereList)
+	{
+		value.IsUse = false;
+	}
+	m_DebugLineList.resize(DEBUG_LINE_SIZE);
+	for (LineInfo& value : m_DebugLineList)
 	{
 		value.IsUse = false;
 	}
@@ -98,6 +104,14 @@ void CDebugManager::AddBox(VECTOR vPos, VECTOR vSize, unsigned int ColorUp, unsi
 	AddBoxInfo(value);
 }
 
+void CDebugManager::AddLine(VECTOR vPos_1, VECTOR vPos_2, unsigned int Color)
+{
+	LineInfo value = { vPos_1, vPos_2, Color , true};
+
+	AddLineInfo(value);
+}
+
+
 void CDebugManager::DrawLogString(string _string)
 {
 	if (!IsDeBug) { return; }
@@ -106,7 +120,6 @@ void CDebugManager::DrawLogString(string _string)
 
 	OutputDebugString(_string.c_str());
 }
-
 
 void CDebugManager::DrawLogFormatString(const char* format, ...)
 {
@@ -152,6 +165,16 @@ void CDebugManager::Draw()
 	{
 		if (value.IsUse) {
 			DrawSphere3D(value.m_vPos, value.m_fRad, value.m_DivNum, value.m_Color, value.m_Color, false);
+			//表示したら未使用にする
+			value.IsUse = false;
+		}
+	}
+
+	//デバッグ線
+	for (LineInfo& value : m_DebugLineList)
+	{
+		if (value.IsUse) {
+			DrawLine3D(value.m_vPos_1, value.m_vPos_2, value.m_Color);
 			//表示したら未使用にする
 			value.IsUse = false;
 		}
@@ -232,3 +255,16 @@ void CDebugManager::AddSphereInfo(SphereInfo _sphereInfo)
 	}
 }
 
+
+void CDebugManager::AddLineInfo(LineInfo _lineInfo)
+{
+	for (LineInfo& value : m_DebugLineList)
+	{
+		if (!value.IsUse)
+		{
+			//データ追加
+			value = _lineInfo;
+			return;
+		}
+	}
+}
