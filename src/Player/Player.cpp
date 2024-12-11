@@ -41,7 +41,7 @@ void CPlayer::InitValue()
 	m_eDir = FRONT;									//プレイヤーの方向
 
 	//変数
-	memset(&m_ViewRot, 0.0f, sizeof(m_ViewRot));	
+	memset(&m_vRot, 0.0f, sizeof(m_vRot));	
 	m_vScale = { SCALE , SCALE , SCALE };
 	m_PadXBuf = 0;
 	m_PadYBuf = 0;
@@ -66,7 +66,7 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 {
 	CDebugManager::GetInstance()->AddFormatString(700, 120, "プレイヤー座標　X = %f, Y = %f, Z = %f", m_vPos.x, m_vPos.y, m_vPos.z);
 	CDebugManager::GetInstance()->AddFormatString(700, 140, "プレイヤー回転値　X = %f, Y = %f, Z = %f", m_vRot.x, m_vRot.y, m_vRot.z);
-	CDebugManager::GetInstance()->AddFormatString(700, 160, "プレイヤーモデル回転値　X = %f, Y = %f, Z = %f", m_ViewRot.x, m_ViewRot.y, m_ViewRot.z);
+	CDebugManager::GetInstance()->AddFormatString(700, 160, "プレイヤーモデル回転値　X = %f, Y = %f, Z = %f", m_vRot.x, m_vRot.y, m_vRot.z);
 	CDebugManager::GetInstance()->AddFormatString(700, 180, "プレイヤーの着地フラグ = %d", m_IsGround);
 	CDebugManager::GetInstance()->AddFormatString(700, 200, "プレイヤーのスピード X = %f,Y = %f,Z = %f", m_vSpd.x,m_vSpd.y,m_vSpd.z);
 	CDebugManager::GetInstance()->AddFormatString(700, 220, "Pos_Y = %f", m_vNextPos.y);
@@ -75,8 +75,6 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 	CDebugManager::GetInstance()->AddFormatString(700, 340, "アニメーション再生フレーム = %f", m_sAnimData.m_fFrm);
 	CDebugManager::GetInstance()->AddFormatString(700, 360, "アニメーション最終フレーム = %f", m_sAnimData.m_fEndFrm);
 	CDebugManager::GetInstance()->AddFormatString(700, 380, "アニメーション再生状態 = %d", m_sAnimData.m_iState);
-
-	CDebugManager::GetInstance()->AddLine(m_vPos, VGet(100.0f, 10.0f, 100.0f));
 
 	if (m_IsAllive) {
 		//プレイヤーのアニメーション情報を保存しておく
@@ -141,7 +139,7 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			m_vNextPos.y += 10;
 		}
 
-		ParkourBegin(VGet(100.0f, 10.0f, 100.0f), VGet(-1.0f, 0.0f, -1.0f));
+		ParkourBegin(VGet(100.0f, 1.0f, 100.0f), VGet(0.0f, 0.0f, 0.0f));
 
 		//キーボード操作
 		//Control_KeyBord(cCameraManager.GetPlayCamRot());
@@ -159,7 +157,7 @@ void CPlayer::Update()
 	//1F前のプレイヤーの座標を更新する
 	m_vPos = m_vNextPos;
 
-	MV1SetRotationXYZ(m_iHndl, m_ViewRot);
+	MV1SetRotationXYZ(m_iHndl, m_vRot);
 	MV1SetPosition(m_iHndl, m_vPos);
 	MV1SetScale(m_iHndl, m_vScale);
 }
@@ -679,7 +677,7 @@ void CPlayer::PadRotation(VECTOR vCameraRot)
 		//スティックの角度に合わせてプレイヤーを回転
 		m_fRot = atan2f((float)m_PadXBuf * -1, (float)m_PadYBuf);
 		//プレイヤーを回転
-		m_ViewRot.y = vCameraRot.y + m_fRot;
+		m_vRot.y = vCameraRot.y + m_fRot;
 	}
 }
 
@@ -710,6 +708,11 @@ void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 
 void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 {
+	VECTOR 
+
+	//指定の場所に移動
+	m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
+
 	//パルクールが始まったらスタートする座標に向かわせる
 	//ホーミング処理
 	VECTOR StartPosVec;
@@ -733,7 +736,12 @@ void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 	fCrossZ = StartPosVec.x * MoveVec.z - MoveVec.x * StartPosVec.z;
 
 	//fCrossZの計算結果で左右の判定を行う
-	if (fCrossZ > 0)
+	if (fabsf(fCrossZ) <= 1.0f)
+	{
+		m_vRot.y = atan2f(MoveVec.z, MoveVec.x);
+	}
+
+	else if (fCrossZ >= 0)
 	{
 		m_vRot.y += 0.1;
 		CDebugManager::GetInstance()->AddFormatString(700, 520, "プレイヤーは左");
@@ -744,18 +752,14 @@ void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 		CDebugManager::GetInstance()->AddFormatString(700, 500, "プレイヤーは右");
 	}
 
-	CDebugManager::GetInstance()->AddLine(m_vPos, StartPosVec, GetColor(0,255,0));
+	CDebugManager::GetInstance()->AddLine(m_vPos, MoveVec, GetColor(0, 255, 0));
+	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);
 
-
-	
-
-	m_vNextPos.x += sinf(m_vRot.y) * -m_vSpd.x;
-	m_vNextPos.z += cosf(m_vRot.y) * -m_vSpd.z;
 }
 
 void CPlayer::ParkourMiddle()
 {
-
+	
 }
 
 void CPlayer::ParkourFin()
@@ -853,7 +857,7 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 
 		m_fRot = DX_PI_F;
 		//モデルを回転させる
-		m_ViewRot.y = vRot.y + m_fRot;
+		m_vRot.y = vRot.y + m_fRot;
 	}
 	else if (CInput::IsKeyKeep(KEY_INPUT_S))
 	{
@@ -873,7 +877,7 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 		m_fRot = 0.0f * DX_PI_F / 180.0f;
 
 		//向いている方向
-		m_ViewRot.y = vRot.y + m_fRot;
+		m_vRot.y = vRot.y + m_fRot;
 	}
 	else if (CInput::IsKeyKeep(KEY_INPUT_A))
 	{
@@ -892,7 +896,7 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 		m_fRot = 90.0f * DX_PI_F / 180.0f;
 
 		//向いている方向
-		m_ViewRot.y = vRot.y + m_fRot;
+		m_vRot.y = vRot.y + m_fRot;
 	}
 	else if (CInput::IsKeyKeep(KEY_INPUT_D))
 	{
@@ -911,7 +915,7 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 		m_fRot = -90.0f * DX_PI_F / 180.0f;
 
 		//向いている方向
-		m_ViewRot.y = vRot.y + m_fRot;
+		m_vRot.y = vRot.y + m_fRot;
 	}
 	else {
 		m_sAnimData.m_iID = ANIMID_WAIT;
@@ -925,4 +929,18 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 		}
 	}
 
+}
+
+VECTOR CPlayer::MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos)
+{
+	//返す値
+	VECTOR Vec;
+
+	//ベクトルを生成
+	Vec = VecCreate(_startPos, _endPos);
+
+	//正規化
+	Vec = NormalizeVec(Vec);
+
+	return Vec;
 }

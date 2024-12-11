@@ -55,7 +55,6 @@ private:
 	};
 
 	tagDir m_eDir;					//プレイヤーの方向
-	VECTOR m_ViewRot;				//プレイヤーの見ている向き
 
 	int m_PadXBuf;					//パッドレバーの左右の入力状態を格納する変数
 	int m_PadYBuf;					//パッドレバーの上下の入力状態を格納する変数
@@ -150,6 +149,9 @@ public:
 	//パルクール重力
 	void ParkourGravity();
 
+	//指定の場所に移動
+	VECTOR MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos);
+
 public:
 	//パルクール
 	void ParkourMotion(VECTOR vPos,float Gravity);
@@ -192,7 +194,7 @@ public:
 
 	//Y軸角度取得
 	inline VECTOR	GetRotate() { return m_vRot; }
-	inline VECTOR	GerViwPoint() { return m_ViewRot; }
+	inline VECTOR	GerViwPoint() { return m_vRot; }
 
 	//半径取得
 	inline float	GetRadius() { return PLAYER_RADIUS; }

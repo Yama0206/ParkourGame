@@ -59,13 +59,16 @@ float LongVec(VECTOR _vec)
 //ベクトルを正規化する
 VECTOR NormalizeVec(VECTOR _vec)
 {
-	VECTOR ret = { 0 };
+	//ベクトルの正規化
+	float size;
+	VECTOR result;
+	size = _vec.x * _vec.x + _vec.y * _vec.y + _vec.z * _vec.z;
+	size = sqrtf(size);
+	result.x = _vec.x / size;
+	result.y = _vec.y / size;
+	result.z = _vec.z / size;
 
-	ret.x = ret.x / LongVec(_vec);
-	ret.y = ret.y / LongVec(_vec);
-	ret.z = ret.z / LongVec(_vec);
-
-	return ret;
+	return result;
 }
 
 //ベクトルをスカラー倍する関数
@@ -79,6 +82,7 @@ VECTOR ScaleVec(VECTOR _vec, float scale)
 
 	return ret;
 }
+
 //ベクトルの割り算
 VECTOR DivVec(VECTOR _vec, float div)
 {
