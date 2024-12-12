@@ -139,7 +139,7 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			m_vNextPos.y += 10;
 		}
 
-		ParkourBegin(VGet(100.0f, 1.0f, 100.0f), VGet(0.0f, 0.0f, 0.0f));
+		ParkourBegin(VGet(100.0f, 1.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
 
 		//キーボード操作
 		//Control_KeyBord(cCameraManager.GetPlayCamRot());
@@ -708,15 +708,14 @@ void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 
 void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 {
-	 
-
 	//指定の場所に移動
 	m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
+
 
 	//パルクールが始まったらスタートする座標に向かわせる
 	//ホーミング処理
 	VECTOR StartPosVec;
-	//敵からプレイヤーに向かうベクトル
+	//プレイヤーから指定の場所に向かうベクトル
 	StartPosVec.x = vStartPos.x - m_vNextPos.x;
 	StartPosVec.y = 0.0f;
 	StartPosVec.z = vStartPos.z - m_vNextPos.z;
@@ -728,22 +727,21 @@ void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 
 	memset(&MoveVec, 0.0f, sizeof(MoveVec));
 
-	MoveVec.x = sinf(m_vRot.y) * -1.0f;
+	MoveVec.x = sinf(m_vRot.y) * -vSpd.x;
 	MoveVec.y = 0.0f;
-	MoveVec.z = cosf(m_vRot.y) * -1.0f;
+	MoveVec.z = cosf(m_vRot.y) * -vSpd.z;
 
 	//2つのベクトルの外積を計算
 	fCrossZ = StartPosVec.x * MoveVec.z - MoveVec.x * StartPosVec.z;
 
 	//fCrossZの計算結果で左右の判定を行う
-	if (fabsf(fCrossZ) <= 2.0f)
+	if (fabsf(fCrossZ) <= 0.5f)
 	{
-		m_vRot.y = atan2f(StartPosVec.z, StartPosVec.x);
+		m_vRot.y = atan2f(-StartPosVec.x, -StartPosVec.z);
 
 		CDebugManager::GetInstance()->AddFormatString(700, 540, "プレイヤーは正面");
 
 	}
-
 	else if (fCrossZ > 0)
 	{
 		m_vRot.y += 0.08;
@@ -756,7 +754,8 @@ void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 	}
 
 	CDebugManager::GetInstance()->AddFormatString(700, 600, "左右判定の値 = %f", fCrossZ);
-	CDebugManager::GetInstance()->AddLine(m_vPos, MoveVec, GetColor(0, 255, 0));
+	CDebugManager::GetInstance()->AddFormatString(700, 620, "進行方向ベクトル X = %f, Y = %f, Z = %f", MoveVec.x, MoveVec.y, MoveVec.z);
+	CDebugManager::GetInstance()->AddLine(m_vPos, VAdd(MoveVec,m_vPos), GetColor(0, 255, 0));
 	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);
 
 }

@@ -243,6 +243,7 @@ bool CEnemy::RequestEnemy(const VECTOR& vPos, const VECTOR& vSpeed)
 void CEnemy::Update()
 {
 	//ç¿ïWçXêV
+	MV1SetRotationXYZ(m_iHndl, m_vRot);
 	MV1SetPosition(m_iHndl, m_vPos);
 	MV1SetScale(m_iHndl, m_vScale);
 }
