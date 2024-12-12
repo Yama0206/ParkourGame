@@ -708,7 +708,7 @@ void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 
 void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 {
-	VECTOR 
+	 
 
 	//指定の場所に移動
 	m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
@@ -736,22 +736,26 @@ void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 	fCrossZ = StartPosVec.x * MoveVec.z - MoveVec.x * StartPosVec.z;
 
 	//fCrossZの計算結果で左右の判定を行う
-	if (fabsf(fCrossZ) <= 1.0f)
+	if (fabsf(fCrossZ) <= 2.0f)
 	{
-		m_vRot.y = atan2f(MoveVec.z, MoveVec.x);
+		m_vRot.y = atan2f(StartPosVec.z, StartPosVec.x);
+
+		CDebugManager::GetInstance()->AddFormatString(700, 540, "プレイヤーは正面");
+
 	}
 
-	else if (fCrossZ >= 0)
+	else if (fCrossZ > 0)
 	{
-		m_vRot.y += 0.1;
+		m_vRot.y += 0.08;
 		CDebugManager::GetInstance()->AddFormatString(700, 520, "プレイヤーは左");
 	}
 	else if (fCrossZ < 0)
 	{
-		m_vRot.y -= 0.1;
+		m_vRot.y -= 0.08;
 		CDebugManager::GetInstance()->AddFormatString(700, 500, "プレイヤーは右");
 	}
 
+	CDebugManager::GetInstance()->AddFormatString(700, 600, "左右判定の値 = %f", fCrossZ);
 	CDebugManager::GetInstance()->AddLine(m_vPos, MoveVec, GetColor(0, 255, 0));
 	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);
 
