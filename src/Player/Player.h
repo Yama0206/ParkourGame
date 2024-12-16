@@ -64,14 +64,15 @@ private:
 	float m_fGravity;				//プレイヤーの重力
 
 	//フラグ
-	bool m_IsHit;					//プレイヤーが物体に当たっているかどうか
-	bool m_IsHitSide;				//プレイヤーが物体と横方向で当たった時
-	bool m_IsHitLength;				//プレイヤーが物体と縦方向で当たった時
-	bool m_IsGround;				//プレイヤーが地面についたかどうか
-	bool m_IsKeyHit;				//キーを押したかどうか
-	bool m_IsHitHideObject;			//隠れるようのオブジェクトとあたったかどうか
-	bool m_IsHide;					//ハイドモードかどうかを返す
-	bool m_IsParkourObject;			//パルクールオブジェクトにあたったかどうか
+	bool m_bIsHit;					//プレイヤーが物体に当たっているかどうか
+	bool m_bIsHitSide;				//プレイヤーが物体と横方向で当たった時
+	bool m_bIsHitLength;			//プレイヤーが物体と縦方向で当たった時
+	bool m_bIsGround;				//プレイヤーが地面についたかどうか
+	bool m_bIsKeyHit;				//キーを押したかどうか
+	bool m_bIsHitHideObject;		//隠れるようのオブジェクトとあたったかどうか
+	bool m_bIsHide;					//ハイドモードかどうかを返す
+	bool m_bIsParkourObject;		//パルクールオブジェクトにあたったかどうか
+	bool m_bIsPlayAnimation;		//アニメーションを再生したかどうか
 
 	//パルクールオブジェクト4方向フラグ
 	
@@ -107,15 +108,15 @@ public:
 	bool GetIsAllive() { return m_IsAllive; }									//生存フラグの取得
 
 	//ジャンプフラグ取得・設定
-	void SetIsJamp(bool bflag) { m_IsGround = bflag; }							//ジャンプフラグ設定
-	bool GetIsJamp() { return m_IsGround; }										//ジャンプフラグ取得
+	void SetIsJamp(bool bflag) { m_bIsGround = bflag; }							//ジャンプフラグ設定
+	bool GetIsJamp() { return m_bIsGround; }										//ジャンプフラグ取得
 
 	//隠れるようオブジェクトと当たったかどうか
-	void SetIsHitHideObject(bool bflag) { m_IsHitHideObject = bflag; }			//隠れるようのオブジェクトとあたったかどうかフラグ設定
-	bool GetIsHitHideObject()			{ return m_IsHitHideObject; }			//隠れるようのオブジェクトとあたったかどうかフラグ取得
+	void SetIsHitHideObject(bool bflag) { m_bIsHitHideObject = bflag; }			//隠れるようのオブジェクトとあたったかどうかフラグ設定
+	bool GetIsHitHideObject()			{ return m_bIsHitHideObject; }			//隠れるようのオブジェクトとあたったかどうかフラグ取得
 
 	//ハイドモードかどうか
-	bool GetIsHide()					{ return m_IsHide; }					//ハイドモード取得
+	bool GetIsHide()					{ return m_bIsHide; }					//ハイドモード取得
 
 public:
 	//キーボード操作
@@ -157,7 +158,7 @@ public:
 	void ParkourMotion(VECTOR vPos,float Gravity);
 
 	//パルクール始め
-	void ParkourBegin(VECTOR vStartPos, VECTOR vSpd);
+	bool ParkourBegin(VECTOR vStartPos, VECTOR vSpd);
 	//パルクール途中
 	void ParkourMiddle();
 	//パルクール終了
@@ -221,10 +222,10 @@ public:
 	VECTOR SetSize();
 		
 	//物体にあっているかどうか
-	void SetIsHit(bool flag)					{  m_IsHit = flag; }	
-	void SetIsHitSide(bool flag)				{  m_IsHitSide = flag; }
-	void SetIsHitLength(bool flag)				{  m_IsHitLength = flag; }
-	void SetIsHitParkourObject(bool flag)		{ m_IsParkourObject = flag; }
+	void SetIsHit(bool flag)					{  m_bIsHit = flag; }	
+	void SetIsHitSide(bool flag)				{  m_bIsHitSide = flag; }
+	void SetIsHitLength(bool flag)				{  m_bIsHitLength = flag; }
+	void SetIsHitParkourObject(bool flag)		{ m_bIsParkourObject = flag; }
 	
 	//速さ初期化
 	void RessetSpeed();

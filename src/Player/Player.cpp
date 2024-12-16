@@ -50,13 +50,14 @@ void CPlayer::InitValue()
 	m_fGravity = GRAVITY;											
 
 	//フラグ
-	m_IsHit = false;
-	m_IsHitLength = false;
-	m_IsKeyHit = false;
-	m_IsGround = false;
-	m_IsHide = false;
-	m_IsHitHideObject = false;
-	m_IsParkourObject = false;
+	m_bIsHit = false;
+	m_bIsHitLength = false;
+	m_bIsKeyHit = false;
+	m_bIsGround = false;
+	m_bIsHide = false;
+	m_bIsHitHideObject = false;
+	m_bIsParkourObject = false;
+	m_bIsPlayAnimation = false;
 
 	m_vPos.y = 10.0f;
 }
@@ -67,7 +68,7 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 	CDebugManager::GetInstance()->AddFormatString(700, 120, "プレイヤー座標　X = %f, Y = %f, Z = %f", m_vPos.x, m_vPos.y, m_vPos.z);
 	CDebugManager::GetInstance()->AddFormatString(700, 140, "プレイヤー回転値　X = %f, Y = %f, Z = %f", m_vRot.x, m_vRot.y, m_vRot.z);
 	CDebugManager::GetInstance()->AddFormatString(700, 160, "プレイヤーモデル回転値　X = %f, Y = %f, Z = %f", m_vRot.x, m_vRot.y, m_vRot.z);
-	CDebugManager::GetInstance()->AddFormatString(700, 180, "プレイヤーの着地フラグ = %d", m_IsGround);
+	CDebugManager::GetInstance()->AddFormatString(700, 180, "プレイヤーの着地フラグ = %d", m_bIsGround);
 	CDebugManager::GetInstance()->AddFormatString(700, 200, "プレイヤーのスピード X = %f,Y = %f,Z = %f", m_vSpd.x,m_vSpd.y,m_vSpd.z);
 	CDebugManager::GetInstance()->AddFormatString(700, 220, "Pos_Y = %f", m_vNextPos.y);
 	CDebugManager::GetInstance()->AddFormatString(700, 240, "グラビティー = %f", m_fGravity);
@@ -139,8 +140,6 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			m_vNextPos.y += 10;
 		}
 
-		ParkourBegin(VGet(100.0f, 1.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
-
 		//キーボード操作
 		//Control_KeyBord(cCameraManager.GetPlayCamRot());
 
@@ -164,7 +163,7 @@ void CPlayer::Update()
 
 void CPlayer::Draw()
 {
-	if (m_IsAllive && !m_IsHide) {
+	if (m_IsAllive && !m_bIsHide) {
 		MV1DrawModel(m_iHndl);
 	}
 }
@@ -228,7 +227,7 @@ void CPlayer::ChangeDir(int FreamCnt)
 	if (m_fChangeRot > -180)
 	{
 		//キーを押したフラグを折る
-		m_IsKeyHit = false;
+		m_bIsKeyHit = false;
 	}
 }
 
@@ -246,7 +245,7 @@ void CPlayer::Control(VECTOR vRot)
 void CPlayer::Jamp(VECTOR vRot)
 {
 	//スペースキーを押したとき
-	if (CInput::IsKeyPush(KEY_INPUT_SPACE) && m_IsGround)
+	if (CInput::IsKeyPush(KEY_INPUT_SPACE) && m_bIsGround)
 	{
 		m_sAnimData.m_iID = ANIMID_JUMP;
 	}
@@ -264,7 +263,7 @@ void CPlayer::Gravity()
 	//プレイヤーの重力の上限
 	//プレイヤーが物体に当たっているときは重力を止める
 	
-	if (!m_IsGround) {
+	if (!m_bIsGround) {
 		m_fGravity = GRAVITY;
 
 		if (m_vSpd.y > -MAX_GRAVITY) {
@@ -282,7 +281,7 @@ void CPlayer::Gravity()
 
 void CPlayer::ParkourGravity()
 {
-	if (!m_IsGround) {
+	if (!m_bIsGround) {
 		m_fGravity = PARKOUR_GRAVITY;
 
 		if (m_vSpd.y > -PARKOUR_MAX_GRAVITY) {
@@ -314,11 +313,11 @@ void CPlayer::PadControl_AllState()
 		
 	}
 	//Aボタンが押されたら
-	else if (CPad::IsPadPush(INPUT_A) && m_IsGround)
+	else if (CPad::IsPadPush(INPUT_A) && m_bIsGround)
 	{
 		//ジャンプ
 		m_sAnimData.m_iID = ANIMID_JUMP;
-		m_IsGround = false;
+		m_bIsGround = false;
 		
 	}
 	//何もしていない時
@@ -332,13 +331,13 @@ void CPlayer::PadControl_Run()
 {
 	//Pad操作
 	PadControl_AllState();
-	if (CPad::IsPadPush(INPUT_A) && m_IsParkourObject) {
+	if (CPad::IsPadPush(INPUT_A) && m_bIsParkourObject) {
 		m_sAnimData.m_iID = ANIMID_DIVINGJUMP;
-		m_IsGround = false;
+		m_bIsGround = false;
 	}
 	else if (CPad::IsPadPush(INPUT_A)) {
 		m_sAnimData.m_iID = ANIMID_RUNNINGJUMP;
-		m_IsGround = false;
+		m_bIsGround = false;
 	}
 }
 
@@ -386,7 +385,7 @@ void CPlayer::FastRunCalc()
 
 void CPlayer::JumpCalc()
 {
-	m_IsGround = false;
+	m_bIsGround = false;
 	m_vSpd.y = YSPEED;
 
 }
@@ -394,7 +393,7 @@ void CPlayer::JumpCalc()
 
 void CPlayer::DivingJumpCalc()
 {
-	m_IsGround = false;
+	m_bIsGround = false;
 	m_vSpd.y = PARKOUR_JUMP_SPEED;
 }
 
@@ -438,10 +437,10 @@ void CPlayer::ExecWait(VECTOR vRot)
 		RequestLoop(ANIMID_FAST_RUN, 1.0f);
 	}
 	//ハイドモード
-	if (CPad::IsPadPush(INPUT_B) && m_IsHitHideObject)
+	if (CPad::IsPadPush(INPUT_B) && m_bIsHitHideObject)
 	{
 		//ハイドモード
-		m_IsHide = true;
+		m_bIsHide = true;
 		m_sAnimData.m_iID = ANIMID_HIDE;
 	}
 
@@ -489,10 +488,10 @@ void CPlayer::ExecRun(VECTOR vRot)
 	}
 
 	//隠れる操作　
-	if (CPad::IsPadPush(INPUT_B) && m_IsHitHideObject)
+	if (CPad::IsPadPush(INPUT_B) && m_bIsHitHideObject)
 	{
 		m_sAnimData.m_iID = ANIMID_WAIT;
-		m_IsHide = false;
+		m_bIsHide = false;
 	}
 
 	//左スティック傾きでプレイヤーを回転させる
@@ -535,10 +534,10 @@ void CPlayer::ExecFastRun(VECTOR vRot)
 		Request(ANIMID_DIVINGJUMP, 1.6f);
 	}
 	//隠れる操作
-	if (CPad::IsPadPush(INPUT_B) &&  m_IsHitHideObject)
+	if (CPad::IsPadPush(INPUT_B) &&  m_bIsHitHideObject)
 	{
 		m_sAnimData.m_iID = ANIMID_WAIT;
-		m_IsHide = false;
+		m_bIsHide = false;
 	}
 
 	//左スティック傾きでプレイヤーを回転させる
@@ -553,12 +552,12 @@ void CPlayer::ExecFastRun(VECTOR vRot)
 
 void CPlayer::ExecJump(VECTOR vRot)
 {
-	if (m_IsGround)
+	if (m_bIsGround)
 	{
 		m_sAnimData.m_iID = ANIMID_WAIT;
 	}
 	
-	if (m_IsGround) {
+	if (m_bIsGround) {
 		//通常だったら
 		if (m_sAnimData.m_iID == ANIMID_WAIT) {
 			RequestLoop(ANIMID_WAIT, 1.0f);
@@ -581,7 +580,7 @@ void CPlayer::ExecJump(VECTOR vRot)
 
 void CPlayer::ExecRunningJump(VECTOR vRot)
 {
-	if (m_IsGround)
+	if (m_bIsGround)
 	{
 		//padの操作
 		PadControl_AllState();
@@ -595,7 +594,7 @@ void CPlayer::ExecRunningJump(VECTOR vRot)
 		RunCalc();
 	}
 
-	if (m_IsGround) {
+	if (m_bIsGround) {
 		//通常だったら
 		if (m_sAnimData.m_iID == ANIMID_WAIT) {
 			RequestLoop(ANIMID_WAIT, 1.0f);
@@ -622,20 +621,24 @@ void CPlayer::ExecRunningJump(VECTOR vRot)
 
 void CPlayer::ExecDivingJump()
 {
-	//アニメーションが終わるまでの間
-	if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm){
-		
-		//m_vSpd.x = PARKOUR_MOVE_SPEED;
-	}
-	else{
-		//padの操作
-		PadControl_AllState();
-	}
+	memset(&m_vSpd, 0.0f, sizeof(VECTOR));
 
-	if (m_sAnimData.m_fFrm >= 30.0f  && m_sAnimData.m_fFrm <= 32.0f)
+	if (ParkourBegin(VGet(100.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f)))
 	{
 		//ジャンプ処理
 		DivingJumpCalc();
+
+		//アニメーションが終わるまでの間
+		if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
+
+			m_vSpd.x = PARKOUR_MOVE_SPEED;
+		}
+		//アニメーションが終わったら
+		else {
+			//padの操作
+			PadControl_AllState();
+		}
+
 	}
 
 	//通常だったら
@@ -653,7 +656,6 @@ void CPlayer::ExecDivingJump()
 
 	//重力処理
 	ParkourGravity();
-
 }
 
 void CPlayer::ExecHide()
@@ -661,10 +663,10 @@ void CPlayer::ExecHide()
 	memset(&m_vSpd, 0.0f, sizeof(m_vSpd));
 	m_fMoveSpeed = 0.0f;
 
-	if (CPad::IsPadPush(INPUT_B) && m_IsHitHideObject)
+	if (CPad::IsPadPush(INPUT_B) && m_bIsHitHideObject)
 	{
 		m_sAnimData.m_iID = ANIMID_WAIT;
-		m_IsHide = false;
+		m_bIsHide = false;
 	}
 
 	CDebugManager::GetInstance()->AddFormatString(700, 450, "ハイドモード");
@@ -706,7 +708,7 @@ void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 
 }
 
-void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
+bool CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 {
 	//指定の場所に移動
 	m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
@@ -735,7 +737,7 @@ void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 	fCrossZ = StartPosVec.x * MoveVec.z - MoveVec.x * StartPosVec.z;
 
 	//fCrossZの計算結果で左右の判定を行う
-	if (fabsf(fCrossZ) <= 0.5f)
+	if (fabsf(fCrossZ) <= 10.0f)
 	{
 		m_vRot.y = atan2f(-StartPosVec.x, -StartPosVec.z);
 
@@ -755,9 +757,16 @@ void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 
 	CDebugManager::GetInstance()->AddFormatString(700, 600, "左右判定の値 = %f", fCrossZ);
 	CDebugManager::GetInstance()->AddFormatString(700, 620, "進行方向ベクトル X = %f, Y = %f, Z = %f", MoveVec.x, MoveVec.y, MoveVec.z);
+	CDebugManager::GetInstance()->AddFormatString(650, 640, "スタートする座標までの距離 X = %f, Y = %f, Z = %f", StartPosVec.x, StartPosVec.y, StartPosVec.z);
 	CDebugManager::GetInstance()->AddLine(m_vPos, VAdd(MoveVec,m_vPos), GetColor(0, 255, 0));
 	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);
 
+	if (StartPosVec.x <= 0.5f && StartPosVec.y <= 0.5f && StartPosVec.z <= 0.5f) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void CPlayer::ParkourMiddle()
@@ -824,7 +833,7 @@ void CPlayer::ReflectCollision(VECTOR vAddVec)
 	if(vAddVec.x == 0.0f && vAddVec.y == 0.0f && vAddVec.z == 0.0f) return;
 
 	if (vAddVec.y != 0.0f) {
-		m_IsGround = true;
+		m_bIsGround = true;
 	}
 
 	CDebugManager::GetInstance()->AddFormatString(700, 60, "モデルのあたり判定前のY = %f", m_vNextPos.y);
@@ -848,7 +857,7 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 		m_sAnimData.m_iID = ANIMID_RUN;
 
 		//キーが押されたフラグON
-		m_IsKeyHit = true;
+		m_bIsKeyHit = true;
 
 		//座標移動
 		m_fMoveSpeed -= ADD_SPEED;
