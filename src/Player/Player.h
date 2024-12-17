@@ -150,8 +150,13 @@ public:
 	//パルクール重力
 	void ParkourGravity();
 
+
+public:
 	//指定の場所に移動
 	VECTOR MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos);
+
+	//指定の場所を向く
+	void RotetoSpecifiedPos(VECTOR vEndPos, VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd);
 
 public:
 	//パルクール

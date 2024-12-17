@@ -14,6 +14,7 @@ void CEnemyRead::ReadFile()
 			&m_sEnemyData.m_vRot.x, &m_sEnemyData.m_vRot.y, &m_sEnemyData.m_vRot.z,
 			&m_sEnemyData.m_vSpeed.x, &m_sEnemyData.m_vSpeed.y, &m_sEnemyData.m_vSpeed.z,
 			&m_sEnemyData.m_IsActive
+
 		) != EOF) {
 			//ƒŠƒXƒg‚É’Ç‰Á
 			enemyInfoList.push_back(m_sEnemyData);
