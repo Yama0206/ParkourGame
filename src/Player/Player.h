@@ -73,7 +73,8 @@ private:
 	bool m_bIsHide;					//ハイドモードかどうかを返す
 	bool m_bIsParkourObject;		//パルクールオブジェクトにあたったかどうか
 	bool m_bIsPlayAnimation;		//アニメーションを再生したかどうか
-	bool m_bIsSpecifiedPos;			//指定の場所
+	bool m_bIsSpecifiedPos;			//指定の場所に来たかどうか
+	bool m_bIsJump;					//ジャンプしたかどうか
 
 	//パルクールオブジェクト4方向フラグ
 	
@@ -157,7 +158,7 @@ public:
 	VECTOR MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos);
 
 	//指定の場所を向く
-	void RotetoSpecifiedPos(VECTOR vEndPos, VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd);
+	VECTOR RotetoSpecifiedPos(VECTOR vEndPos, VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd);
 
 public:
 	//パルクール

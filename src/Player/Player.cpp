@@ -15,7 +15,7 @@ static constexpr float SCALE = 0.1f;							//拡大縮小率
 	
 //パルクール関連
 static constexpr float PARKOUR_MOVE_SPEED = 1.8f;				//パルクールの動き(仮)
-static constexpr float PARKOUR_JUMP_SPEED = 2.0f;				//パルクールジャンプ(仮)
+static constexpr float PARKOUR_JUMP_SPEED = 10.0f;				//パルクールジャンプ(仮)
 static constexpr float PARKOUR_GRAVITY = 0.1f;					//パルクール重力
 static constexpr float PARKOUR_MAX_GRAVITY = 1.0f;				//プレイヤーの重力の限界
 
@@ -58,6 +58,8 @@ void CPlayer::InitValue()
 	m_bIsHitHideObject = false;
 	m_bIsParkourObject = false;
 	m_bIsPlayAnimation = false;
+	m_bIsSpecifiedPos = false;
+	m_bIsJump = false;
 
 	m_vPos.y = 10.0f;
 }
@@ -482,7 +484,6 @@ void CPlayer::ExecRun(VECTOR vRot)
 	}
 	//ダイビングジャンプ
 	if (m_sAnimData.m_iID == ANIMID_DIVINGJUMP) {
-		Request(ANIMID_DIVINGJUMP, 1.6f);
 		//初期化
 		RessetSpeed();
 	}
@@ -531,7 +532,6 @@ void CPlayer::ExecFastRun(VECTOR vRot)
 	}
 	//ダイビングジャンプ
 	if (m_sAnimData.m_iID == ANIMID_DIVINGJUMP) {
-		Request(ANIMID_DIVINGJUMP, 1.6f);
 	}
 	//隠れる操作
 	if (CPad::IsPadPush(INPUT_B) &&  m_bIsHitHideObject)
@@ -621,19 +621,47 @@ void CPlayer::ExecRunningJump(VECTOR vRot)
 
 void CPlayer::ExecDivingJump()
 {
+	//スピード初期化
 	memset(&m_vSpd, 0.0f, sizeof(VECTOR));
-
+	//パルクール初めの処理
 	ParkourBegin(VGet(100.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
-	//ジャンプ処理
-	DivingJumpCalc();
-	//アニメーションが終わるまでの間
-	if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
-		m_vSpd.x = PARKOUR_MOVE_SPEED;
-	}
-	//アニメーションが終わったら
-	else {
-		//padの操作
-		PadControl_AllState();
+
+	//指定の場所についていたら
+	if (m_bIsSpecifiedPos) {
+		//アニメーションが再生されていなかったら
+		if (!m_bIsPlayAnimation) {
+			//パルクールアニメーションリクエスト
+			Request(ANIMID_DIVINGJUMP, 1.6f);
+			//アニメーション再生フラグON
+			m_bIsPlayAnimation = true;
+		}
+		//アニメーションが終了したら
+		if (m_sAnimData.m_fFrm >= m_sAnimData.m_fEndFrm)
+		{
+			//アニメーション再生フラグをOFFにする
+			m_bIsPlayAnimation = false;
+		}
+
+		if (!m_bIsJump)
+		{
+			//ジャンプ処理
+			DivingJumpCalc();
+			m_bIsJump = true;
+		}
+		//アニメーションが終わるまでの間
+		if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
+			m_vSpd.x = PARKOUR_MOVE_SPEED;
+			m_vSpd.z = PARKOUR_MOVE_SPEED;
+		}
+
+		//アニメーションが終わったら
+		else {
+			//ジャンプフラグをfalseにする
+			m_bIsJump = false;
+
+			//padの操作
+			PadControl_AllState();
+		}
 	}
 
 	//通常だったら
@@ -689,6 +717,7 @@ void CPlayer::AddMove()
 {
 	//移動速度を現在の座標に加算する
 	m_vNextPos.x += m_vSpd.x;
+	m_vNextPos.y += m_vSpd.y;
 	m_vNextPos.z += m_vSpd.z;
 }
 
@@ -705,12 +734,21 @@ void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 
 void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 {
+	VECTOR TwoPoint;
+
 	//指定の場所に移動
 	m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
 
 
-	RotetoSpecifiedPos(vStartPos, m_vNextPos, m_vRot, m_vSpd, 0.08f);
+	TwoPoint = RotetoSpecifiedPos(vStartPos, m_vNextPos, m_vRot, vSpd, 0.08f);
 
+	if (TwoPoint.x <= 1.0f && TwoPoint.y <= 1.0f && TwoPoint.z <= 1.0f)
+	{
+		m_bIsSpecifiedPos = true;
+	}
+	else {
+		m_bIsSpecifiedPos = false;
+	}
 }
 
 void CPlayer::ParkourMiddle()
@@ -901,7 +939,7 @@ VECTOR CPlayer::MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos)
 	return Vec;
 }
 
-void CPlayer::RotetoSpecifiedPos(VECTOR vEndPos ,VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd)
+VECTOR CPlayer::RotetoSpecifiedPos(VECTOR vEndPos ,VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd)
 {
 	//パルクールが始まったらスタートする座標に向かわせる
 	//ホーミング処理
@@ -949,4 +987,5 @@ void CPlayer::RotetoSpecifiedPos(VECTOR vEndPos ,VECTOR vStartPos, VECTOR& vRot,
 	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);
 
 
+	return StartPosVec;
 }
