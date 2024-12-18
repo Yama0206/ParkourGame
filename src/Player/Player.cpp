@@ -623,22 +623,17 @@ void CPlayer::ExecDivingJump()
 {
 	memset(&m_vSpd, 0.0f, sizeof(VECTOR));
 
-	if (ParkourBegin(VGet(100.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f)))
-	{
-		//ジャンプ処理
-		DivingJumpCalc();
-
-		//アニメーションが終わるまでの間
-		if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
-
-			m_vSpd.x = PARKOUR_MOVE_SPEED;
-		}
-		//アニメーションが終わったら
-		else {
-			//padの操作
-			PadControl_AllState();
-		}
-
+	ParkourBegin(VGet(100.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
+	//ジャンプ処理
+	DivingJumpCalc();
+	//アニメーションが終わるまでの間
+	if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
+		m_vSpd.x = PARKOUR_MOVE_SPEED;
+	}
+	//アニメーションが終わったら
+	else {
+		//padの操作
+		PadControl_AllState();
 	}
 
 	//通常だったら
@@ -708,7 +703,7 @@ void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 
 }
 
-bool CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
+void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 {
 	//指定の場所に移動
 	m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
@@ -716,61 +711,6 @@ bool CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 
 	RotetoSpecifiedPos(vStartPos, m_vNextPos, m_vRot, m_vSpd, 0.08f);
 
-	////パルクールが始まったらスタートする座標に向かわせる
-	////ホーミング処理
-	//VECTOR StartPosVec;
-	////プレイヤーから指定の場所に向かうベクトル
-	//StartPosVec.x = vStartPos.x - m_vNextPos.x;
-	//StartPosVec.y = 0.0f;
-	//StartPosVec.z = vStartPos.z - m_vNextPos.z;
-
-	//float fCrossZ = 0.0f;
-
-	////現在の進行方向のベクトル
-	//VECTOR  MoveVec;
-
-	//memset(&MoveVec, 0.0f, sizeof(MoveVec));
-
-	//MoveVec.x = sinf(m_vRot.y) * -vSpd.x;
-	//MoveVec.y = 0.0f;
-	//MoveVec.z = cosf(m_vRot.y) * -vSpd.z;
-
-	////2つのベクトルの外積を計算
-	//fCrossZ = StartPosVec.x * MoveVec.z - MoveVec.x * StartPosVec.z;
-
-	////fCrossZの計算結果で左右の判定を行う
-	//if (fabsf(fCrossZ) <= 10.0f)
-	//{
-	//	m_vRot.y = atan2f(-StartPosVec.x, -StartPosVec.z);
-
-	//	CDebugManager::GetInstance()->AddFormatString(700, 540, "プレイヤーは正面");
-
-	//}
-	//else if (fCrossZ > 0)
-	//{
-	//	m_vRot.y += 0.08;
-	//	CDebugManager::GetInstance()->AddFormatString(700, 520, "プレイヤーは左");
-	//}
-	//else if (fCrossZ < 0)
-	//{
-	//	m_vRot.y -= 0.08;
-	//	CDebugManager::GetInstance()->AddFormatString(700, 500, "プレイヤーは右");
-	//}
-
-	/*CDebugManager::GetInstance()->AddFormatString(700, 600, "左右判定の値 = %f", fCrossZ);
-	CDebugManager::GetInstance()->AddFormatString(700, 620, "進行方向ベクトル X = %f, Y = %f, Z = %f", MoveVec.x, MoveVec.y, MoveVec.z);
-	CDebugManager::GetInstance()->AddFormatString(650, 640, "スタートする座標までの距離 X = %f, Y = %f, Z = %f", StartPosVec.x, StartPosVec.y, StartPosVec.z);
-	CDebugManager::GetInstance()->AddLine(m_vPos, VAdd(MoveVec,m_vPos), GetColor(0, 255, 0));
-	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);*/
-
-	/*if (StartPosVec.x <= 0.5f && StartPosVec.y <= 0.5f && StartPosVec.z <= 0.5f) {
-		return true;
-	}
-	else {
-		return false;
-	}*/
-
-	return false;
 }
 
 void CPlayer::ParkourMiddle()
@@ -1007,4 +947,6 @@ void CPlayer::RotetoSpecifiedPos(VECTOR vEndPos ,VECTOR vStartPos, VECTOR& vRot,
 	CDebugManager::GetInstance()->AddFormatString(650, 640, "スタートする座標までの距離 X = %f, Y = %f, Z = %f", StartPosVec.x, StartPosVec.y, StartPosVec.z);
 	CDebugManager::GetInstance()->AddLine(m_vPos, VAdd(MoveVec, m_vPos), GetColor(0, 255, 0));
 	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);
+
+
 }

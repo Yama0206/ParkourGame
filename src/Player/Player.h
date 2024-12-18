@@ -73,6 +73,7 @@ private:
 	bool m_bIsHide;					//ハイドモードかどうかを返す
 	bool m_bIsParkourObject;		//パルクールオブジェクトにあたったかどうか
 	bool m_bIsPlayAnimation;		//アニメーションを再生したかどうか
+	bool m_bIsSpecifiedPos;			//指定の場所
 
 	//パルクールオブジェクト4方向フラグ
 	
@@ -163,7 +164,7 @@ public:
 	void ParkourMotion(VECTOR vPos,float Gravity);
 
 	//パルクール始め
-	bool ParkourBegin(VECTOR vStartPos, VECTOR vSpd);
+	void ParkourBegin(VECTOR vStartPos, VECTOR vSpd);
 	//パルクール途中
 	void ParkourMiddle();
 	//パルクール終了
