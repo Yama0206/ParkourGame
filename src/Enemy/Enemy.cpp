@@ -16,6 +16,7 @@ CEnemy::CEnemy()
 	memset(&m_vRot, 0, sizeof(VECTOR));
 	memset(&m_vSize, 0, sizeof(VECTOR));
 	memset(&m_vScale, 0, sizeof(VECTOR));
+	memset(&m_vCenterPos, 0, sizeof(VECTOR));
 
 	m_iHndl = -1;
 	m_IsAllive = false;
@@ -144,11 +145,11 @@ void CEnemy::TrackingPlayer(VECTOR vPlayerPos)
 	//fCrossZの計算結果で左右の判定を行う
 	if (fCrossZ > 0)
 	{
-		m_vRot.y += 0.1;
+		m_vRot.y += 0.1f;
 	}
 	else if (fCrossZ < 0)
 	{
-		m_vRot.y -= 0.1;
+		m_vRot.y -= 0.1f;
 	}
 
 	m_vPos.x += sinf(m_vRot.y) * -m_vSpeed.x;
@@ -182,11 +183,11 @@ void CEnemy::TrackingCheckPoint(int CheckPointIndex)
 	//fCrossZの計算結果で左右の判定を行う
 	if (fCrossZ > 0)
 	{
-		m_vRot.y += 0.1;
+		m_vRot.y += 0.1f;
 	}
 	else if (fCrossZ < 0)
 	{
-		m_vRot.y -= 0.1;
+		m_vRot.y -= 0.1f;
 	}
 
 	m_vPos.x += sinf(m_vRot.y) * - m_vSpeed.x;

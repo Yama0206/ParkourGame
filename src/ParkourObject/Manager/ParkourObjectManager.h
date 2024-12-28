@@ -56,6 +56,6 @@ public:
 	inline CParkourObject* GetParkourObject(int iID) { return m_cParkourObjectList[iID]; }
 
 	//アイテムリストの数を取得
-	int GetParkourObjectSize() { return m_cParkourObjectList.size(); }
+	int GetParkourObjectSize() { return (int)m_cParkourObjectList.size(); }
 
 };

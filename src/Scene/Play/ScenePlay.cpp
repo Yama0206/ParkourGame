@@ -83,9 +83,9 @@ void CPlayScene::Init()
 		m_cLocker[i].Init();
 	}
 
-	m_cLocker[0].SetPos(VGet(-231.1, -1.0, -135.0));
-	m_cLocker[1].SetPos(VGet(-429.0, -1.0, -467.0));
-	m_cLocker[2].SetPos(VGet(-556.0, -1.0, -671.0));
+	m_cLocker[0].SetPos(VGet(-231.1f, -1.0f, -135.0f));
+	m_cLocker[1].SetPos(VGet(-429.0f, -1.0f, -467.0f));
+	m_cLocker[2].SetPos(VGet(-556.0f, -1.0f, -671.0f));
 
 	//サウンド関連
 	CSoundManager::Init();

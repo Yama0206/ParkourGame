@@ -52,7 +52,6 @@ void CPlayerCamera::Step(VECTOR vForcus, VECTOR vSpd)
 	MATRIX PosMatrix;		//元の位置に戻す行列
 	MATRIX RevMatrix;		//原点に移動する行列
 	MATRIX Matrix;			//行列の合成をした値をいれる行列
-	MATRIX CameraPosMat;	//カメラの座標行列
 
 	//カメラの座標を決める
 	VECTOR vCameraPos = VAdd(vForcus, VGet(0.0f, CAMERA_OFFSET_Y, -CAMERA_LENGTH));
@@ -130,16 +129,16 @@ void CPlayerCamera::ViewControl()
 void CPlayerCamera::RightStickSensitivity(DINPUT_JOYSTATE JoyState)
 {
 	//JoyPad
-	//左右
-	m_vRot.y += VIEWPOINT_SPEED * (JoyState.Rx / 1000.0f);
-	//上下
-	m_vRot.x += VIEWPOINT_SPEED * (JoyState.Ry / 1000.0f);	
+	////左右
+	////m_vRot.y += VIEWPOINT_SPEED * (JoyState.Rx / 1000.0f);
+	////上下
+	////m_vRot.x += VIEWPOINT_SPEED * (JoyState.Ry / 1000.0f);	
 
 	//DUALSHOCK4
-	////左右
-	//m_vRot.y += VIEWPOINT_SPEED * (JoyState.Z / 1000.0f);
-	////上下
-	//m_vRot.x += VIEWPOINT_SPEED * (JoyState.Rz / 1000.0f);
+	//左右
+	m_vRot.y += VIEWPOINT_SPEED * (JoyState.Z / 1000.0f);
+	//上下
+	m_vRot.x += VIEWPOINT_SPEED * (JoyState.Rz / 1000.0f);
 
 }
 

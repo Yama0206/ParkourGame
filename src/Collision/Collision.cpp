@@ -27,6 +27,30 @@ bool IsHitCircle(int aX, int aY, int aR, int bX, int bY, int bR)
 
 }
 
+bool IsHitRect(float Ax, float Ay, float Aw, float Ah, float Bx, float By, float Bw, float Bh) {
+	if (Bx < Ax + Aw &&
+		Bx + Bw > Ax &&
+		By + Bh > Ay &&
+		By < Ay + Ah)
+	{
+		// “–‚½‚Á‚Ä‚¢‚é‚Æ‚«‚Ìˆ—
+		return true;
+	}
+	return false;
+}
+
+//IsHitCircle‚Ì’è‹`
+bool IsHitCircle(float aX, float aY, float aR, float bX, float bY, float bR)
+{
+	if ((aR + bR) * (aR + bR) > (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY)) {
+		//“–‚½‚Á‚Ä‚¢‚é‚Ìˆ—
+		return true;
+	}
+
+	return false;
+
+}
+
 //3D
 //’¼•û‘Ì“–‚½‚è”»’è
 bool IsHitRect(VECTOR aPos, VECTOR aSize, VECTOR bPos, VECTOR bSize)

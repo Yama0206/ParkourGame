@@ -167,7 +167,7 @@ public:
 	//パルクール始め
 	void ParkourBegin(VECTOR vStartPos, VECTOR vSpd);
 	//パルクール途中
-	void ParkourMiddle();
+	void ParkourMiddle(VECTOR ObjectPos);
 	//パルクール終了
 	void ParkourFin();
 

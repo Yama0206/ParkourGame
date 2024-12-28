@@ -260,11 +260,11 @@ void CCollisionManager::CheckHitPlayerToItem(CPlayer& cPlayer,
 		VECTOR vItemPos;								//アイテム座標
 		VECTOR vPlayerSize, vItemSize;					//サイズ
 
-		memset(&vColliPlayerPos, 0.0, sizeof(VECTOR));
-		memset(&vNextPlayerPos, 0.0, sizeof(VECTOR));
-		memset(&vPlayerSize, 0.0, sizeof(VECTOR));
-		memset(&vItemPos, 0.0, sizeof(VECTOR));
-		memset(&vItemSize, 0.0, sizeof(VECTOR));
+		memset(&vColliPlayerPos, 0.0f, sizeof(VECTOR));
+		memset(&vNextPlayerPos, 0.0f, sizeof(VECTOR));
+		memset(&vPlayerSize, 0.0f, sizeof(VECTOR));
+		memset(&vItemPos, 0.0f, sizeof(VECTOR));
+		memset(&vItemSize, 0.0f, sizeof(VECTOR));
 
 		//座標取得
 		cPlayer.GetCenterPos(vColliPlayerPos);			//プレイヤーの中心座標
@@ -294,7 +294,6 @@ void CCollisionManager::CheckHitPlayerToPoint(CPlayer& cPlayer, CEnemyManager& c
 		{
 			VECTOR vPlayerPos, vCheckPointPos;		//座標
 			float fPlayerRad, fCheckPointRad;		//半径
-			int Num;
 
 			//プレイヤーとチェックポイント情報取得
 			cPlayer.GetPosition(vPlayerPos);
@@ -460,7 +459,6 @@ void CCollisionManager::PlayerToBoxLine(CPlayer& cPlayer,
 {
 	//座標と半径を取得
 	VECTOR vPlayerPos, vBoxPos;
-	VECTOR vPlayerSize, vBoxSize;
 	cPlayer.GetPosition(vPlayerPos);
 	cBox.GetPotision(vBoxPos);
 

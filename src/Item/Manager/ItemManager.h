@@ -42,6 +42,6 @@ public:
 	inline CItemBase* GetItem(int iID) { return m_cItemList[iID]; }
 
 	//アイテムリストの数を取得
-	int GetItemSize() { return m_cItemList.size(); }
+	int GetItemSize() { return (int)m_cItemList.size(); }
 
 };

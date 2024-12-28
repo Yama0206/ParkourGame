@@ -43,7 +43,7 @@ public:
 	void Step();
 
 	//クラスのサイズ取得
-	inline int	GetSize() { return m_cCheckPointList.size(); }
+	inline int	GetSize() { return (int)m_cCheckPointList.size(); }
 
 	//取得関数
 	//　iID : チェックポイントの番号

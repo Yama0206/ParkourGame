@@ -81,6 +81,8 @@ int CCheckPointManager::GetPassedPlayerNum()
 			return -1;
 		}
 	}
+
+	return -1;
 }
 
 int CCheckPointManager::GetPassedPlayerNumSize()
@@ -97,6 +99,8 @@ int CCheckPointManager::GetPassedPlayerNumSize()
 			return -1;
 		}
 	}
+
+	return -1;
 }
 
 void CCheckPointManager::SetPassedPlayerNum(int iNum)

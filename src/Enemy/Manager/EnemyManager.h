@@ -52,7 +52,7 @@ public:
 	//敵情報取得
 	inline CEnemy* GetEnemy(int iID) { return m_cEnemyList[iID]; }
 	//クラスのサイズ取得
-	int GetEnemySize() { return m_cEnemyList.size(); }
+	int GetEnemySize() { return (int)m_cEnemyList.size(); }
 
 	//敵リクエスト
 	void RequestEnemy();

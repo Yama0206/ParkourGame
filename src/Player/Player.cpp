@@ -24,6 +24,30 @@ CPlayer::CPlayer()
 {
 	//ひとまず初期化していく
 	m_sAnimData.m_iID = ANIMID_DEFAULT;				//プレイヤーの状態
+
+	m_sAnimData.m_iID = ANIMID_DEFAULT;				//プレイヤーの状態
+	m_sOldAnimData.m_iID = ANIMID_DEFAULT;			//1Fのプレイヤーの状態 
+
+	//変数
+	memset(&m_vRot, 0.0f, sizeof(m_vRot));
+	memset(&m_vScale, 0.0f, sizeof(m_vScale));
+	m_PadXBuf = 0;
+	m_PadYBuf = 0;
+	m_fMoveSpeed = 0.0f;
+	m_fChangeRot = 0.0f;
+	m_fGravity = 0.0f;
+
+	//フラグ
+	m_bIsHit = false;
+	m_bIsHitLength = false;
+	m_bIsKeyHit = false;
+	m_bIsGround = false;
+	m_bIsHide = false;
+	m_bIsHitHideObject = false;
+	m_bIsParkourObject = false;
+	m_bIsPlayAnimation = false;
+	m_bIsSpecifiedPos = false;
+	m_bIsJump = false;
 }
 //デストラクタ
 CPlayer::~CPlayer()
@@ -275,9 +299,7 @@ void CPlayer::Gravity()
 
 		CDebugManager::GetInstance()->AddFormatString(700, 0, "プレイヤーの重力かかる前のY = %f", m_vNextPos.y);
 	}
-	//プレイヤーのY座標にプレイヤーのYスピードを代入
-	m_vNextPos.y += m_vSpd.y;
-
+	
 	CDebugManager::GetInstance()->AddFormatString(700, 20, "プレイヤーの重力かかったあとのY = %f", m_vNextPos.y);
 }
 
@@ -291,9 +313,6 @@ void CPlayer::ParkourGravity()
 		}
 		CDebugManager::GetInstance()->AddFormatString(700, 0, "プレイヤーの重力かかる前のY = %f", m_vNextPos.y);
 	}
-
-	//プレイヤーのY座標にプレイヤーのYスピードを代入
-	m_vNextPos.y += m_vSpd.y;
 }
 
 
@@ -348,7 +367,7 @@ void CPlayer::WaitCalc()
 	//もしスピードが0.01以上あった場合
 	if (fabs(m_fMoveSpeed) > 0.01f) {
 		//離したときの止まるまでの猶予
-		m_fMoveSpeed *= 0.9;
+		m_fMoveSpeed *= 0.9f;
 	}
 	else {
 		//スピードを0に
@@ -626,43 +645,7 @@ void CPlayer::ExecDivingJump()
 	//パルクール初めの処理
 	ParkourBegin(VGet(100.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
 
-	//指定の場所についていたら
-	if (m_bIsSpecifiedPos) {
-		//アニメーションが再生されていなかったら
-		if (!m_bIsPlayAnimation) {
-			//パルクールアニメーションリクエスト
-			Request(ANIMID_DIVINGJUMP, 1.6f);
-			//アニメーション再生フラグON
-			m_bIsPlayAnimation = true;
-		}
-		//アニメーションが終了したら
-		if (m_sAnimData.m_fFrm >= m_sAnimData.m_fEndFrm)
-		{
-			//アニメーション再生フラグをOFFにする
-			m_bIsPlayAnimation = false;
-		}
-
-		if (!m_bIsJump)
-		{
-			//ジャンプ処理
-			DivingJumpCalc();
-			m_bIsJump = true;
-		}
-		//アニメーションが終わるまでの間
-		if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
-			m_vSpd.x = PARKOUR_MOVE_SPEED;
-			m_vSpd.z = PARKOUR_MOVE_SPEED;
-		}
-
-		//アニメーションが終わったら
-		else {
-			//ジャンプフラグをfalseにする
-			m_bIsJump = false;
-
-			//padの操作
-			PadControl_AllState();
-		}
-	}
+	
 
 	//通常だったら
 	if (m_sAnimData.m_iID == ANIMID_WAIT) {
@@ -729,31 +712,74 @@ void CPlayer::RessetSpeed()
 
 void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 {
-
+	
 }
 
 void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
 {
 	VECTOR TwoPoint;
 
-	//指定の場所に移動
-	m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
+	TwoPoint = VecCreate(m_vNextPos, vStartPos);
+
+	if (!m_bIsSpecifiedPos) {
+		//指定の場所に移動
+		m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
 
 
-	TwoPoint = RotetoSpecifiedPos(vStartPos, m_vNextPos, m_vRot, vSpd, 0.08f);
+		RotetoSpecifiedPos(vStartPos, m_vNextPos, m_vRot, vSpd, 0.08f);
 
-	if (TwoPoint.x <= 1.0f && TwoPoint.y <= 1.0f && TwoPoint.z <= 1.0f)
-	{
-		m_bIsSpecifiedPos = true;
-	}
-	else {
-		m_bIsSpecifiedPos = false;
+
+		CDebugManager::GetInstance()->AddFormatString(0, 50, "二点間の距離 X = %f,Y = %f,Z = %f", TwoPoint.x, TwoPoint.y, TwoPoint.z);
+
+		if (fabs(TwoPoint.x) <= 0.5f && fabs(TwoPoint.y) <= 0.5f && fabs(TwoPoint.z) <= 0.5f)
+		{
+			m_bIsSpecifiedPos = true;
+		}
 	}
 }
 
-void CPlayer::ParkourMiddle()
+void CPlayer::ParkourMiddle(VECTOR ObjectPos)
 {
-	
+	//指定の場所についていたら
+	if (m_bIsSpecifiedPos) {
+		//オブジェクトの方向に回転
+		RotetoSpecifiedPos(ObjectPos,m_vPos, m_vRot, VGet(1.0f, 0.0f, 1.0f), 0.08f);
+
+		//アニメーションが再生されていなかったら
+		if (!m_bIsPlayAnimation) {
+			//パルクールアニメーションリクエスト
+			Request(ANIMID_DIVINGJUMP, 1.6f);
+			//アニメーション再生フラグON
+			m_bIsPlayAnimation = true;
+		}
+		//アニメーションが終了したら
+		if (m_sAnimData.m_fFrm >= m_sAnimData.m_fEndFrm)
+		{
+			//アニメーション再生フラグをOFFにする
+			m_bIsPlayAnimation = false;
+		}
+
+		if (!m_bIsJump)
+		{
+			//ジャンプ処理
+			DivingJumpCalc();
+			m_bIsJump = true;
+		}
+		//アニメーションが終わるまでの間
+		if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
+			m_vSpd.x = PARKOUR_MOVE_SPEED;
+			m_vSpd.z = PARKOUR_MOVE_SPEED;
+		}
+
+		//アニメーションが終わったら
+		else {
+			//ジャンプフラグをfalseにする
+			m_bIsJump = false;
+
+			//padの操作
+			PadControl_AllState();
+		}
+	}
 }
 
 void CPlayer::ParkourFin()
@@ -816,6 +842,9 @@ void CPlayer::ReflectCollision(VECTOR vAddVec)
 
 	if (vAddVec.y != 0.0f) {
 		m_bIsGround = true;
+	}
+	else {
+		m_bIsGround = false;
 	}
 
 	CDebugManager::GetInstance()->AddFormatString(700, 60, "モデルのあたり判定前のY = %f", m_vNextPos.y);
@@ -916,7 +945,7 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 		//もしスピードが0.01以上あった場合
 		if (fabs(m_fMoveSpeed) > 0.01f) {
 			//離したときの止まるまでの猶予
-			m_fMoveSpeed *= 0.9;
+			m_fMoveSpeed *= 0.9f;
 		}
 		else {
 			m_fMoveSpeed = 0.0f;
