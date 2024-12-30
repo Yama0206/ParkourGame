@@ -59,6 +59,7 @@ private:
 	int m_PadXBuf;					//パッドレバーの左右の入力状態を格納する変数
 	int m_PadYBuf;					//パッドレバーの上下の入力状態を格納する変数
 	
+	float m_fMoveSpeed;				//プレイヤーのスピード
 	float m_fChangeRot;				//プレイヤーの方向を少しずつ回転させる用の変数
 	float m_fRot;					//回転値
 	float m_fGravity;				//プレイヤーの重力
@@ -85,7 +86,6 @@ public:
 	//コンストラクタ
 	CPlayer();
 	~CPlayer();
-	float m_fMoveSpeed;				//プレイヤーのスピード
 
 public:
 	//初期値設定

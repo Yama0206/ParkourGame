@@ -645,7 +645,7 @@ void CPlayer::ExecDivingJump()
 	//スピード初期化
 	memset(&m_vSpd, 0.0f, sizeof(VECTOR));
 	//パルクール初めの処理
-	ParkourBegin(VGet(100.0f, 0.0f, 100.0f), VGet(110.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
+	ParkourBegin(VGet(0.0f, 0.0f, 100.0f), VGet(110.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
 
 	//指定の場所に到着したら
 	if (m_bIsSpecifiedPos && m_bIsParkourRotEnd) {
@@ -654,7 +654,9 @@ void CPlayer::ExecDivingJump()
 
 		//アニメーションが終了したら
 		
+
 		//パルクール終了処理
+
 	}
 
 	//通常だったら
@@ -742,31 +744,29 @@ void CPlayer::ParkourBegin(VECTOR vParkourStartPos, VECTOR vObjectPos, VECTOR vS
 		RotetoSpecifiedPos(vParkourStartPos, m_vNextPos, m_vRot, vSpd, 0.08f);
 
 		CDebugManager::GetInstance()->AddFormatString(0, 50, "二点間の距離 X = %f,Y = %f,Z = %f", TwoPoint.x, TwoPoint.y, TwoPoint.z);
-		//指定の場所についたら
-		if (fabs(TwoPoint.x) <= 0.5f && fabs(TwoPoint.y) <= 0.5f && fabs(TwoPoint.z) <= 0.5f)
-		{
-			//指定の場所についたかどうかのフラグをオン
-			m_bIsSpecifiedPos = true;
+	}
+	//指定の場所についたら
+	if ((fabs(TwoPoint.x) <= 0.5f && fabs(TwoPoint.y) <= 0.5f && fabs(TwoPoint.z) <= 0.5f) && !m_bIsParkourRotEnd)
+	{
+		//指定の場所についたかどうかのフラグをオン
+		m_bIsSpecifiedPos = true;
 
-			//向きたい場所に回転
-			m_bIsParkourRotEnd = RotetoSpecifiedPos(vObjectPos, m_vNextPos, m_vRot, vSpd, 0.08f);
-		}
+		//向きたい場所に回転
+		m_bIsParkourRotEnd = RotetoSpecifiedPos(vObjectPos, m_vNextPos, m_vRot, vSpd, 0.08f);
 	}
 }
 
 void CPlayer::ParkourMiddle()
 {
 	//指定の場所についていて回転が終了していたら
-	if (m_bIsSpecifiedPos && m_bIsParkourRotEnd) {
-		//アニメーションが再生されていなかったら
-		if (!m_bIsPlayAnimation) {
-			//パルクールアニメーションリクエスト
-			Request(ANIMID_DIVINGJUMP, 1.6f);
-			//アニメーション再生フラグON
-			m_bIsPlayAnimation = true;
-		}
-
+	//アニメーションが再生されていなかったら
+	if (!m_bIsPlayAnimation) {
+		//パルクールアニメーションリクエスト
+		Request(ANIMID_DIVINGJUMP, 1.6f);
+		//アニメーション再生フラグON
+		m_bIsPlayAnimation = true;
 	}
+	
 
 	//アニメーションが終了したら
 	if (m_sAnimData.m_fFrm >= m_sAnimData.m_fEndFrm)
@@ -783,8 +783,8 @@ void CPlayer::ParkourMiddle()
 	}
 	//アニメーションが終わるまでの間
 	if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
-		m_vSpd.x = PARKOUR_MOVE_SPEED;
-		m_vSpd.z = PARKOUR_MOVE_SPEED;
+		//プレイヤーにスピードを与える
+
 	}
 	//アニメーションが終わったら
 	else {
@@ -792,7 +792,6 @@ void CPlayer::ParkourMiddle()
 		m_bIsJump = false;
 		m_vSpd.x = 0.0f;
 		m_vSpd.z = 0.0f;
-
 		
 		//padの操作
 		PadControl_AllState();
