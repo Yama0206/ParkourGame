@@ -74,6 +74,8 @@ private:
 	bool m_bIsParkourObject;		//パルクールオブジェクトにあたったかどうか
 	bool m_bIsPlayAnimation;		//アニメーションを再生したかどうか
 	bool m_bIsSpecifiedPos;			//指定の場所に来たかどうか
+	bool m_bIsParkourRotEnd;		//パルクールの回転処理が終了したかどうか
+	bool m_bIsParkour;				//パルクール中かどうか
 	bool m_bIsJump;					//ジャンプしたかどうか
 
 	//パルクールオブジェクト4方向フラグ
@@ -158,16 +160,20 @@ public:
 	VECTOR MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos);
 
 	//指定の場所を向く
-	VECTOR RotetoSpecifiedPos(VECTOR vEndPos, VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd);
+	// return : 正面を向いているかどうかを返す
+	bool RotetoSpecifiedPos(VECTOR vEndPos, VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd);
 
 public:
 	//パルクール
 	void ParkourMotion(VECTOR vPos,float Gravity);
 
 	//パルクール始め
-	void ParkourBegin(VECTOR vStartPos, VECTOR vSpd);
+	//vParkourStartPos : パルクールが始まる座標
+	//vObjectPos : 乗り越えるオブジェクトの座標
+	//vSpd : 指定の場所に移動するときのスピード
+	void ParkourBegin(VECTOR vParkourStartPos, VECTOR ObjectPos, VECTOR vSpd);
 	//パルクール途中
-	void ParkourMiddle(VECTOR ObjectPos);
+	void ParkourMiddle();
 	//パルクール終了
 	void ParkourFin();
 

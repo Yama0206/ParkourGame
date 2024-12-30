@@ -48,6 +48,7 @@ CPlayer::CPlayer()
 	m_bIsPlayAnimation = false;
 	m_bIsSpecifiedPos = false;
 	m_bIsJump = false;
+	m_bIsParkourRotEnd = false;
 }
 //デストラクタ
 CPlayer::~CPlayer()
@@ -84,7 +85,8 @@ void CPlayer::InitValue()
 	m_bIsPlayAnimation = false;
 	m_bIsSpecifiedPos = false;
 	m_bIsJump = false;
-
+	m_bIsParkourRotEnd = false;
+	
 	m_vPos.y = 10.0f;
 }
 
@@ -643,9 +645,17 @@ void CPlayer::ExecDivingJump()
 	//スピード初期化
 	memset(&m_vSpd, 0.0f, sizeof(VECTOR));
 	//パルクール初めの処理
-	ParkourBegin(VGet(100.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
+	ParkourBegin(VGet(100.0f, 0.0f, 100.0f), VGet(110.0f, 0.0f, 100.0f), VGet(1.0f, 0.0f, 1.0f));
 
-	
+	//指定の場所に到着したら
+	if (m_bIsSpecifiedPos && m_bIsParkourRotEnd) {
+		//パルクールを始めた後の処理を始める(途中)
+		ParkourMiddle();
+
+		//アニメーションが終了したら
+		
+		//パルクール終了処理
+	}
 
 	//通常だったら
 	if (m_sAnimData.m_iID == ANIMID_WAIT) {
@@ -715,36 +725,39 @@ void CPlayer::ParkourMotion(VECTOR vPos, float Gravity)
 	
 }
 
-void CPlayer::ParkourBegin(VECTOR vStartPos, VECTOR vSpd)
+void CPlayer::ParkourBegin(VECTOR vParkourStartPos, VECTOR vObjectPos, VECTOR vSpd)
 {
+	//二点間の距離
 	VECTOR TwoPoint;
 
-	TwoPoint = VecCreate(m_vNextPos, vStartPos);
+	//ベクトルを作成
+	TwoPoint = VecCreate(m_vNextPos, vParkourStartPos);
 
+	//指定の場所にまだついていなかったら
 	if (!m_bIsSpecifiedPos) {
 		//指定の場所に移動
-		m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vStartPos));
+		m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vParkourStartPos));
 
-
-		RotetoSpecifiedPos(vStartPos, m_vNextPos, m_vRot, vSpd, 0.08f);
-
+		//向きたい場所に回転
+		RotetoSpecifiedPos(vParkourStartPos, m_vNextPos, m_vRot, vSpd, 0.08f);
 
 		CDebugManager::GetInstance()->AddFormatString(0, 50, "二点間の距離 X = %f,Y = %f,Z = %f", TwoPoint.x, TwoPoint.y, TwoPoint.z);
-
+		//指定の場所についたら
 		if (fabs(TwoPoint.x) <= 0.5f && fabs(TwoPoint.y) <= 0.5f && fabs(TwoPoint.z) <= 0.5f)
 		{
+			//指定の場所についたかどうかのフラグをオン
 			m_bIsSpecifiedPos = true;
+
+			//向きたい場所に回転
+			m_bIsParkourRotEnd = RotetoSpecifiedPos(vObjectPos, m_vNextPos, m_vRot, vSpd, 0.08f);
 		}
 	}
 }
 
-void CPlayer::ParkourMiddle(VECTOR ObjectPos)
+void CPlayer::ParkourMiddle()
 {
-	//指定の場所についていたら
-	if (m_bIsSpecifiedPos) {
-		//オブジェクトの方向に回転
-		RotetoSpecifiedPos(ObjectPos,m_vPos, m_vRot, VGet(1.0f, 0.0f, 1.0f), 0.08f);
-
+	//指定の場所についていて回転が終了していたら
+	if (m_bIsSpecifiedPos && m_bIsParkourRotEnd) {
 		//アニメーションが再生されていなかったら
 		if (!m_bIsPlayAnimation) {
 			//パルクールアニメーションリクエスト
@@ -752,33 +765,37 @@ void CPlayer::ParkourMiddle(VECTOR ObjectPos)
 			//アニメーション再生フラグON
 			m_bIsPlayAnimation = true;
 		}
-		//アニメーションが終了したら
-		if (m_sAnimData.m_fFrm >= m_sAnimData.m_fEndFrm)
-		{
-			//アニメーション再生フラグをOFFにする
-			m_bIsPlayAnimation = false;
-		}
 
-		if (!m_bIsJump)
-		{
-			//ジャンプ処理
-			DivingJumpCalc();
-			m_bIsJump = true;
-		}
-		//アニメーションが終わるまでの間
-		if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
-			m_vSpd.x = PARKOUR_MOVE_SPEED;
-			m_vSpd.z = PARKOUR_MOVE_SPEED;
-		}
+	}
 
-		//アニメーションが終わったら
-		else {
-			//ジャンプフラグをfalseにする
-			m_bIsJump = false;
+	//アニメーションが終了したら
+	if (m_sAnimData.m_fFrm >= m_sAnimData.m_fEndFrm)
+	{
+		//アニメーション再生フラグをOFFにする
+		m_bIsPlayAnimation = false;
+	}
 
-			//padの操作
-			PadControl_AllState();
-		}
+	if (!m_bIsJump)
+	{
+		//ジャンプ処理
+		DivingJumpCalc();
+		m_bIsJump = true;
+	}
+	//アニメーションが終わるまでの間
+	if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
+		m_vSpd.x = PARKOUR_MOVE_SPEED;
+		m_vSpd.z = PARKOUR_MOVE_SPEED;
+	}
+	//アニメーションが終わったら
+	else {
+		//ジャンプフラグをfalseにする
+		m_bIsJump = false;
+		m_vSpd.x = 0.0f;
+		m_vSpd.z = 0.0f;
+
+		
+		//padの操作
+		PadControl_AllState();
 	}
 }
 
@@ -856,6 +873,74 @@ void CPlayer::ReflectCollision(VECTOR vAddVec)
 
 	//当たった時は重力処理をしない
 	m_fGravity = 0.0f;
+}
+
+VECTOR CPlayer::MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos)
+{
+	//返す値
+	VECTOR Vec;
+
+	//ベクトルを生成
+	Vec = VecCreate(_startPos, _endPos);
+
+	//正規化
+	Vec = NormalizeVec(Vec);
+
+	return Vec;
+}
+
+bool CPlayer::RotetoSpecifiedPos(VECTOR vEndPos ,VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd)
+{
+	//パルクールが始まったらスタートする座標に向かわせる
+	//ホーミング処理
+	VECTOR StartPosVec;
+	//プレイヤーから指定の場所に向かうベクトル
+	StartPosVec.x = vEndPos.x - vStartPos.x;
+	StartPosVec.y = 0.0f;
+	StartPosVec.z = vEndPos.z - vStartPos.z;
+
+	float fCrossZ = 0.0f;
+
+	//現在の進行方向のベクトル
+	VECTOR  MoveVec;
+
+	memset(&MoveVec, 0.0f, sizeof(MoveVec));
+
+	MoveVec.x = sinf(vRot.y) * -vSpd.x;
+	MoveVec.y = 0.0f;
+	MoveVec.z = cosf(vRot.y) * -vSpd.z;
+
+	//2つのベクトルの外積を計算
+	fCrossZ = StartPosVec.x * MoveVec.z - MoveVec.x * StartPosVec.z;
+
+	//fCrossZの計算結果で左右の判定を行う
+	if (fabsf(fCrossZ) <= 10.0f)
+	{
+		vRot.y = atan2f(-StartPosVec.x, -StartPosVec.z);
+		CDebugManager::GetInstance()->AddFormatString(700, 540, "プレイヤーは正面");
+
+		return true;
+	}
+	else if (fCrossZ > 0)
+	{
+		vRot.y += RotetoSpd;
+		CDebugManager::GetInstance()->AddFormatString(700, 520, "プレイヤーは左");
+
+		return false;
+	}
+	else if (fCrossZ < 0)
+	{
+		vRot.y -= RotetoSpd;
+		CDebugManager::GetInstance()->AddFormatString(700, 500, "プレイヤーは右");
+
+		return false;
+	}
+
+	/*CDebugManager::GetInstance()->AddFormatString(700, 600, "左右判定の値 = %f", fCrossZ);
+	CDebugManager::GetInstance()->AddFormatString(700, 620, "進行方向ベクトル X = %f, Y = %f, Z = %f", MoveVec.x, MoveVec.y, MoveVec.z);
+	CDebugManager::GetInstance()->AddFormatString(650, 640, "スタートする座標までの距離 X = %f, Y = %f, Z = %f", StartPosVec.x, StartPosVec.y, StartPosVec.z);
+	CDebugManager::GetInstance()->AddLine(m_vPos, VAdd(MoveVec, m_vPos), GetColor(0, 255, 0));
+	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);*/
 }
 
 void CPlayer::Control_KeyBord(VECTOR vRot)
@@ -952,69 +1037,4 @@ void CPlayer::Control_KeyBord(VECTOR vRot)
 		}
 	}
 
-}
-
-VECTOR CPlayer::MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos)
-{
-	//返す値
-	VECTOR Vec;
-
-	//ベクトルを生成
-	Vec = VecCreate(_startPos, _endPos);
-
-	//正規化
-	Vec = NormalizeVec(Vec);
-
-	return Vec;
-}
-
-VECTOR CPlayer::RotetoSpecifiedPos(VECTOR vEndPos ,VECTOR vStartPos, VECTOR& vRot, VECTOR vSpd, float RotetoSpd)
-{
-	//パルクールが始まったらスタートする座標に向かわせる
-	//ホーミング処理
-	VECTOR StartPosVec;
-	//プレイヤーから指定の場所に向かうベクトル
-	StartPosVec.x = vEndPos.x - vStartPos.x;
-	StartPosVec.y = 0.0f;
-	StartPosVec.z = vEndPos.z - vStartPos.z;
-
-	float fCrossZ = 0.0f;
-
-	//現在の進行方向のベクトル
-	VECTOR  MoveVec;
-
-	memset(&MoveVec, 0.0f, sizeof(MoveVec));
-
-	MoveVec.x = sinf(vRot.y) * -vSpd.x;
-	MoveVec.y = 0.0f;
-	MoveVec.z = cosf(vRot.y) * -vSpd.z;
-
-	//2つのベクトルの外積を計算
-	fCrossZ = StartPosVec.x * MoveVec.z - MoveVec.x * StartPosVec.z;
-
-	//fCrossZの計算結果で左右の判定を行う
-	if (fabsf(fCrossZ) <= 10.0f)
-	{
-		vRot.y = atan2f(-StartPosVec.x, -StartPosVec.z);
-		CDebugManager::GetInstance()->AddFormatString(700, 540, "プレイヤーは正面");
-	}
-	else if (fCrossZ > 0)
-	{
-		vRot.y += RotetoSpd;
-		CDebugManager::GetInstance()->AddFormatString(700, 520, "プレイヤーは左");
-	}
-	else if (fCrossZ < 0)
-	{
-		vRot.y -= RotetoSpd;
-		CDebugManager::GetInstance()->AddFormatString(700, 500, "プレイヤーは右");
-	}
-
-	CDebugManager::GetInstance()->AddFormatString(700, 600, "左右判定の値 = %f", fCrossZ);
-	CDebugManager::GetInstance()->AddFormatString(700, 620, "進行方向ベクトル X = %f, Y = %f, Z = %f", MoveVec.x, MoveVec.y, MoveVec.z);
-	CDebugManager::GetInstance()->AddFormatString(650, 640, "スタートする座標までの距離 X = %f, Y = %f, Z = %f", StartPosVec.x, StartPosVec.y, StartPosVec.z);
-	CDebugManager::GetInstance()->AddLine(m_vPos, VAdd(MoveVec, m_vPos), GetColor(0, 255, 0));
-	CDebugManager::GetInstance()->AddLine(m_vPos, vStartPos);
-
-
-	return StartPosVec;
 }
