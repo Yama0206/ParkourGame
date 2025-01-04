@@ -734,10 +734,9 @@ void CPlayer::ParkourBegin(VECTOR vParkourStartPos, VECTOR vObjectPos, VECTOR vS
 
 	//ベクトルを作成
 	TwoPoint = VecCreate(m_vNextPos, vParkourStartPos);
-
 	//指定の場所にまだついていなかったら
 	if (!m_bIsSpecifiedPos) {
-		//指定の場所に移動
+		//指定の場所に移動cfccxxsvg
 		m_vNextPos = VAdd(m_vNextPos, MoveIocationSpecification(m_vNextPos, vParkourStartPos));
 
 		//向きたい場所に回転
