@@ -3,7 +3,7 @@
 //èâä˙âª
 void CField::Init()
 {
-	m_vPos = VGet(0.0f, -39.9, 0.0f);
+	m_vPos = VGet(0.0f, -10.0f, 0.0f);
 	m_vScale = { FIELD_X_SCALE, FIELD_Y_SCALE, FIELD_Z_SCALE };
 	m_vSize = { FIELD_X_SIZE, FIELD_Y_SIZE, FIELD_Z_SIZE };
 

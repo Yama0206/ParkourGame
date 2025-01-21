@@ -113,7 +113,7 @@ public:
 
 	//ジャンプフラグ取得・設定
 	void SetIsJamp(bool bflag) { m_bIsGround = bflag; }							//ジャンプフラグ設定
-	bool GetIsJamp() { return m_bIsGround; }										//ジャンプフラグ取得
+	bool GetIsJamp() { return m_bIsGround; }									//ジャンプフラグ取得
 
 	//隠れるようオブジェクトと当たったかどうか
 	void SetIsHitHideObject(bool bflag) { m_bIsHitHideObject = bflag; }			//隠れるようのオブジェクトとあたったかどうかフラグ設定

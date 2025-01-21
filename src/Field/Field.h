@@ -1,13 +1,13 @@
 #pragma once
 #include "DxLib.h"
 
-const char FIELD_PATH[] = { "data/field/Map.x" };
+const char FIELD_PATH[] = { "data/field/3DMap.x" };
 const float FIELD_X_SIZE = 500.0f;								//XƒTƒCƒY
 const float FIELD_Y_SIZE = 0.0f;								//YƒTƒCƒY
 const float FIELD_Z_SIZE = 500.0f;								//ZƒTƒCƒY
-const float FIELD_X_SCALE = 1.0f;								//X‚ÌŠg‘åk¬—¦
-const float FIELD_Y_SCALE = 1.0f;								//Y‚ÌŠg‘åk¬—¦
-const float FIELD_Z_SCALE = 1.0f;								//Z‚ÌŠg‘åk¬—¦
+const float FIELD_X_SCALE = 0.1f;								//X‚ÌŠg‘åk¬—¦
+const float FIELD_Y_SCALE = 0.1f;								//Y‚ÌŠg‘åk¬—¦
+const float FIELD_Z_SCALE = 0.1f;								//Z‚ÌŠg‘åk¬—¦
 
 class CField
 {
