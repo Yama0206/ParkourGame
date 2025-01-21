@@ -12,7 +12,7 @@
 
 static const char PLAYER_MODEL_PATH[]	
 = { "data/char/Player.mv1" };								//ロードするファイル名
-static const float PLAYER_RADIUS = 2.5f;					//プレイヤーの半径
+static const float PLAYER_RADIUS = 5.0f;					//プレイヤーの半径
 
 static constexpr float PLAYER_WIDTH = 10.0f;					//プレイヤーの横サイズ
 static constexpr float PLAYER_HEIGHT = 18.0f;					//プレイヤーの縦サイズ

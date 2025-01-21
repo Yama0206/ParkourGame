@@ -259,7 +259,7 @@ void CPlayScene::Draw()
 	m_cItemManager.Draw();			//ƒAƒCƒeƒ€‚Ì•`‰æ
 	m_cShotManager.Draw();			//’e‚Ì•`‰æ
 	m_cField.Draw();				//”wŒi•`‰æ
-	//m_cSky.Draw();				//‹ó•`‰æ
+	m_cSky.Draw();				//‹ó•`‰æ
 	cGoal.Draw();					//ƒS[ƒ‹•`‰æ
 
 	cBox.Draw();

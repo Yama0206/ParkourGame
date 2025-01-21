@@ -291,18 +291,13 @@ void CPlayer::Gravity()
 	//プレイヤーの重力の上限
 	//プレイヤーが物体に当たっているときは重力を止める
 	
-	if (!m_bIsGround) {
+	/*if (!m_bIsGround) {*/
 		m_fGravity = GRAVITY;
 
 		if (m_vSpd.y > -MAX_GRAVITY) {
 			m_vSpd.y -= m_fGravity;
 		}
-
-
-		CDebugManager::GetInstance()->AddFormatString(700, 0, "プレイヤーの重力かかる前のY = %f", m_vNextPos.y);
-	}
-	
-	CDebugManager::GetInstance()->AddFormatString(700, 20, "プレイヤーの重力かかったあとのY = %f", m_vNextPos.y);
+	/*}*/
 }
 
 void CPlayer::ParkourGravity()
@@ -783,6 +778,11 @@ void CPlayer::ParkourMiddle()
 	//アニメーションが終わるまでの間
 	if (m_sAnimData.m_fFrm < m_sAnimData.m_fEndFrm) {
 		//プレイヤーにスピードを与える
+		m_fMoveSpeed = 1.2f;
+
+			//移動ベクトル計算
+		m_vSpd.x = sinf(m_fRot) * m_fMoveSpeed;
+		m_vSpd.z = cosf(m_fRot) * m_fMoveSpeed;
 
 	}
 	//アニメーションが終わったら
@@ -857,20 +857,18 @@ void CPlayer::ReflectCollision(VECTOR vAddVec)
 
 	if (vAddVec.y != 0.0f) {
 		m_bIsGround = true;
+
+		//当たった時は重力処理をしない
+		/*m_fGravity = 0.0f;*/
 	}
 	else {
 		m_bIsGround = false;
 	}
 
-	CDebugManager::GetInstance()->AddFormatString(700, 60, "モデルのあたり判定前のY = %f", m_vNextPos.y);
-
 	m_vNextPos = VAdd(vAddVec, m_vNextPos);
 	
-	CDebugManager::GetInstance()->AddFormatString(700, 80, "モデルのあたり判定後のY = %f", m_vNextPos.y);
-	MV1SetPosition(m_iHndl, m_vNextPos);
-
-	//当たった時は重力処理をしない
-	m_fGravity = 0.0f;
+	CDebugManager::GetInstance()->AddFormatString(0, 0, "戻す座標の大きさ　Y = %f", vAddVec.y);
+	//MV1SetPosition(m_iHndl, m_vNextPos);
 }
 
 VECTOR CPlayer::MoveIocationSpecification(VECTOR _startPos, VECTOR _endPos)
