@@ -44,4 +44,7 @@ public:
 	//アイテムリストの数を取得
 	int GetItemSize() { return (int)m_cItemList.size(); }
 
+	//アイテム情報の書き込み
+	void WriteFile(VECTOR vPos, int TypeNum);
+
 };

@@ -25,3 +25,4 @@ void CReadItemList::ReadFile()
 
 	fclose(fp);
 }
+

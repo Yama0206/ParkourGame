@@ -159,7 +159,12 @@ void CPlayScene::Step()
 		m_cEnemyManager.Step(m_cPlayer.GetPosition());
 		//’e
 		m_cShotManager.Step();
-		
+
+		//ƒAƒCƒeƒ€
+		m_cItemManager.Step();
+		if (CInput::IsKeyPush(KEY_INPUT_1)) {
+			m_cItemManager.WriteFile(m_cPlayer.GetPosition(), 1);
+		}
 		//‹ó‚Ì’Êíˆ—
 		m_cSky.Step();
 

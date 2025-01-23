@@ -1,9 +1,11 @@
 #include "ItemManager.h"
 
 //定義
-const char COIN_MODEL_PATH[] = { "data/Item/MagicStone.x" };
+const char COIN_MODEL_PATH[] = { "data/Item/Coin.x" };
 const int ITEM_MAX_NUM = 50;
 
+
+const char ITEM_TXT_PATH[] = { "data/File/Item/Item.txt" };
 
 CItemManager::CItemManager()
 {
@@ -42,6 +44,7 @@ void CItemManager::Load()
 						   m_cFileDataList.itemInfoList[ItemIndex].m_vRot,
 						   m_cFileDataList.itemInfoList[ItemIndex].m_vScale,
 						   m_cFileDataList.itemInfoList[ItemIndex].m_vSize,
+						   m_cFileDataList.itemInfoList[ItemIndex].m_eType,
 						   m_cFileDataList.itemInfoList[ItemIndex].m_IsAllive);
 
 			cCoin->Load(iCoinHndl);
@@ -56,7 +59,12 @@ void CItemManager::Load()
 
 void CItemManager::Step()
 {
-
+	for (int ItemIndex = 0; ItemIndex < m_cItemList.size(); ItemIndex++) {
+		if (m_cItemList[ItemIndex]->GetType() == Coin)
+		{
+			m_cItemList[ItemIndex]->Rotate();
+		}
+	}
 }
 
 void CItemManager::Draw()
@@ -80,3 +88,21 @@ void CItemManager::Fin()
 
 }
 
+void CItemManager::WriteFile(VECTOR vPos, int TypeNum)
+{
+	FILE* fp = nullptr;
+
+	//ファイルを開く
+	if (fopen_s(&fp, ITEM_TXT_PATH, "w") == 0) {
+		//ファイルの読み込み、変数への保存
+		while (fprintf_s(fp, "%d, %f,%f,%f",
+			&TypeNum,
+			&vPos.x, &vPos.y, &vPos.z
+		) != EOF) {
+			//リストに追加
+			/*itemInfoList.push_back(m_sItemData);*/
+		}
+	}
+
+	fclose(fp);
+}
