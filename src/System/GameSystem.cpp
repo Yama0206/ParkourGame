@@ -53,8 +53,3 @@ void CGameSystem::CntTime()
 		m_iTimeCnt++;
 	}
 }
-
-void CGameSystem::ClearDecision()
-{
-	
-}

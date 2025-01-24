@@ -97,6 +97,14 @@ void CEnemyManager::Fin()
 //通常処理
 void CEnemyManager::Step(VECTOR vPlayerPos)
 {
+	if (CInput::IsKeyPush(KEY_INPUT_2))
+	{
+		for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
+		{
+			m_cEnemyList[EnemyIndex]->SetTelePort(true);
+		}
+	}
+
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
 		//通常処理
@@ -171,6 +179,7 @@ void CEnemyManager::Step(VECTOR vPlayerPos)
 //更新処理
 void CEnemyManager::Draw()
 {
+	//敵の数分for文を回す
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
 		m_cEnemyList[EnemyIndex]->Draw();
@@ -179,9 +188,27 @@ void CEnemyManager::Draw()
 
 void CEnemyManager::Update()
 {
+	//敵の数分for文を回す
 	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
 	{
 		m_cEnemyList[EnemyIndex]->Update();
+	}
+}
+
+void CEnemyManager::Teleport(VECTOR vPos)
+{
+	//敵の数分for文を回す
+	for (int EnemyIndex = 0; EnemyIndex < m_cEnemyList.size(); EnemyIndex++)
+	{
+		//テレポートフラグの確認
+		if (m_cEnemyList[EnemyIndex]->GetTeleport())
+		{
+			//テレポート処理
+			m_cEnemyList[EnemyIndex]->SetPosVec(vPos);
+
+			//フラグをOFFにする
+			m_cEnemyList[EnemyIndex]->SetTelePort(false);
+		}
 	}
 }
 

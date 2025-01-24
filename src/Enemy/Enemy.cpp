@@ -28,6 +28,7 @@ CEnemy::CEnemy()
 	m_fTrackingPlayerRad = ENEMY_TRACKING_PALYER_AREA;
 	m_eState = Patrol;
 	m_eOldState = Patrol;
+	m_IsTeleport = false;
 
 	FrameCnt = 0;
 }
@@ -59,6 +60,7 @@ void CEnemy::Init()
 	m_fTrackingPlayerRad = ENEMY_TRACKING_PALYER_AREA;
 	m_eState = Patrol;
 	m_eOldState = Patrol;
+	m_IsTeleport = false;
 
 	FrameCnt = 0;
 }

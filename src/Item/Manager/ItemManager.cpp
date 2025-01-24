@@ -4,10 +4,6 @@
 const char COIN_MODEL_PATH[] = { "data/Item/Coin.x" };
 const int ITEM_MAX_NUM = 50;
 
-constexpr VECTOR ITEM_SCALE = { 0.1f,0.1f,0.1f };
-constexpr VECTOR ITEM_ROT = { 0.0f,0.0f,0.0f };
-constexpr VECTOR ITEM_SIZE = { 2.0f,2.0f,2.0f };
-
 
 const char ITEM_TXT_PATH[] = { "data/File/Item/Item.txt" };
 
@@ -99,16 +95,14 @@ void CItemManager::WriteFile(VECTOR vPos, int TypeNum)
 	//ファイルを開く
 	if (fopen_s(&fp, ITEM_TXT_PATH, "w") == 0) {
 		//ファイルの読み込み、変数への保存
-		fprintf_s(fp, "%d,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%d\n",
-			1,
-			vPos.x, 0.0, vPos.z,
-			ITEM_SCALE.x, ITEM_SCALE.y, ITEM_SCALE.z,
-			ITEM_ROT.x, ITEM_ROT.y, ITEM_ROT.z,
-			ITEM_SIZE.x, ITEM_SIZE.y, ITEM_SIZE.z,
-			1
-		);
-		//リストに追加
-		/*itemInfoList.push_back(m_sItemData);*/		
+		while (fprintf_s(fp, "%d, %f,%f,%f",
+			&TypeNum,
+			&vPos.x, &vPos.y, &vPos.z
+		) != EOF) {
+			//リストに追加
+			/*itemInfoList.push_back(m_sItemData);*/
+		}
 	}
+
 	fclose(fp);
 }

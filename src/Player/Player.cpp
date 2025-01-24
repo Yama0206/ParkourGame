@@ -87,7 +87,7 @@ void CPlayer::InitValue()
 	m_bIsJump = false;
 	m_bIsParkourRotEnd = false;
 	
-	m_vPos.y = 3.0f;
+	m_vPos.y = 10.0f;
 }
 
 //–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—

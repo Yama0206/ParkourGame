@@ -40,6 +40,7 @@ protected:
 	int		m_iLastPassedCP;		//敵が通ったチェックポイント
 
 	int FrameCnt;					//フレームカウント
+	bool m_IsTeleport;				//テレポートフラグ
 
 	EnemyState m_eState;			//敵の状態
 	EnemyState m_eOldState;			//敵の1F前の状態
@@ -97,6 +98,7 @@ public:
 	int			GetLastPassedCheckPoint()	{ return m_iLastPassedCP; }											//最後に通ったチェックポイントの番号
 	EnemyState	GetState()					{ return m_eState; }												//現在の状態
 	EnemyState	GetOldState()				{ return m_eOldState; }												//1F前の状態
+	bool		GetTeleport()				{ return m_IsTeleport; }											//テレポートフラグ取得
 
 	//生存判定取得
 	bool GetIsActiv() { return m_IsAllive; }
@@ -118,6 +120,8 @@ public:
 	void SetRotVec_X(float fRot)	{ m_vRot.x = fRot; }			//X回転値
 	void SetRotVec_Y(float fRot)	{ m_vRot.y = fRot; }			//Y回転値
 	void SetRotVec_Z(float fRot)	{ m_vPos.z = fRot; }			//Z回転値
+
+	void SetTelePort(bool frag)		{ m_IsTeleport = frag; }		//テレポートフラグ
 
 	//最後に通ったチェックポイントの番号
 	void SetLastPassedCheckPoint(int Num) { m_iLastPassedCP = Num; }

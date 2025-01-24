@@ -17,9 +17,10 @@ void CEnemyRead::ReadFile()
 
 		) != EOF) {
 			//ƒŠƒXƒg‚É’Ç‰Á
+
+
 			enemyInfoList.push_back(m_sEnemyData);
 		}
 	}
-
 	fclose(fp);
 }

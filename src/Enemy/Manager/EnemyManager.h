@@ -4,6 +4,7 @@
 #include "../Boss/NormalBoss.h"
 #include "../../CheckPoint/Manager/CheckPointManager.h"
 #include "../../Read/ReadEnemyList/ReadEnemyList.h"
+#include "../../Input/Input.h"
 #include <iostream>
 #include <vector>
 
@@ -56,6 +57,10 @@ public:
 
 	//敵リクエスト
 	void RequestEnemy();
+
+public:
+	//テレポート処理
+	void Teleport(VECTOR vPos);
 
 public:
 	void SetIsPlayerHideMode(bool bflag) { m_IsPlayerIsHideMode = bflag; }
