@@ -83,9 +83,9 @@ void CPlayScene::Init()
 		m_cLocker[i].Init();
 	}
 
-	m_cLocker[0].SetPos(VGet(-231.1f, -1.0f, -135.0f));
-	m_cLocker[1].SetPos(VGet(-429.0f, -1.0f, -467.0f));
-	m_cLocker[2].SetPos(VGet(-556.0f, -1.0f, -671.0f));
+	m_cLocker[0].SetPos(VGet(-272.0f, -10.0f, -100.0f));
+	m_cLocker[1].SetPos(VGet(-132.0f, -10.0f, -985.2f));
+	m_cLocker[2].SetPos(VGet(53.0f, -10.0f, -730.0f));
 
 	//ƒTƒEƒ“ƒhŠÖ˜A
 	CSoundManager::Init();
@@ -163,9 +163,9 @@ void CPlayScene::Step()
 		//ƒAƒCƒeƒ€
 		m_cItemManager.Step();
 
-	/*	if (CInput::IsKeyPush(KEY_INPUT_1)) {
-			m_cItemManager.WriteFile(m_cPlayer.GetPosition(), 1);
-		}*/
+		if (CInput::IsKeyPush(KEY_INPUT_1)) {
+			m_cItemManager.WriteFile(m_cPlayer.GetPosition(),1);
+		}
 		//‹ó‚Ì’Êíˆ—
 		m_cSky.Step();
 
@@ -182,7 +182,6 @@ void CPlayScene::Step()
 		cBox.Step();
 
 		//“–‚½‚è”»’èˆ—
-
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
 		CCollisionManager::CheckHitPlayerToItem(m_cPlayer, m_cItemManager);
 		for (int i = 0; i < 3; i++) {
@@ -265,7 +264,7 @@ void CPlayScene::Draw()
 	m_cItemManager.Draw();			//ƒAƒCƒeƒ€‚Ì•`‰æ
 	m_cShotManager.Draw();			//’e‚Ì•`‰æ
 	m_cField.Draw();				//”wŒi•`‰æ
-	m_cSky.Draw();				//‹ó•`‰æ
+	m_cSky.Draw();					//‹ó•`‰æ
 	cGoal.Draw();					//ƒS[ƒ‹•`‰æ
 
 	cBox.Draw();
