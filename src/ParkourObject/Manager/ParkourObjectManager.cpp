@@ -74,14 +74,6 @@ void CParkourObjectManager::Load()
 			m_cParkourObjectList.push_back(cFence);
 
 		break;
-
-	/*	case 1:
-
-		break;
-
-		case 2:
-
-		break;*/
 		}
 	}
 }

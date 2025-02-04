@@ -52,6 +52,7 @@ void CPlayScene::Init()
 	//カメラの初期化
 	m_cCameraManager.Init();
 	m_cCameraManager.SetNearFar(5.0f, 10000.0f);
+
 	//プレイヤー初期化
 	m_cPlayer.Init();
 	m_cPlayer.InitValue();
@@ -71,6 +72,7 @@ void CPlayScene::Init()
 	//空
 	m_cSky.Init();					//初期化
 	m_cSky.UpDate();				//更新処理
+
 
 	//パルクールオブジェクト
 	CParkourObjectManager::GetInstance()->Init();			//初期化
@@ -131,6 +133,7 @@ void CPlayScene::Load()
 	m_cField.Load();											//背景
 	m_cSky.Load();												//空
 	CCheckPointManager::GetInstance()->Load();					//チェックポイント
+//	CParkourObjectManager::GetInstance()->Load();
 
 	//ゴール読み込み
 	cGoal.Load();
@@ -181,6 +184,7 @@ void CPlayScene::Step()
 		}
 		
 		cBox.Step();
+
 
 		//当たり判定処理
 
@@ -261,13 +265,14 @@ void CPlayScene::GameEnd()
 //更新処理
 void CPlayScene::Draw()
 {
-	m_cPlayer.Draw();				//プレイヤー描画
-	m_cEnemyManager.Draw();			//敵の描画
-	m_cItemManager.Draw();			//アイテムの描画
-	m_cShotManager.Draw();			//弾の描画
-	m_cField.Draw();				//背景描画
-	m_cSky.Draw();				//空描画
-	cGoal.Draw();					//ゴール描画
+	m_cPlayer.Draw();									//プレイヤー描画
+	m_cEnemyManager.Draw();								//敵の描画
+	m_cItemManager.Draw();								//アイテムの描画
+	m_cShotManager.Draw();								//弾の描画
+	m_cField.Draw();									//背景描画
+	m_cSky.Draw();										//空描画
+	cGoal.Draw();										//ゴール描画
+	CParkourObjectManager::GetInstance()->Draw();		//パルクールオブジェクト
 
 	cBox.Draw();
 
