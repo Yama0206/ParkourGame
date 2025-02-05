@@ -1,14 +1,9 @@
 #include "../JumpObject/JumpObject.h"
 
 //‰Šúİ’è
-CJumpObject::InitValue()
+void CJumpObject::InitValue()
 {
 	Init();
 
-	IsAllive = true;
-}
-
-CJumpObject::Step()
-{
-
+	m_IsAllive = true;
 }

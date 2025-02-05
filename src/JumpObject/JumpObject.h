@@ -5,7 +5,7 @@
 class CJumpObject : public CObject
 {
 private:
-	bool IsHit;			//‚ ‚Á‚½‚©‚Ç‚¤‚©
+	bool m_IsHit;			//‚ ‚Á‚½‚©‚Ç‚¤‚©
 public:
 	//‰Šúİ’è
 	void InitValue();
