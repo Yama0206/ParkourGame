@@ -73,6 +73,10 @@ void CPlayScene::Init()
 	m_cSky.Init();					//初期化
 	m_cSky.UpDate();				//更新処理
 
+	////////
+	m_cJumpObject.InitValue();
+	m_cJumpObject.Update();
+
 
 	//パルクールオブジェクト
 	CParkourObjectManager::GetInstance()->Init();			//初期化
@@ -185,7 +189,6 @@ void CPlayScene::Step()
 		
 		cBox.Step();
 
-
 		//当たり判定処理
 
 		CCollisionManager::CHeckHitPlayerToGoal(m_cPlayer, cGoal);
@@ -199,6 +202,7 @@ void CPlayScene::Step()
 		CCollisionManager::CheckHitFieldToPlayer(m_cPlayer, m_cField);
 		CCollisionManager::CheckHitEnemyToField(m_cEnemyManager, m_cField);
 		CCollisionManager::CheckHitPlayerToParkourObject(m_cPlayer, cBox);
+		CCollisionManager::CheckHitPlayerToJumpObject(m_cPlayer, m_cJumpObject);
 		
 		//更新処理--------------------------------------------------------------//
 		//プレイヤー
@@ -213,6 +217,9 @@ void CPlayScene::Step()
 		cGoal.Update();			
 		//アイテム
 		m_cItemManager.Update();
+
+		//////
+		m_cJumpObject.Update();
 
 		for (int i = 0; i < 3; i++) {
 			m_cLocker[i].Update();

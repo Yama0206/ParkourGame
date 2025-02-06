@@ -13,6 +13,7 @@
 #include "../CheckPoint/Manager/CheckPointManager.h"
 #include "../Debug/DebugManager.h"
 #include "../HideObject/Locker/Locker.h"
+#include "../JumpObject/JumpObject.h"
 #include <vector>
 
 using namespace std;
@@ -42,6 +43,8 @@ public:
 	static void CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& cEnemyManager);
 	//プレイヤーと隠れる用オブジェクトとの当たり判定
 	static void CheckHitPlayerToHideObject(CPlayer& cPlayer, CLocker& cLocker);
+	//プレイヤーとジャンプオブジェクトの当たり判定
+	static void CheckHitPlayerToJumpObject(CPlayer& cPlayer, CJumpObject& cJumpObject);
 
 	//敵関連
 public:

@@ -23,6 +23,7 @@
 #include "../../Debug/DebugManager.h"
 #include "../../Input/Pad/Pad.h"
 #include "../../ParkourObject/Manager/ParkourObjectManager.h"
+#include "../../JumpObject/JumpObject.h"
 
 #include "../../HideObject/Locker/Locker.h"
 
@@ -65,6 +66,8 @@ private:
 	vector<VECTOR> m_vRockPos;			//‘«ê‚ÌÎ‚ÌÀ•W
 	vector<VECTOR> m_vRockScale;		//‘«ê‚ÌÎ‚Ì‘å‚«‚³
 	vector<VECTOR> m_vRockRot;			//‘«ê‚ÌÎ‚ÌŠp“x
+
+	CJumpObject m_cJumpObject;
 
 
 	CLocker m_cLocker[3];

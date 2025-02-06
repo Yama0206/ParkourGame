@@ -7,7 +7,7 @@ static constexpr float ADD_SPEED = 0.2f;						//プレイヤーのスピードを加算する
 static constexpr float SAB_SPEED = 0.1f; 						//プレイヤーのスピードを減算する
 static constexpr float DASH_SPEED = 2.0f;						//プレイヤーが走った時の移動速度
 static constexpr float GRAVITY = 0.2f;							//プレイヤーの重力
-static constexpr float MAX_GRAVITY = 1.5f;						//プレイヤーの重力の限界
+static constexpr float MAX_GRAVITY = 2.0f;						//プレイヤーの重力の限界
 static constexpr float MIN_GRAVITY = 0.1f;						//プレイヤーの重力の最低
 static constexpr float YSPEED = 4.5f;							//プレイヤーのY方向のスピード
 static constexpr float ROTATE_SPEED = 0.1f;						//回転スピード
@@ -18,6 +18,9 @@ static constexpr float PARKOUR_MOVE_SPEED = 1.8f;				//パルクールの動き(仮)
 static constexpr float PARKOUR_JUMP_SPEED = 10.0f;				//パルクールジャンプ(仮)
 static constexpr float PARKOUR_GRAVITY = 0.1f;					//パルクール重力
 static constexpr float PARKOUR_MAX_GRAVITY = 1.0f;				//プレイヤーの重力の限界
+
+//ジャンプオブジェクト関連
+static constexpr float JUMPOBJECT_POWER = 9.8;					//プレイヤーがジャンプオブジェクトに当たった時のジャンプ力
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -49,6 +52,7 @@ CPlayer::CPlayer()
 	m_bIsSpecifiedPos = false;
 	m_bIsJump = false;
 	m_bIsParkourRotEnd = false;
+	m_bIsJumpObject = false;
 }
 //デストラクタ
 CPlayer::~CPlayer()
@@ -86,6 +90,7 @@ void CPlayer::InitValue()
 	m_bIsSpecifiedPos = false;
 	m_bIsJump = false;
 	m_bIsParkourRotEnd = false;
+	m_bIsJumpObject = false;
 	
 	m_vPos.y = 10.0f;
 }
@@ -149,10 +154,10 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 			ExecHide();
 			break;
 			
-		/*case ANIMID_UPDOWN:
-			ExecUpDown();
+		case ANIMID_JUMPOBJECT:
+			ExecJumpObject(cCameraManager.GetPlayCamRot());
 			break;
-		case ANIMID_SHAKE:
+		/*case ANIMID_SHAKE:
 			ExecShake();
 			break;
 		case ANIMID_PIANO:
@@ -266,11 +271,11 @@ void CPlayer::Control(VECTOR vRot)
 	Control_KeyBord(vRot);
 
 	//ジャンプ処理
-	Jamp(vRot);
+	Jump(vRot);
 }
 
 //ジャンプ処理
-void CPlayer::Jamp(VECTOR vRot)
+void CPlayer::Jump(VECTOR vRot)
 {
 	//スペースキーを押したとき
 	if (CInput::IsKeyPush(KEY_INPUT_SPACE) && m_bIsGround)
@@ -283,6 +288,12 @@ void CPlayer::Jamp(VECTOR vRot)
 		//m_IsJump = true;
 		m_vSpd.y = YSPEED;
 	}
+}
+
+void CPlayer::JumpObjectCalc()
+{
+	m_bIsGround = false;
+	m_vSpd.y = JUMPOBJECT_POWER;
 }
 
 //重力処理
@@ -461,6 +472,11 @@ void CPlayer::ExecWait(VECTOR vRot)
 		m_bIsHide = true;
 		m_sAnimData.m_iID = ANIMID_HIDE;
 	}
+	//ジャンプオブジェクトに当たった時
+	if (m_bIsJumpObject) {
+		JumpObjectCalc();
+		m_sAnimData.m_iID = ANIMID_JUMPOBJECT;
+	}
 
 	//左スティック傾きでプレイヤーを回転させる
 	PadRotation(vRot);
@@ -511,6 +527,12 @@ void CPlayer::ExecRun(VECTOR vRot)
 		m_bIsHide = false;
 	}
 
+	//ジャンプオブジェクトに当たった時
+	if (m_bIsJumpObject) {
+		JumpObjectCalc();
+		m_sAnimData.m_iID = ANIMID_JUMPOBJECT;
+	}
+
 	//左スティック傾きでプレイヤーを回転させる
 	PadRotation(vRot);
 
@@ -554,6 +576,12 @@ void CPlayer::ExecFastRun(VECTOR vRot)
 	{
 		m_sAnimData.m_iID = ANIMID_WAIT;
 		m_bIsHide = false;
+	}
+
+	//ジャンプオブジェクトに当たった時
+	if (m_bIsJumpObject) {
+		JumpObjectCalc();
+		m_sAnimData.m_iID = ANIMID_JUMPOBJECT;
 	}
 
 	//左スティック傾きでプレイヤーを回転させる
@@ -683,6 +711,18 @@ void CPlayer::ExecHide()
 	}
 
 	CDebugManager::GetInstance()->AddFormatString(700, 450, "ハイドモード");
+}
+
+void CPlayer::ExecJumpObject(VECTOR vRot)
+{
+	//左スティック傾きでプレイヤーを回転させる
+	PadRotation(vRot);
+
+	//移動ベクトルを計算
+	CalcMoveVec(vRot);
+
+	//重力処理
+	Gravity();
 }
 
 void CPlayer::PadRotation(VECTOR vCameraRot)

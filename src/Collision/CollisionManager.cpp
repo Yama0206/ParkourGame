@@ -453,6 +453,24 @@ void CCollisionManager::CheckHitPlayerToEnemy(CPlayer& cPlayer, CEnemyManager& c
 	}
 }
 
+void CCollisionManager::CheckHitPlayerToJumpObject(CPlayer& cPlayer, CJumpObject& cJumpObject)
+{
+	VECTOR vPlayerPos, vObjectPos;
+	VECTOR vPlayerSize, vObjectSize;
+
+	cPlayer.GetCenterPos(vPlayerPos);
+	cPlayer.GetSize(vPlayerSize);
+
+	vObjectPos = cJumpObject.GetPos();
+	vObjectSize = cJumpObject.GetvSize();
+
+	CDebugManager::GetInstance()->AddBox(vObjectPos, vObjectSize);
+
+	if (IsHitRect(vPlayerPos, vPlayerSize, vObjectPos, vObjectSize))
+	{
+		cPlayer.SetIsHitJumpObject(true);
+	}
+}
 
 void CCollisionManager::PlayerToBoxLine(CPlayer& cPlayer,
 										CBox& cBox)

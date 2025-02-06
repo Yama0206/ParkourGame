@@ -39,6 +39,7 @@ private:
 		ANIMID_DANCE,			//踊ってる
 		ANIMID_DEFAULT,			//デフォルトモーション
 		ANIMID_HIDE,			//隠れてる
+		ANIMID_JUMPOBJECT,		//ジャンプオブジェクトに当たった時
 
 		ANIMID_NUM				//全アニメーション数
 	};
@@ -78,6 +79,7 @@ private:
 	bool m_bIsParkourRotEnd;		//パルクールの回転処理が終了したかどうか
 	bool m_bIsParkour;				//パルクール中かどうか
 	bool m_bIsJump;					//ジャンプしたかどうか
+	bool m_bIsJumpObject;			//ジャンプオブジェクトと当たったかどうか
 
 	//パルクールオブジェクト4方向フラグ
 	
@@ -99,7 +101,7 @@ public:
 	//操作処理
 	void Control(VECTOR vRot);
 	//ジャンプ処理
-	void Jamp(VECTOR vRot);
+	void Jump(VECTOR vRot);
 	//データ関連の破棄
 	void Delete();
 	//終了処理
@@ -146,6 +148,8 @@ public:
 	void FastRunCalc();
 	//ジャンプ
 	void JumpCalc();
+	//ジャンプオブジェクト
+	void JumpObjectCalc();
 	//ダイビングジャンプ
 	void DivingJumpCalc();
 
@@ -239,6 +243,7 @@ public:
 	void SetIsHitSide(bool flag)				{  m_bIsHitSide = flag; }
 	void SetIsHitLength(bool flag)				{  m_bIsHitLength = flag; }
 	void SetIsHitParkourObject(bool flag)		{ m_bIsParkourObject = flag; }
+	void SetIsHitJumpObject(bool flag)			{ m_bIsJumpObject = flag; }
 	
 	//速さ初期化
 	void RessetSpeed();
@@ -261,6 +266,8 @@ private:
 	void ExecDivingJump();
 	//ハイドモード
 	void ExecHide();
+	//
+	void ExecJumpObject(VECTOR vRot);
 	////くねくね中
 	//void ExecUpDown();
 	////手を振る

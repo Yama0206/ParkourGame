@@ -11,4 +11,10 @@ public:
 	void InitValue();
 	//通常処理
 	void Step();
+
+	
+public:
+	//関数
+	VECTOR GetvSize() { return m_vSize; }	//サイズ
+	VECTOR GetPos() { return m_vPos; }		//座標
 };
