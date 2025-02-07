@@ -161,6 +161,12 @@ void CEnemy::TrackingPlayer(VECTOR vPlayerPos)
 
 void CEnemy::TrackingCheckPoint(int CheckPointIndex)
 {
+	if (CCheckPointManager::GetInstance()->GetSize() < CheckPointIndex)
+	{
+		CDebugManager::GetInstance()->AddFormatString(700, 700, "なんで？");
+		return;
+	}
+
 	//ホーミング処理
 	VECTOR CheckPosVec;
 	//敵からチェックポイント向かうベクトル

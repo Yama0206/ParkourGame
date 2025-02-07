@@ -1,7 +1,7 @@
 #include "EnemyManager.h"
 
 //’è‹`ŠÖ˜A
-static constexpr char ENEMY_MODEL_PATH[] = { "Data/enemy/enemy.pmx" };
+static constexpr char ENEMY_MODEL_PATH[] = { "Data/enemy/Goast.x" };
 static constexpr int WAIT_TIME = 60;
 constexpr int CHECKPOINT_NEXTCURRENT_NUM = 4;
 
