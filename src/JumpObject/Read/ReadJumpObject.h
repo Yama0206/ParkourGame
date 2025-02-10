@@ -3,7 +3,14 @@
 
 using namespace std;
 
-class CReadJumpObjectManager
+//enum Type
+//{
+//	a,
+//	b, 
+//	c,
+//};
+
+class CReadJumpObject
 {
 private:
 	struct SJumpObject
@@ -13,10 +20,12 @@ private:
 		VECTOR m_vSize;		//大きさ
 		VECTOR m_vScale;	//拡縮率
 
+	/*	Type m_eType;*/
+
 		bool m_IsAllive;	//生存フラグ
 	};
 
-	SJumpObject m_sItemData;		//アイテムの情報が入った構造体
+	SJumpObject m_sJumpObjectData;		//アイテムの情報が入った構造体
 
 public:
 	//アイテムの情報を入れるリスト

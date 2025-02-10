@@ -144,6 +144,8 @@ public:
 	void WaitCalc();
 	//小走り
 	void RunCalc();
+	//ジャンプオブジェクトに乗った時の移動
+	void JumpObjectMoveCalc();
 	//ダッシュ
 	void FastRunCalc();
 	//ジャンプ

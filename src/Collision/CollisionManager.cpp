@@ -10,6 +10,7 @@ void CCollisionManager::CheckHitFieldToPlayer(CPlayer& cPlayer,
 	float fRadius;
 
 	cPlayer.GetNextPosVec(vPlCenter);
+	vPlCenter.y += 5.0f;
 	fRadius = cPlayer.GetRadius();
 
 	cPlayer.ReflectCollision(cField.HitCheck(vPlCenter, fRadius));

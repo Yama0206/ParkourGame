@@ -6,6 +6,7 @@ static constexpr float MOVE_SPEED = 1.0f;						//プレイヤーの移動速度
 static constexpr float ADD_SPEED = 0.2f;						//プレイヤーのスピードを加算する
 static constexpr float SAB_SPEED = 0.1f; 						//プレイヤーのスピードを減算する
 static constexpr float DASH_SPEED = 2.0f;						//プレイヤーが走った時の移動速度
+static constexpr float JUMPOBJECT_MOVE_SPEED = 0.5f;			//プレイヤーがジャンプオブジェクトに乗った時の移動速度
 static constexpr float GRAVITY = 0.2f;							//プレイヤーの重力
 static constexpr float MAX_GRAVITY = 4.0f;						//プレイヤーの重力の限界
 static constexpr float MIN_GRAVITY = 0.1f;						//プレイヤーの重力の最低
@@ -401,6 +402,24 @@ void CPlayer::RunCalc()
 	}
 }
 
+void CPlayer::JumpObjectMoveCalc()
+{
+	//通常スピードまで少しずつ減らす
+	if (m_fMoveSpeed > -JUMPOBJECT_MOVE_SPEED) {
+		//速さ加算
+		m_fMoveSpeed -= ADD_SPEED;
+	}
+	else {
+		//速さ加算
+		m_fMoveSpeed -= ADD_SPEED;
+	}
+	//最大値を決定
+	if (m_fMoveSpeed < -JUMPOBJECT_MOVE_SPEED) {
+		//速さ加算
+		m_fMoveSpeed = -MOVE_SPEED;
+	}
+}
+
 void CPlayer::FastRunCalc()
 {
 	//少しずつ足していく
@@ -715,6 +734,8 @@ void CPlayer::ExecHide()
 
 void CPlayer::ExecJumpObject(VECTOR vRot)
 {
+	JumpObjectMoveCalc();
+
 	//左スティック傾きでプレイヤーを回転させる
 	PadRotation(vRot);
 
@@ -723,6 +744,12 @@ void CPlayer::ExecJumpObject(VECTOR vRot)
 
 	//重力処理
 	Gravity();
+
+	if (m_bIsGround)
+	{
+		//padの操作
+		PadControl_AllState();
+	}
 }
 
 void CPlayer::PadRotation(VECTOR vCameraRot)
@@ -901,11 +928,14 @@ void CPlayer::ReflectCollision(VECTOR vAddVec)
 		//当たった時は重力処理をしない
 		/*m_fGravity = 0.0f;*/
 	}
-	else {
+	else if(vAddVec.y == 0.0f){
 		m_bIsGround = false;
 	}
 
-	m_vNextPos = VAdd(vAddVec, m_vNextPos);
+
+	m_vNextPos = VAdd(m_vNextPos, vAddVec);
+
+	/*m_vNextPos = VAdd(vAddVec, m_vNextPos);*/
 	
 	CDebugManager::GetInstance()->AddFormatString(0, 0, "戻す座標の大きさ　Y = %f", vAddVec.y);
 	//MV1SetPosition(m_iHndl, m_vNextPos);
