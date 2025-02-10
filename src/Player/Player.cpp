@@ -21,7 +21,7 @@ static constexpr float PARKOUR_GRAVITY = 0.1f;					//パルクール重力
 static constexpr float PARKOUR_MAX_GRAVITY = 1.0f;				//プレイヤーの重力の限界
 
 //ジャンプオブジェクト関連
-static constexpr float JUMPOBJECT_POWER = 9.8;					//プレイヤーがジャンプオブジェクトに当たった時のジャンプ力
+static constexpr float JUMPOBJECT_POWER = 15.8;					//プレイヤーがジャンプオブジェクトに当たった時のジャンプ力
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -158,6 +158,7 @@ void CPlayer::Step(CShotManager& cShotManager, CCameraManager& cCameraManager)
 		case ANIMID_JUMPOBJECT:
 			ExecJumpObject(cCameraManager.GetPlayCamRot());
 			break;
+
 		/*case ANIMID_SHAKE:
 			ExecShake();
 			break;
@@ -747,6 +748,8 @@ void CPlayer::ExecJumpObject(VECTOR vRot)
 
 	if (m_bIsGround)
 	{
+		m_bIsJumpObject = false;
+		m_sAnimData.m_iID = ANIMID_WAIT;
 		//padの操作
 		PadControl_AllState();
 	}
